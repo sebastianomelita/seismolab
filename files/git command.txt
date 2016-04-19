@@ -1,0 +1,5 @@
+git add .  //aggiungere tutti i file
+
+git commit -m "comment" //Crea un immagine di una versione(punto di ripristino)
+
+git push -u origin master
