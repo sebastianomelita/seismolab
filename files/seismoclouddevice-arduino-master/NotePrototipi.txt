@@ -1,0 +1,45 @@
+---Librerie opensource di sviluppatori terzi adoperate
+
+--ESP8266wifi
+A simple ESP8266 Arduino library with built in re-connect functionality.
+https://github.com/ekstrand/ESP8266wifi
+Particolarità: comandi AT memorizzati su area istruzioni per risparmiare spazio per i dati (tramite direttiva PROGMEM)
+
+
+--WeeESP8266
+An ESP8266 library for Arduino providing an easy-to-use way to manipulate ESP8266.
+Source can be download at https://github.com/itead/ITEADLIB_Arduino_WeeESP8266.
+Libreria alternativa.
+Particolarità: occupa più spazio in memoria RAM, presumibilmente più rapida.
+
+
+--I2Cdev library collection 
+MPU6050 I2C device classBased on InvenSense MPU-6050 register map document rev. 2.0, 5/19/2011 (RM-MPU-6000A-00)
+10/3/2011 by Jeff Rowberg <jeff@rowberg.net>
+Updates should (hopefully) always be available at
+Contiene una libreria molto colpleta per la gestione delmodulo accelerometro MPU6050.
+Nei prototipi è stata drasticamente privata di molte funzioni non ritenute essenziali per chiarezza e per risparmiare spazio.
+https://github.com/jrowberg/i2cdevlib
+
+
+--Fishino libraries
+Librerie della scheda arduino compatibile con il modulo WIFI ESP8266 integrato on board.
+Utilizzata per ottenere riferimenti per creare un wrapper della libreria ESP8266wifi che esponga le funzioni usuali delle librerie del modulo Etherner Shield di Arduino
+http://fishino.it/en/download/
+
+
+-----Prototipi realizzati:
+Particolarità: utilizzano l'accelerometro digitale MPU6050, si collegano ad internet tramite il modulo wifi ESP8266, implementano l'algoritmo rilevatore di soglia del prototipo seismocloud basato su raspberry/Galileo.
+Le librerie (ampiamente integrate e rimaneggiate rispetto alle originali) di cui abbisognano sono già incluse nelle cartelle dei prototipi.
+Mancanze: attualmente non comunica al server la magnitudo dei terremoti ma si limita a mostrarla in locale.
+
+
+--seismocloudArduinoUno utilizza le librerie WeeESP8266
+Attualmente è incompleto perchè il suo sviluppo è stato momentaneamente abbandonato poichè la libreria occupa relativamente eccessivo spazio in RAM (andrebbe più che bene per l'Arduino Mega basato su ATMEL 2560).
+
+--seismocloudArduinoUnoCorto utilizza le librerie ESP8266wifi
+Scelto perchè consuma minori risorse in RAM (più adatto per il meno costoso Arduino Uno).
+Attualmente completo. Il tutto compila ma il prototipo al momento non è ancora collaudato. Serve qualche giorno per il testing.
+
+
+
