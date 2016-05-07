@@ -31,27 +31,41 @@ unsigned long ntpUnixTime ()
 
   // Only the first four bytes of an outgoing NTP packet need to be set
   // appropriately, the rest can be whatever.
-  const long ntpFirstFourBytes = 0xEC0600E3; // NTP request header
-
+  //const long ntpFirstFourBytes = 0xEC0600E3;// NTP request header
+  byte rqst[48];
+  for(int i=0;i<48;i++)
+        rqst[i]=10;
+   rqst[0]  =  10;  
+	//    msgOut[posw+i]=0;
   // Clear received data from possible stray received packets
    //udp.flush();
 
   // Send an NTP request
-  if (!(ESP8266wifi::getWifi().beginUDPPacket((const char*)timeServer, "123") // 123 is the NTP port
+  /*if (!(ESP8266wifi::getWifi().beginUDPPacket((const char*)timeServer, "123") // 123 is the NTP port
    && ESP8266wifi::getWifi().write((const char*)&ntpFirstFourBytes)
    && ESP8266wifi::getWifi().endUDPPacket())) {
     return 0;       // sending request failed
-  }
-  
+  }*/
+  //char* foo = reinterpret_cast<char*>(byte);
+  ESP8266wifi::getWifi().beginUDPPacket((const char*)timeServer, "123"); // 123 is the NTP port
+  ESP8266wifi::getWifi().write((const unsigned char*)rqst,48);
+  ESP8266wifi::getWifi().endUDPPacket();
+  //ESP8266wifi::getWifi().send(SERVER,(char*)"pippo",6);
+  //Serial.println(F("NTP:45"));
   // Wait for response; check every pollIntv ms up to maxPoll times
   const int pollIntv = 50;   // poll every this many ms
   const byte maxPoll = 100;    // poll up to this many times
   int pktLen;       // received packet length
+
   for (byte i=0; i<maxPoll; i++) {
-    if ((pktLen = ESP8266wifi::getWifi().parseUDPPacket()) == 48)
+    if ((pktLen = ESP8266wifi::getWifi().parseUDPPacket() == 48))
       break;
+    Serial.println(F("len"));
+    char buf[3];
+    Serial.println(itoa(pktLen,buf,10));
     delay(pollIntv);
   }
+  Serial.println(F("NTP:56"));
   if (pktLen != 48) {
     return 0;       // no correct packet received
   }
@@ -64,8 +78,10 @@ unsigned long ntpUnixTime ()
 
   // Read the integer part of sending time
   unsigned long time = ESP8266wifi::getWifi().read();  // NTP time
-  for (byte i = 1; i < 4; i++)
+  for (char i = 1; i < 4; i++)
     time = time << 8 | ESP8266wifi::getWifi().read();
+  char buf[10];
+  Serial.println(itoa(time,buf,10));
 
   // Round to the nearest second if we want accuracy
   // The fractionary part is the next byte divided by 256: if it is
@@ -77,7 +93,7 @@ unsigned long ntpUnixTime ()
 
   // Discard the rest of the packet
   //udp.flush();
-
+   
   return time - 2208988800ul;   // convert NTP time to Unix time
 }
 

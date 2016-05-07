@@ -71,11 +71,12 @@ const char PEERIP[] PROGMEM = "AT+CIPSTATUS,\"";
 Stream* ESP8266wifi::_serialIn;
 Stream* ESP8266wifi::_serialOut;
 byte ESP8266wifi::_resetPin;
+Stream* ESP8266wifi::_dbgSerial;
 WifiMessage ESP8266wifi::msg;
 
 //metodo di classe da invocare per tutte le chiamate successive alla prima
 ESP8266wifi & ESP8266wifi::getWifi(){ 
-		return getWifi(*_serialIn, *_serialOut,_resetPin);
+		return getWifi(*_serialIn, *_serialOut,_resetPin, *_dbgSerial);
 }
 //-------------ORIGINALE----------------------------------------------
 
@@ -108,6 +109,7 @@ ESP8266wifi::ESP8266wifi(Stream &serialIn, Stream &serialOut, byte resetPin, Str
     _serialIn = &serialIn;
     _serialOut = &serialOut;
     _resetPin = resetPin;
+    _dbgSerial = &dbgSerial;
     
     pinMode(_resetPin, OUTPUT);
     digitalWrite(_resetPin, LOW);//Start with radio off
@@ -543,7 +545,8 @@ WifiMessage ESP8266wifi::listenForIncomingMessage(int timeout){
 
     //TODO listen for unlink etc...
     byte msgOrRestart = readCommand(timeout, IPD, READY);
-    
+      Serial.println(F("buf"));
+    Serial.println(msgOrRestart);
     //Detected a esp8266 restart
     if (msgOrRestart == 2){
         restart();
@@ -562,6 +565,7 @@ WifiMessage ESP8266wifi::listenForIncomingMessage(int timeout){
         msg.hasData = true;
         msg.channel = channel;
         msg.message = msgIn;
+        msg.length=length;
         readCommand(10, OK); // cleanup after rx
     }
     return msg;
@@ -580,7 +584,7 @@ WifiMessage ESP8266wifi::getIncomingMessage(void) {
 
     // See if a message has come in (block 1s otherwise misses?)
     byte msgOrRestart = readCommand(10, IPD, READY);
-    
+  
     //Detected a esp8266 restart
     if (msgOrRestart == 2){
         restart();
@@ -701,8 +705,14 @@ char ESP8266wifi::readChar() {
 
 bool ESP8266wifi::beginUDPPacket(const char* host,const char* port){ 
     setTransportToUDP(); 
+    endSendWithNewline(false);
     msg.writeChannel=SERVER;
-    return connectToServer(host,port);
+    posw=0;
+    pos=0;
+    if(!isConnectedToServer())
+          return connectToServer(host,port);
+    else 
+        return 0;
 }
 
 bool ESP8266wifi::beginTCPConnection(const char* host,const char* port){ 
@@ -714,38 +724,64 @@ bool ESP8266wifi::beginTCPConnection(const char* host,const char* port){
 
 bool ESP8266wifi::beginUDPPacket(char channel){ 
     setTransportToUDP(); 
+    endSendWithNewline(false);
     msg.writeChannel=channel;
+    posw=0;
+    pos=0;
     return true;
 }
 
 bool ESP8266wifi::beginUDPServer(const char* port){ 
     setTransportToUDP(); 
-    return startLocalServer(port);
+	return startLocalServer(port);
 }
 
-bool ESP8266wifi::endUDPPacket(){
-    disconnectFromServer();
-    pos=0; //azzero il segnaposto (indica la prima posizione da accedere)
-    setTransportToTCP();
+bool ESP8266wifi::endUDPPacket(char channel){
+    //disconnectFromServer();
+    writeCommand(CIPSEND);
+    _serialOut -> print(channel);
+    writeCommand(COMMA);
+    _serialOut -> println(posw);
+    byte prompt = readCommand(1000, PROMPT, LINK_IS_NOT);
+    if (prompt != 2) {
+        if(flags.endSendWithNewline)
+            _serialOut -> println(msgOut);
+        else
+            _serialOut -> print(msgOut);
+        byte sendStatus = readCommand(5000, SEND_OK, BUSY);
+        if (sendStatus == 1) {
+            msgOut[0] = '\0';
+            if(channel == SERVER)
+                flags.connectedToServer = true;
+            return true;
+        }
+    }
+    posw=0; //azzero il segnaposto (indica la prima posizione da accedere)
+    //setTransportToTCP();
     return true;
 }
 
-int ESP8266wifi::write(const char* buf){
-    send(msg.writeChannel,buf,true);	
-    return sizeof(buf);
+int ESP8266wifi::write(const unsigned char* buf, size_t size){
+	//for(int i=0;i<size;i++)
+	//    msgOut[posw+i]=0;
+    memcpy((char *)msgOut+posw, (const char *)buf, size);
+	posw+=size;	
+    return size;
 }
 
-int ESP8266wifi::write(char channel, const char* buf){
-    send(channel,buf,true);	
-    return sizeof(buf);
+unsigned char ESP8266wifi::write(const unsigned char buf){
+	msgOut[posw++];	
+    return buf;
 }
 
 int ESP8266wifi::parseUDPPacket(char channel){
-	getIncomingMessage(); //messaggio memorizzato in msgIn[]
+	//getIncomingMessage(); //messaggio memorizzato in msgIn[]
+	listenForIncomingMessage(1000);
+	pos=0;
 	if(msg.hasData && msg.channel==channel){
-        pos=0; //azzero il segnaposto (indica la prima posizione da accedere)
-        return strlen(msgIn);
+        return msg.length;
     }
+    return 0;
 }
 
 int ESP8266wifi::parseUDPPacket(){

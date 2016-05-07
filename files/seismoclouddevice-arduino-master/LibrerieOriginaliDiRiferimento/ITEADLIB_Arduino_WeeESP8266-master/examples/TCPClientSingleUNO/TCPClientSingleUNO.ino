@@ -21,17 +21,17 @@
 #include "ESP8266.h"
 #include <SoftwareSerial.h>
 
-#define SSID        "ITEAD"
-#define PASSWORD    "12345678"
+#define SSID        "pippo"
+#define PASSWORD    "topolino"
 #define HOST_NAME   "172.16.5.12"
 #define HOST_PORT   (8090)
 
-SoftwareSerial mySerial(3, 2); /* RX:D3, TX:D2 */
+SoftwareSerial mySerial(3, 2,19200); /* RX:D3, TX:D2 */
 ESP8266 wifi(mySerial);
 
 void setup(void)
 {
-    Serial.begin(9600);
+    Serial.begin(19200);
     Serial.print("setup begin\r\n");
     
     Serial.print("FW Version:");

@@ -1,9 +1,9 @@
 #ifndef __COMMON_H
 #define __COMMON_H
 
-#define LED_RED     3
-#define LED_YELLOW  2
-#define LED_GREEN   5
+#define LED_RED     8
+#define LED_YELLOW  9
+#define LED_GREEN   7
 #define VERSION     "1.10"
 
 //#define RESET_ENABLED

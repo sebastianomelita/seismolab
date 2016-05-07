@@ -3,27 +3,35 @@
 #include "common.h"
 #include "ESP8266wifi.h"
 
-#define sw_serial_rx_pin 4 //  Connect this pin to TX on the esp8266
-#define sw_serial_tx_pin 6 //  Connect this pin to RX on the esp8266
-#define esp8266_reset_pin 5 // Connect this pin to CH_PD on the esp8266, not reset. (let reset be unconnected)
+#define sw_serial_rx_pin 2 //  Connect this pin to TX on the esp8266
+#define sw_serial_tx_pin 3 //  Connect this pin to RX on the esp8266
+#define esp8266_reset_pin 4 // Connect this pin to CH_PD on the esp8266, not reset. (let reset be unconnected)
+//#define SSID "pippo"
+//#define PASSWORD "topolino"
 #define SSID "OpenWrt"
 #define PASSWORD "dorabino.7468!"
 
+//ESP8266wifi wifi(swSerial, swSerial, esp8266_reset_pin, Serial);
 SoftwareSerial swSerial(sw_serial_rx_pin, sw_serial_tx_pin);
-ESP8266wifi &wifi=ESP8266wifi::getWifi(swSerial, swSerial, esp8266_reset_pin);
+ESP8266wifi &wifi=ESP8266wifi::getWifi(swSerial, swSerial, esp8266_reset_pin, Serial);
 
 unsigned long lastAliveMs = 0;
 unsigned long lastProbeMs = 0;
 uint32_t probeCount = 0;
 
 void setup() {  
-    Serial.begin(9600);
+    // start debug serial
+    swSerial.begin(19200);
+    // start HW serial for ESP8266 (change baud depending on firmware)
+    Serial.begin(19200);
+    while (!Serial)
+      ;
     bool wifi_started = wifi.begin();
     if (wifi_started) {
        wifi.connectToAP(SSID, PASSWORD);
-  } else {
-    // ESP8266 isn't working..
-  }
+    } else {
+       Serial.println(F("ESP8266 isn't working.."));
+    }
 
     Serial.print(F("setup end\r\n"));
 
@@ -99,7 +107,7 @@ void setup() {
     LED::green(true);
 }
 
-void loop() {
+void loop() {/*
   //Make sure the esp8266 is started..
   //if (!wifi.isStarted())
    // wifi.begin();
@@ -131,6 +139,6 @@ void loop() {
     setProbeSpeedStatistic(probeCount);
     probeCount = 0;
   }
-  probeCount++;
+  probeCount++;*/
 }
 

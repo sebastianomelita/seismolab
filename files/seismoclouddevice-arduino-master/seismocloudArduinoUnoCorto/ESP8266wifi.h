@@ -40,6 +40,7 @@ public:
     char channel;
     char * message;
     char writeChannel;
+    byte length;
 };
 
 
@@ -148,9 +149,9 @@ public:
     bool beginTCPConnection(const char* host, const char* port);
     bool beginUDPPacket(char channel);
     bool beginUDPServer(const char* port);
-    bool endUDPPacket();
-    int write(const char* buf);
-    int write(char channel, const char* buf);
+    bool endUDPPacket(char channel=SERVER);
+    unsigned char write(const unsigned char buf);
+    int write(const unsigned char* buf, size_t size);
     int parseUDPPacket();
     int parseUDPPacket(char channel);
     char read();
@@ -166,10 +167,10 @@ public:
     char readTCP();
     int readLine(char* buf, size_t bufmax);
     //metodo di classe singleton da invocare alla prima chiamata
-    static ESP8266wifi &getWifi(Stream &serialIn, Stream &serialOut, byte resetPin){
+    static ESP8266wifi &getWifi(Stream &serialIn, Stream &serialOut, byte resetPin, Stream &dbgSerial){
     	// l'unica istanza della classe viene creata alla prima chiamata di getWifi()
         // e verrà distrutta solo all'uscita dal programma
-		static ESP8266wifi wifi(serialIn,serialOut,resetPin);  
+		static ESP8266wifi wifi(serialIn,serialOut,resetPin,dbgSerial); 
 		return wifi;
 	}
 
@@ -181,10 +182,12 @@ private:
     static Stream* _serialIn;
     static Stream* _serialOut;
     static byte _resetPin;
+    static Stream* _dbgSerial;
     //-----fine proprietà di classe-------------
     //in più rispetto all'originale-------------
     static WifiMessage msg;
     uint16_t  pos;  //segnaposto
+    uint16_t  posw;  //segnaposto
     //fine varianti-------------------
     
     Flags flags;
@@ -219,7 +222,7 @@ private:
     byte readBuffer(char* buf, byte count, char delim = '\0');
     char readChar();
 
-    Stream* _dbgSerial;
+    //Stream* _dbgSerial;
    
     //--------------MODIFICHE ALLA LIBRERIA ORIGINALE--------------------------------------
         // ecco il costruttore privato in modo che l'utente non possa istanziare direttamente

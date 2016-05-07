@@ -1,5 +1,5 @@
 #include <SoftwareSerial.h>
-#include <ESP8266wifi.h>
+#include "ESP8266wifi.h"
 
 /* TCP server/client example, that manages client connections, checks for messages
  *  when client is connected and parses commands. Connect to the ESP8266 IP using
@@ -10,18 +10,18 @@
  * 2016 - J.Whittington - engineer.john-whittington.co.uk
  */
 
-#define sw_serial_rx_pin 4 //  Connect this pin to TX on the esp8266
-#define sw_serial_tx_pin 6 //  Connect this pin to RX on the esp8266
-#define esp8266_reset_pin 5 // Connect this pin to CH_PD on the esp8266, not reset. (let reset be unconnected)
+#define sw_serial_rx_pin 2 //  Connect this pin to TX on the esp8266
+#define sw_serial_tx_pin 3 //  Connect this pin to RX on the esp8266
+#define esp8266_reset_pin 4 // Connect this pin to CH_PD on the esp8266, not reset. (let reset be unconnected)
 
 #define SERVER_PORT "2121"
-#define SSID "YourSSID"
-#define PASSWORD "YourPassword"
+#define SSID "pippo"
+#define PASSWORD "topolino"
 
 SoftwareSerial swSerial(sw_serial_rx_pin, sw_serial_tx_pin);
 
 // the last parameter sets the local echo option for the ESP8266 module..
-ESP8266wifi wifi(Serial, Serial, esp8266_reset_pin, swSerial);
+ESP8266wifi wifi(swSerial, swSerial, esp8266_reset_pin, Serial);
 
 void processCommand(WifiMessage msg);
 
@@ -34,9 +34,9 @@ const char IDN[] PROGMEM = "*IDN?";
 void setup() {
 
   // start debug serial
-  swSerial.begin(9600);
+  swSerial.begin(19200);
   // start HW serial for ESP8266 (change baud depending on firmware)
-  Serial.begin(115200);
+  Serial.begin(19200);
   while (!Serial)
     ;
   Serial.println("Starting wifi");
@@ -50,7 +50,7 @@ void setup() {
     wifi.connectToAP(SSID, PASSWORD);
     wifi.startLocalServer(SERVER_PORT);
   } else {
-    // ESP8266 isn't working..
+    Serial.println("ESP8266 isn't working..");
   }
 }
 

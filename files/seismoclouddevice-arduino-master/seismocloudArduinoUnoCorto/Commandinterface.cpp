@@ -93,7 +93,7 @@ void commandInterfaceTick() {
     }
 
     //ESP8266wifi::getWifi().beginUDPPacket(ESP8266wifi::getWifi().getCurrLinkId());
-    ESP8266wifi::getWifi().write((const char*) udpPacketBuffer);
+    ESP8266wifi::getWifi().write((unsigned char*) udpPacketBuffer,sizeof(udpPacketBuffer));
     ESP8266wifi::getWifi().endUDPPacket();
 
     if(reboot) {
