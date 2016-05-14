@@ -20,7 +20,7 @@ A simple ESP8266 Arduino library with built in re-connect functionality.
 ## Constructor
 
 **ESP8266wifi(Stream serialIn, Stream serialOut, byte resetPin)**
-* **serialIn** this object is used to read from the ESP8266, you can use either hardware or software serial
+* **serialIn** this object is used to read from the ESP8266, you can use eitherp hardware or software serial
 * **serialOut** this object is used to write to the ESP8266, you can use either hardware or software serial
 * **resetPin** this pin will be pulled low then high to reset the ESP8266. It is assumed that a the CH_PD pin is connected the this pin. See pin out and more at: http://www.electrodragon.com/w/ESP8266#Module_Pin_Description
 * **Example:** ```ESP8266wifi wifi(swSerial, swSerial, 10);```

@@ -41,6 +41,7 @@ public:
     char * message;
     char writeChannel;
     byte length;
+    bool first;
 };
 
 
@@ -63,7 +64,8 @@ struct Flags   // 1 byte value (on a system where 8 bits is a byte
          localApRunning:1, 
          localServerRunning:1, 
          endSendWithNewline:1, 
-         connectToServerUsingTCP:1;
+         connectToServerUsingTCP:1,
+         transparentMode:1;
 };
 
 class ESP8266wifi
@@ -97,6 +99,7 @@ public:
     bool isConnectedToAP();
     char* getIP();
     char* getMAC();
+    char* getVersion();
     
     /*
      * Connecting with TCP to server
@@ -106,8 +109,8 @@ public:
     void setTransportToUDP();
     //Default..
     void setTransportToTCP();
-    bool connectToServer(String& ip, String& port);
-    bool connectToServer(const char* ip, const char* port);
+    bool connectToServer(String& ip, String& port, bool peerChange=true);
+    bool connectToServer(const char* ip, const char* port, bool peerChange=true);
     void disconnectFromServer();
     bool isConnectedToServer();
     
@@ -127,8 +130,8 @@ public:
     /*
      * Send string (if channel is connected of course)
      */
-    bool send(char channel, String& message, bool sendNow = true);
-    bool send(char channel, const char * message, bool sendNow = true);
+    bool send(char channel, String& message, bool sendNow = false);
+    bool send(char channel, const char * message, bool sendNow = false);
     
     /*
      * Default is true.
@@ -138,14 +141,19 @@ public:
     /*
      * Scan for incoming message, do this as often and as long as you can (use as sleep in loop)
      */
-    WifiMessage listenForIncomingMessage(int timeoutMillis);
-    WifiMessage getIncomingMessage(void);
+    WifiMessage listenForIncomingMessage(int timeoutMillis, char *from=NULL);
+    WifiMessage getIncomingMessage(char *from=NULL);
     bool isConnection(void);
     bool checkConnections(WifiConnection **pConnections);
     
     //--------------MODIFICHE ALLA LIBRERIA ORIGINALE--------------------------------------
-    //Per connessioni UDP------------------------------------------------------------------
-    bool beginUDPPacket(const char* host, const char* port);
+    bool startNTPClient();
+    bool stopNTPClient();
+    char* getNTP();
+    bool startTransparentMode();
+    bool stopTransparentMode();
+	//Per connessioni UDP------------------------------------------------------------------
+    bool beginUDPPacket(const char* host, const char* port, bool transparent=false);
     bool beginTCPConnection(const char* host, const char* port);
     bool beginUDPPacket(char channel);
     bool beginUDPServer(const char* port);
@@ -157,14 +165,14 @@ public:
     char read();
     size_t read(char* buf, size_t size);
     char getCurrLinkId();
-    int available(int timeoutMillis=10);
+    int available(int timeoutMillis=10, char *from=NULL);
     //per connesioni TCP-------------------
     void print(char *s, char channel=SERVER);
 	void println(char *s, char channel=SERVER);
 	void println(char channel=SERVER);
     void print(const __FlashStringHelper *s, char channel=SERVER);
 	void println(const __FlashStringHelper *s, char channel=SERVER);
-    char readTCP();
+    char readTCP(char *from=NULL);
     int readLine(char* buf, size_t bufmax);
     //metodo di classe singleton da invocare alla prima chiamata
     static ESP8266wifi &getWifi(Stream &serialIn, Stream &serialOut, byte resetPin, Stream &dbgSerial){
@@ -188,12 +196,13 @@ private:
     static WifiMessage msg;
     uint16_t  pos;  //segnaposto
     uint16_t  posw;  //segnaposto
+    uint16_t  offset; //spiazzamento dal punto di inizio di copia del messaggio 
     //fine varianti-------------------
     
     Flags flags;
     
-    bool connectToServer();
-    char _ip[16];
+    bool connectToServer(bool peerChange=true);
+    char _ip[30];
     char _port[6];
     
     bool connectToAP();
@@ -219,8 +228,12 @@ private:
     void writeCommand(const char* text1, const char* text2 = NULL);
     byte readCommand(int timeout, const char* text1 = NULL, const char* text2 = NULL);
     //byte readCommand(const char* text1, const char* text2);
-    byte readBuffer(char* buf, byte count, char delim = '\0');
+    uint16_t readBuffer(char* buf, uint16_t count, char delim = '\0');
     char readChar();
+    //----------aggiunte-----------------------
+    uint16_t getFrom(char *from);
+    void rxEmpty();
+
 
     //Stream* _dbgSerial;
    

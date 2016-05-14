@@ -7,4 +7,5 @@ unsigned long getUNIXTime();
 unsigned long ntpUnixTime();
 unsigned long updateNTP();
 void printUNIXTime();
+bool NTPHttpRequest(char* host, char* port, char* path, char* UTP);
 #endif

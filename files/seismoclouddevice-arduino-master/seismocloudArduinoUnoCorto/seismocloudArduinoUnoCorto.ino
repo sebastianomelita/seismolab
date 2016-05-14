@@ -56,10 +56,10 @@ void setup() {
     Serial.println(wifi.getIP());
 
     Serial.println(F("Updating NTP Time"));
-    do {
+   do {
       updateNTP();
       setBootTime(getUNIXTime());
-      if(getBootTime() == 0) {
+     if(getBootTime() == 0) {
         Serial.println(F("NTP update failed, retrying in 5s"));
         delay(5 * 1000);
       }
