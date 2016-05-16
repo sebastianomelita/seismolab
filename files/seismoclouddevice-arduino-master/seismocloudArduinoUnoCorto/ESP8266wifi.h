@@ -24,6 +24,7 @@
 #include "HardwareSerial.h"
 
 #define SERVER '4'
+#define FIRST '0'
 #define MAX_CONNECTIONS 3
 
 #define MSG_BUFFER_MAX 128
@@ -39,7 +40,6 @@ public:
     bool hasData:1;
     char channel;
     char * message;
-    char writeChannel;
     byte length;
     bool first;
 };
@@ -153,27 +153,29 @@ public:
     bool startTransparentMode();
     bool stopTransparentMode();
 	//Per connessioni UDP------------------------------------------------------------------
-    bool beginUDPPacket(const char* host, const char* port, bool transparent=false);
-    bool beginTCPConnection(const char* host, const char* port);
+	bool registerUDP(char* addr, char* port, char channel='0');
+    bool beginUDPPacket(const char* host, const char* port, bool transparent=false); //connette ad un server UDP imposta writeChannel=SERVER
+    bool beginTCPConnection(const char* host, const char* port); //connette ad un server TCP imposta writeChannel=SERVER
     bool beginUDPPacket(char channel);
-    bool beginUDPServer(const char* port);
+    //bool beginLocalServer(const char* port); //fa partire un server in attesa su tutte le connessioni (channel)
     bool endUDPPacket(char channel=SERVER);
+    int parseUDPPacket();
     unsigned char write(const unsigned char buf);
     int write(const unsigned char* buf, size_t size);
-    int parseUDPPacket();
-    int parseUDPPacket(char channel);
     char read();
     size_t read(char* buf, size_t size);
     char getCurrLinkId();
-    int available(int timeoutMillis=10, char *from=NULL);
+    int available(int timeoutMillis=10, char *from=NULL, char channel=SERVER);
+    bool beginUDPServer(char* localPort, char channel= FIRST);
+    bool registerUDP(const char* remoteAddr, const char* remotePort, char* localPort, char channel=FIRST);
     //per connesioni TCP-------------------
     void print(char *s, char channel=SERVER);
 	void println(char *s, char channel=SERVER);
 	void println(char channel=SERVER);
     void print(const __FlashStringHelper *s, char channel=SERVER);
 	void println(const __FlashStringHelper *s, char channel=SERVER);
-    char readTCP(char *from=NULL);
-    int readLine(char* buf, size_t bufmax);
+    char readTCP(char *from=NULL);  //legge un carattere  ue eventualmente ricarica da una qualunque cannessione
+    int readLine(char* buf, size_t bufmax); //legge dal buffer di ingresso una linea senza ricaricare
     //metodo di classe singleton da invocare alla prima chiamata
     static ESP8266wifi &getWifi(Stream &serialIn, Stream &serialOut, byte resetPin, Stream &dbgSerial){
     	// l'unica istanza della classe viene creata alla prima chiamata di getWifi()
@@ -207,7 +209,7 @@ private:
     
     bool connectToAP();
     char _ssid[16];
-    char _password[16];
+    char _password[20];
     
     bool startLocalAp();
     bool startLocalServer();

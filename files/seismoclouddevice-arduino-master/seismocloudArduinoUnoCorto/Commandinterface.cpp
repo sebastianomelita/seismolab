@@ -3,20 +3,22 @@
 byte udpPacketBuffer[PACKET_SIZE];
 
 void commandInterfaceInit() {
+	//Serial.println(F("beginUDPServer"));
     ESP8266wifi::getWifi().beginUDPServer("62001");
+    //ESP8266wifi::getWifi().registerUDP( char* addr, char* port, char channel)
 }
 
 void commandInterfaceTick() {
- int packetSize = ESP8266wifi::getWifi().parseUDPPacket();
-  if(ESP8266wifi::getWifi().available()) {
-    
+  //Serial.println("commandInterfaceTick");	
+  //int packetSize = ESP8266wifi::getWifi().parseUDPPacket();
+  if(ESP8266wifi::getWifi().available('0')) {
     // read the packet into packetBufffer
     ESP8266wifi::getWifi().read((char*)udpPacketBuffer, PACKET_SIZE);
-
+          
     if(memcmp("INGV\0", udpPacketBuffer, 5) != 0) {
-      return;
+      //return;
     }
-
+    
     bool reboot = false;
     unsigned long unixTimeM = getUNIXTime();
     unsigned long uptime = getUNIXTime() - getBootTime();
@@ -31,9 +33,16 @@ void commandInterfaceTick() {
 
     float longitude = 0;
     float latitude = 0;
-
+    
+    Serial.println(F("Buffer[5]"));
+    Serial.println((char)udpPacketBuffer[5]);
+    
+    memcpy(udpPacketBuffer + 6, "0", 64);
     switch(udpPacketBuffer[5]) {
       case PKTTYPE_DISCOVERY:
+      	
+      	Serial.println("DISCOVERY");
+      	
         // Reply to discovery
         udpPacketBuffer[5] = PKTTYPE_DISCOVERY_REPLY;
 
@@ -91,10 +100,12 @@ void commandInterfaceTick() {
       setLongitude(longitude);
       setLatitude(latitude);
     }
+    
 
-    //ESP8266wifi::getWifi().beginUDPPacket(ESP8266wifi::getWifi().getCurrLinkId());
+    ESP8266wifi::getWifi().beginUDPPacket('0');
     ESP8266wifi::getWifi().write((unsigned char*) udpPacketBuffer,sizeof(udpPacketBuffer));
-    ESP8266wifi::getWifi().endUDPPacket();
+    Serial.println(F("write"));
+    ESP8266wifi::getWifi().endUDPPacket('0');
 
     if(reboot) {
       soft_restart();

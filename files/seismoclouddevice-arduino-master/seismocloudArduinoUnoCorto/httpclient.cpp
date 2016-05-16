@@ -99,7 +99,7 @@ void httpRequest(char* host, char* port, char* path, String postVars) {
   //  client.stop();
   //}
   
-    client.disconnectFromServer();
+    //client.disconnectFromServer();
 }
 
 /*void ShowSockStatus()

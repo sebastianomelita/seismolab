@@ -6,8 +6,11 @@
 #define sw_serial_rx_pin 2 //  Connect this pin to TX on the esp8266
 #define sw_serial_tx_pin 3 //  Connect this pin to RX on the esp8266
 #define esp8266_reset_pin 4 // Connect this pin to CH_PD on the esp8266, not reset. (let reset be unconnected)
-//#define SSID "pippo"
-//#define PASSWORD "topolino"
+//#define SSID "WebPocket-bb3b"
+//#define PASSWORD "Emiliuccio.12012010"
+
+//#define SSID "WiFi-Repeater"
+//#define PASSWORD "3381677623"
 #define SSID "OpenWrt"
 #define PASSWORD "dorabino.7468!"
 
@@ -107,7 +110,7 @@ void setup() {
     LED::green(true);
 }
 
-void loop() {/*
+void loop() {
   //Make sure the esp8266 is started..
   //if (!wifi.isStarted())
    // wifi.begin();
@@ -139,6 +142,5 @@ void loop() {/*
     setProbeSpeedStatistic(probeCount);
     probeCount = 0;
   }
-  probeCount++;*/
-}
+  probeCount++;}
 

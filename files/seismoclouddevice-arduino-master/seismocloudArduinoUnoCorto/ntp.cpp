@@ -32,14 +32,14 @@ unsigned long ntpUnixTime ()
 { 
  char utp[50];
 
- NTPHttpRequest("ismarconicivitavecchia.tk","80","/vladicms/index.php",utp);
+ HttpRequest("www.ismarconicivitavecchia.tk","80","/vladicms/index.php",utp,"UTC:");
  //Serial.print(F("\nUTP: "));
  //Serial.println(utp);
 //return atol(utp)- 2208988800ul;
 return atol(utp);
 }
 
-bool NTPHttpRequest(char* host, char* port, char* path, char * UTP) {
+bool HttpRequest(char* host, char* port, char* path, char * buf, char * offset) {
   ESP8266wifi &client=ESP8266wifi::getWifi();
   // if there's a successful connection:
   int cresult = client.beginTCPConnection(host, port);
@@ -53,8 +53,8 @@ bool NTPHttpRequest(char* host, char* port, char* path, char * UTP) {
     client.println(F("Connection: close"));
     client.println("\n");  
  
-    if(client.available(10*1000,"UTC:")) {
-        client.readLine(UTP,50);
+    if(client.available(10*1000,offset)) {
+        client.readLine(buf,50);
 		//client.disconnectFromServer();
 		return true;
     } else {

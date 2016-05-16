@@ -31,7 +31,7 @@ const char NO_IP[] PROGMEM = "0.0.0.0";
 const char CIPSEND[] PROGMEM = "AT+CIPSEND=";
 const char CIPSERVERSTART[] PROGMEM = "AT+CIPSERVER=1,";
 const char CIPSERVERSTOP[] PROGMEM = "AT+CIPSERVER=0";
-const char CIPSTART[] PROGMEM = "AT+CIPSTART=4,\"";
+const char CIPSTART[] PROGMEM = "AT+CIPSTART=4,\""; 
 const char CIPCLOSE[] PROGMEM = "AT+CIPCLOSE=4";
 const char TCP[] PROGMEM = "TCP";
 const char UDP[] PROGMEM = "UDP";
@@ -56,8 +56,8 @@ const char CONNECT[] PROGMEM = "CONNECT";
 const char CLOSED[] PROGMEM = "CLOSED";
 
 const char COMMA[] PROGMEM = ",";
-const char COMMA_1[] PROGMEM = "\",";
-const char COMMA_2[] PROGMEM = "\",\"";
+const char COMMA_1[] PROGMEM = "\",";    
+const char COMMA_2[] PROGMEM = "\",\""; 
 const char THREE_COMMA[] PROGMEM = ",3";
 const char DOUBLE_QUOTE[] PROGMEM = "\"";
 const char EOL[] PROGMEM = "\n";
@@ -65,8 +65,8 @@ const char EOL[] PROGMEM = "\n";
 const char STAIP[] PROGMEM = "STAIP,\"";
 const char STAMAC[] PROGMEM = "STAMAC,\"";
 const char GMR[] PROGMEM = "AT+GMR";
-//const char dataModeOn[] PROGMEM = "Data mode Started";
-//const char dataModeOff[] PROGMEM = "Data mode Stopped";
+const char dataModeOn[] PROGMEM = "Data mode Started";
+const char dataModeOff[] PROGMEM = "Data mode Stopped";
 //modifiche_____________________________________
 const char CIPNTPSTART[] PROGMEM = "AT+CIPNTP=0";
 const char CIPNTPSTOP[] PROGMEM = "AT+CIPNTP=1";
@@ -76,6 +76,13 @@ const char CIPMODEOFF[] PROGMEM = "AT+CIPMODE=0";
 const char CIPMUX_0[] PROGMEM = "AT+CIPMUX=0";
 const char CIPSEND_1[] PROGMEM = "AT+CIPSEND";
 const char CIPSTART_1[] PROGMEM = "AT+CIPSTART=\"";
+const char CIPSTART_2[] PROGMEM = "AT+CIPSTART=";
+const char COMMA_3[] PROGMEM = ",\"";
+const char TWO_COMMA[] PROGMEM = ",2";
+const char NO_PORT[] PROGMEM = "0";
+const char ENDL[] PROGMEM = "\n";
+const char DATAEND[] PROGMEM = "+++";
+//const char UDPNULL[] PROGMEM =  ",\"UDP\","\"0.0.0.0\",0,";
 //--------------MODIFICHE ALLA LIBRERIA ORIGINALE-----------------------------
 const char PEERIP[] PROGMEM = "AT+CIPSTATUS,\"";
 //propriet� di classe
@@ -311,12 +318,12 @@ bool ESP8266wifi::startTransparentMode(){
 	}
 	writeCommand(CIPMUX_0, EOL);
 	readCommand(5000, SEND_OK, BUSY);
+	delay(1050);
 	writeCommand(CIPMODEON, EOL);
-	readCommand(2000, OK, NO_CHANGE);
-	readCommand(5000, OK, NO_CHANGE);
+	byte prompt = readCommand(5000, PROMPT, LINK_IS_NOT);
     if(1){
      	flags.transparentMode= true;
-     	Serial.println("dataModeOn");
+     	Serial.println(dataModeOn);
      	 return 1;
 	 }	
     return 0;
@@ -326,7 +333,9 @@ bool ESP8266wifi::stopTransparentMode(){
 	if(flags.transparentMode){
         	_serialOut -> println();
         	readCommand(2000, SEND_OK, BUSY);
-            _serialOut -> println("+++");
+        	delay(1050);
+            _serialOut -> println(DATAEND);
+            delay(1050);
 	}
 	if(flags.localServerRunning){
 		writeCommand(CIPSERVERSTART, EOL);
@@ -338,7 +347,7 @@ bool ESP8266wifi::stopTransparentMode(){
     readCommand(5000, OK, NO_CHANGE);
     if(1){
     	flags.transparentMode= false;
-    	Serial.println("dataModeOff");
+    	Serial.println(dataModeOff);
     	 return 1;
 	}	
     return 0;
@@ -675,6 +684,8 @@ WifiMessage ESP8266wifi::listenForIncomingMessage(int timeout, char *from){
         msg.channel = channel;
         msg.message = msgIn;
         msg.length=min(length-offset, MSG_BUFFER_MAX - 1);
+        //Serial.print("hasData: ");
+	    //Serial.println(msg.hasData);
         readCommand(10, OK); // cleanup after rx
     }
     return msg;
@@ -883,7 +894,6 @@ bool ESP8266wifi::beginUDPPacket(const char* host,const char* port, bool transpa
     bool app;
     setTransportToUDP(); 
     endSendWithNewline(false);
-    msg.writeChannel=SERVER;
     posw=0;
     pos=0;
     msg.first=true;
@@ -907,7 +917,6 @@ bool ESP8266wifi::beginUDPPacket(const char* host,const char* port, bool transpa
 
 bool ESP8266wifi::beginTCPConnection(const char* host,const char* port){ 
     setTransportToTCP(); 
-    msg.writeChannel=SERVER;
     return connectToServer(host,port);
     pos=-1;
 }
@@ -915,15 +924,9 @@ bool ESP8266wifi::beginTCPConnection(const char* host,const char* port){
 bool ESP8266wifi::beginUDPPacket(char channel){ 
     setTransportToUDP(); 
     endSendWithNewline(false);
-    msg.writeChannel=channel;
     posw=0;
     pos=0;
     return true;
-}
-
-bool ESP8266wifi::beginUDPServer(const char* port){ 
-    setTransportToUDP(); 
-	return startLocalServer(port);
 }
 
 bool ESP8266wifi::endUDPPacket(char channel){
@@ -942,7 +945,7 @@ bool ESP8266wifi::endUDPPacket(char channel){
         _serialOut -> println(posw);
         prompt = readCommand(1000, PROMPT, LINK_IS_NOT);
 	}else if(msg.first){
-	    writeCommand(CIPSEND_1); //non invia canale e lunghezza
+	    writeCommand(CIPSEND_1); //vale per il primo pacchetto e non invia canale e lunghezza
 	    msg.first=false;
 	    //prompt = readCommand(1000, PROMPT, LINK_IS_NOT);
 	    prompt = 1;
@@ -952,8 +955,8 @@ bool ESP8266wifi::endUDPPacket(char channel){
         if(flags.endSendWithNewline)
             _serialOut -> println(msgOut);
         else
-             _serialOut -> write(msgOut);
-             
+		   	_serialOut -> write(msgOut);
+	   
         if(!flags.transparentMode)
 		    byte sendStatus = readCommand(5000, SEND_OK, BUSY);
 		else
@@ -988,22 +991,19 @@ unsigned char ESP8266wifi::write(const unsigned char buf){
     return buf;
 }
 
-int ESP8266wifi::parseUDPPacket(char channel){
+int ESP8266wifi::parseUDPPacket(){
 	//getIncomingMessage(); //messaggio memorizzato in msgIn[]
 	listenForIncomingMessage(1000);
 	pos=0;
-	if(msg.hasData && msg.channel==channel){
+	//if(msg.hasData && msg.channel==channel || msg.hasData && channel == ANYCLIENT){
+	if(msg.hasData){
         return msg.length;
     }
     return 0;
 }
 
-int ESP8266wifi::parseUDPPacket(){
-	return parseUDPPacket(SERVER);
-}
-
 char ESP8266wifi::read(){
-if(pos<MSG_BUFFER_MAX)
+if(pos<msg.length && msg.hasData)
    return msgIn[pos++];
 else
    return msgIn[pos-1];
@@ -1014,9 +1014,10 @@ char ESP8266wifi::readTCP(char *nextFrom){
         Serial.print(pos);
         Serial.print("length: ");
         Serial.print(msg.length);*/
+        char ch=msg.channel;
         if(pos<msg.length && msg.hasData){
 			return msgIn[pos++];
-		}else if(getIncomingMessage(nextFrom).hasData){
+		}else if(getIncomingMessage(nextFrom).hasData && msg.channel == ch){
 				pos=0;
 		    	return msgIn[pos++];
 		}else
@@ -1024,7 +1025,7 @@ char ESP8266wifi::readTCP(char *nextFrom){
 }
 
 size_t ESP8266wifi::read(char* buf, size_t size){
-if(pos+size<MSG_BUFFER_MAX){
+if(pos+size<msg.length && msg.hasData){
    memcpy((char *)buf, (const char *)msgIn+pos, size);
    pos+=size;
    return size;	
@@ -1048,7 +1049,7 @@ void ESP8266wifi::println(char* str, char channel){
 }
 
 void ESP8266wifi::println(char channel){
-	send(channel,"\n",true);
+	send(channel,ENDL,true);
 }
 
 void ESP8266wifi::print(const __FlashStringHelper *s, char channel){
@@ -1109,17 +1110,19 @@ int ESP8266wifi::readLine(char* buf, size_t bufmax) {
 }
 
 char ESP8266wifi::getCurrLinkId(){
-	return msg.writeChannel;
+	return msg.channel;
 }
 
-int ESP8266wifi::available(int timeoutMillis, char *from){
-	//Serial.print("pos: ");
-	//Serial.print(pos);
+int ESP8266wifi::available(int timeoutMillis, char *from, char channel){
+	//Serial.print("hasData: ");
+	//Serial.println(msg.hasData);
 	//Serial.print("-length: ");
 	//Serial.println(msg.length);
-	if(msg.hasData)
+	if(msg.hasData && msg.channel == channel) //da studiare rischio cancellazione messaggi
 		return msg.length-pos;
 	else if(listenForIncomingMessage(timeoutMillis,from).hasData){
+		//Serial.print("hasDataDopo: ");
+	    //Serial.println(msg.hasData);
 		//Serial.println("Ricaricato");
 		//Serial.print("pos2: ");
 	    //Serial.print(pos);
@@ -1129,3 +1132,37 @@ int ESP8266wifi::available(int timeoutMillis, char *from){
 	}  
 	return 0;   
 }
+
+bool ESP8266wifi::registerUDP(const char* remoteAddr, const char* remotePort, char* localPort, char channel){
+    //rx_empty();
+    writeCommand(CIPSTART_2);
+    _serialOut->print(channel);
+    writeCommand(COMMA_3);
+    writeCommand(UDP);
+    writeCommand(COMMA_2);
+    _serialOut->print(remoteAddr);
+    writeCommand(COMMA_1);
+    _serialOut->print(remotePort);
+    writeCommand(COMMA);
+    _serialOut->print(localPort);
+    writeCommand(TWO_COMMA,EOL);
+    
+    flags.localServerRunning = (readCommand(5000, OK, NO_CHANGE) > 0);
+    return flags.localServerRunning;
+}
+
+bool ESP8266wifi::beginUDPServer(char* localPort, char channel){
+    return registerUDP(NO_PORT,NO_PORT,localPort,channel);
+}
+
+/*
+bool ESP8266wifi::beginUDPServer( char* localPort, char channel){
+    writeCommand(CIPSTART_2);
+    _serialOut->print(channel);+
+    writeCommand(UDPNULL);
+    _serialOut->print(localPort);
+    writeCommand(TWO_COMMA,EOF);
+    
+    flags.localServerRunning = (readCommand(5000, OK, NO_CHANGE) > 0);
+    return flags.localServerRunning;
+}*/
