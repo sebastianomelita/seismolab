@@ -231,6 +231,7 @@ private:
     byte readCommand(int timeout, const char* text1 = NULL, const char* text2 = NULL);
     //byte readCommand(const char* text1, const char* text2);
     uint16_t readBuffer(char* buf, uint16_t count, char delim = '\0');
+    uint16_t readBuffer2(char* buf, uint16_t count);
     char readChar();
     //----------aggiunte-----------------------
     uint16_t getFrom(char *from);
