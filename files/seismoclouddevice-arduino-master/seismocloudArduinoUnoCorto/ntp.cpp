@@ -129,7 +129,7 @@ unsigned long ntpUnixTimeOld ()
   int pktLen;       // received packet length
 
   for (byte i=0; i<maxPoll; i++) {
-    if ((pktLen = ESP8266wifi::getWifi().parseUDPPacket() == NTP_PACKET_SIZE))
+    if ((pktLen = ESP8266wifi::getWifi().parseUDPPacket(1000) == NTP_PACKET_SIZE))
       break;
     //Serial.println(F("len"));
     char buf[48];

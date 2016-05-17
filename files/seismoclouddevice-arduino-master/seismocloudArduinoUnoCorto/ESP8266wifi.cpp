@@ -678,7 +678,7 @@ WifiMessage ESP8266wifi::listenForIncomingMessage(int timeout, char *from){
 		//Serial.print("offset: "); 
 		//Serial.println(offset); 
         //if(readBuffer(&msgIn[0], min(length-offset, MSG_BUFFER_MAX - 1),'\0')<length-offset)
-        	//rxEmpty(); //se non entra tutto il messaggio leggi la la rimanenza fino alla fine senza memorizzarla     
+        	//rxEmpty(); //se non entra tutto il messaggio leggi la rimanenza fino alla fine senza memorizzarla     
         readBuffer2(&msgIn[0], min(length-offset, MSG_BUFFER_MAX - 1));
 		msg.hasData = true;
         msg.channel = channel;
@@ -827,7 +827,7 @@ byte ESP8266wifi::readCommand(int timeout, const char* text1, const char* text2)
     return 0;
 }*/
 
-// Reads count chars to a buffer, or until delim char is found
+// Reads count chars to a buffer, or until delim char is found then add a null char
 uint16_t ESP8266wifi::readBuffer(char* buf, uint16_t count, char delim) {
     uint16_t pos1 = 0;
   
@@ -1000,9 +1000,9 @@ unsigned char ESP8266wifi::write(const unsigned char buf){
     return buf;
 }
 
-int ESP8266wifi::parseUDPPacket(){
+int ESP8266wifi::parseUDPPacket(int timeout, char *from){
 	//getIncomingMessage(); //messaggio memorizzato in msgIn[]
-	listenForIncomingMessage(1000);
+	listenForIncomingMessage(timeout);
 	pos=0;
 	//if(msg.hasData && msg.channel==channel || msg.hasData && channel == ANYCLIENT){
 	if(msg.hasData){
@@ -1036,7 +1036,11 @@ char ESP8266wifi::readTCP(char *nextFrom){
 size_t ESP8266wifi::read(char* buf, size_t size){
 if(pos+size<msg.length && msg.hasData){
    memcpy((char *)buf, (const char *)(msgIn+pos), size);
+   Serial.print(F("pos: "));
+   Serial.println(pos);
    pos+=size;
+   Serial.print(F("pos2: "));
+   Serial.println(pos);
    return size;	
 }
 else
@@ -1127,7 +1131,7 @@ int ESP8266wifi::available(int timeoutMillis, char *from, char channel){
 	//Serial.println(msg.hasData);
 	//Serial.print("-length: ");
 	//Serial.println(msg.length);
-	if(msg.hasData && msg.channel == channel) //da studiare rischio cancellazione messaggi
+	if(msg.hasData && msg.channel == channel && msg.length > pos)
 		return msg.length-pos;
 	else if(listenForIncomingMessage(timeoutMillis,from).hasData){
 		//INGV\0t("hasDataDopo: ");

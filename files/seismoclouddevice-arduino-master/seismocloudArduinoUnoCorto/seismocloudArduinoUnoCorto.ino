@@ -9,10 +9,10 @@
 //#define SSID "WebPocket-bb3b"
 //#define PASSWORD "Emiliuccio.12012010"
 
-#define SSID "panizzi"
-#define PASSWORD "salaria113"
-//#define SSID "OpenWrt"
-//#define PASSWORD "dorabino.7468!"
+//#define SSID "panizzi"
+//#define PASSWORD "salaria113"
+#define SSID "OpenWrt"
+#define PASSWORD "dorabino.7468!"
 
 //ESP8266wifi wifi(swSerial, swSerial, esp8266_reset_pin, Serial);
 SoftwareSerial swSerial(sw_serial_rx_pin, sw_serial_tx_pin);

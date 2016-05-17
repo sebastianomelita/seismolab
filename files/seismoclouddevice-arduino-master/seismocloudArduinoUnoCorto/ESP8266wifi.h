@@ -159,7 +159,7 @@ public:
     bool beginUDPPacket(char channel);
     //bool beginLocalServer(const char* port); //fa partire un server in attesa su tutte le connessioni (channel)
     bool endUDPPacket(char channel=SERVER);
-    int parseUDPPacket();
+    int parseUDPPacket(int timeout=10, char *from=NULL);
     unsigned char write(const unsigned char buf);
     int write(const unsigned char* buf, size_t size);
     char read();
