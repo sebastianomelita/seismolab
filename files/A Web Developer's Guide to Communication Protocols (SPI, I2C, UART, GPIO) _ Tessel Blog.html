@@ -1,0 +1,377 @@
+
+<!-- saved from url=(0085)https://tessel.io/blog/108840925797/a-web-developers-guide-to-communication-protocols -->
+<html class=" js flexbox flexboxlegacy canvas canvastext webgl touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.title" content="Tessel"><meta name="DC.identifier" content="http://tessel.io"><meta name="DC.description" content="Tessel is a JavaScript-programmable microcontroller. It&#39;s Node-compatible and ships with Wifi built in. Use it to easily make physical devices that connect to the web."><meta name="DC.subject" content="Node, Javascript, Internet of Things, Connected, Hardware"><meta name="DC.language" scheme="ISO639-1" content="en"><meta name="DC.creator" content="http://technical.io"><meta name="DC.type" scheme="DCMITYPE" content="http://purl.org/dc/dcmitype/PhysicalObject"><meta name="DC.type" scheme="DCMITYPE" content="http://purl.org/dc/dcmitype/Software"><link rel="schema.DCTERMS" href="http://purl.org/dc/terms/"><meta name="DCTERMS.created" scheme="ISO8601" content="2013-05-18"><title>A Web Developer's Guide to Communication Protocols (SPI, I2C, UART, GPIO) | Tessel Blog</title><meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0"><link rel="stylesheet" href="./A Web Developer&#39;s Guide to Communication Protocols (SPI, I2C, UART, GPIO) _ Tessel Blog_files/main.css"><!-- Custom fonts--><link href="./A Web Developer&#39;s Guide to Communication Protocols (SPI, I2C, UART, GPIO) _ Tessel Blog_files/css" rel="stylesheet" type="text/css"><link href="./A Web Developer&#39;s Guide to Communication Protocols (SPI, I2C, UART, GPIO) _ Tessel Blog_files/css(1)" rel="stylesheet" type="text/css"><!-- Other CSS--><link rel="stylesheet" href="./A Web Developer&#39;s Guide to Communication Protocols (SPI, I2C, UART, GPIO) _ Tessel Blog_files/webicons.css"><link rel="stylesheet" href="./A Web Developer&#39;s Guide to Communication Protocols (SPI, I2C, UART, GPIO) _ Tessel Blog_files/font-awesome.min.css"><!-- highlight.js--><link rel="stylesheet" href="./A Web Developer&#39;s Guide to Communication Protocols (SPI, I2C, UART, GPIO) _ Tessel Blog_files/monokai_sublime.min.css"><link href="./A Web Developer&#39;s Guide to Communication Protocols (SPI, I2C, UART, GPIO) _ Tessel Blog_files/blog.css" rel="stylesheet"><meta class="foundation-data-attribute-namespace"><meta class="foundation-mq-xxlarge"><meta class="foundation-mq-xlarge-only"><meta class="foundation-mq-xlarge"><meta class="foundation-mq-large-only"><meta class="foundation-mq-large"><meta class="foundation-mq-medium-only"><meta class="foundation-mq-medium"><meta class="foundation-mq-small-only"><meta class="foundation-mq-small"><style></style><style></style><meta class="foundation-mq-topbar"><style type="text/css">.celery-open{overflow:hidden!important}.celery-animated{-webkit-animation-duration:1s;animation-duration:1s;-webkit-animation-fill-mode:both;animation-fill-mode:both}.celery-backdrop{z-index:2147483645;position:fixed;top:0;right:0;bottom:0;left:0;background-color:#000;-webkit-animation-duration:.3s;animation-duration:.3s;opacity:.8;-moz-opacity:.5;-ms-filter:"alpha(Opacity=75)"}.celery-backdrop-fade-in{-webkit-animation-name:celeryBackdropFadeIn;animation-name:celeryBackdropFadeIn}.celery-backdrop-fade-out{-webkit-animation-name:celeryBackdropFadeOut;animation-name:celeryBackdropFadeOut}@-webkit-keyframes celeryBackdropFadeIn{0%{opacity:0}100%{opacity:.8}}@keyframes celeryBackdropFadeIn{0%{opacity:0}100%{opacity:.8}}@-webkit-keyframes celeryBackdropFadeOut{0%{opacity:.8}100%{opacity:0}}@keyframes celeryBackdropFadeOut{0%{opacity:.8}100%{opacity:0}}.celery-spinner{z-index:2147483646;width:78px;height:26px;position:fixed;top:0;left:0;bottom:0;right:0;margin:auto;text-align:center}.celery-spinner>div{margin:4px;width:18px;height:18px;background-color:#fff;border-radius:100%;display:inline-block;-webkit-animation:celeryBounceDelay 1.4s infinite ease-in-out;animation:celeryBounceDelay 1.4s infinite ease-in-out;-webkit-animation-fill-mode:both;animation-fill-mode:both}.celery-spinner .bounce1{-webkit-animation-delay:-.32s;animation-delay:-.32s}.celery-spinner .bounce2{-webkit-animation-delay:-.16s;animation-delay:-.16s}@-webkit-keyframes celeryBounceDelay{0%,100%,80%{-webkit-transform:scale(0)}40%{-webkit-transform:scale(1)}}@keyframes celeryBounceDelay{0%,100%,80%{transform:scale(0);-webkit-transform:scale(0)}40%{transform:scale(1);-webkit-transform:scale(1)}}</style></head><body><nav data-topbar="data-topbar" role="navigation" class="top-bar fixed"><ul class="title-area"><li style="position: relative" class="name"><h1 class="hide-for-small-only"><a href="https://tessel.io/"><img src="./A Web Developer&#39;s Guide to Communication Protocols (SPI, I2C, UART, GPIO) _ Tessel Blog_files/tessel-logo-horizontal.svg" alt="Tessel" class="top-bar__logo"></a></h1></li><li class="toggle-topbar menu-icon"><a href="https://tessel.io/blog/108840925797/a-web-developers-guide-to-communication-protocols#"><span>Menu</span></a></li></ul><section class="top-bar-section"><ul class="right"><li id="Start"><a href="https://tessel.io/start">Start</a></li><li id="Docs"><a href="https://tessel.io/docs">Docs</a></li><li id="Modules"><a href="https://tessel.io/modules">Modules</a></li><li id="Projects"><a href="https://tessel.io/projects">Projects</a></li><li id="Forums"><a href="https://tessel.io/forums">Forums</a></li><li id="Shop"><a href="https://tessel.io/shop">Shop</a></li><li id="Blog"><a href="https://tessel.io/blog">Blog</a></li></ul></section></nav><section class="block"><div class="row"><div class="large-9 columns large-center"><div class="pagination"><a href="https://tessel.io/blog/" class="bloglink active">← Back to Tessel Blog</a></div><ul id="blog-posts"><li><h2><a href="https://tessel.io/blog/108840925797/a-web-developers-guide-to-communication-protocols">A Web Developer's Guide to Communication Protocols (SPI, I2C, UART, GPIO)</a></h2><p class="date">Thursday, January 22, 2015</p><div class="post-body"><h5>1/22/2015– <a href="https://tessel.io/blog/">Kevin Sidwar</a></h5>
+
+<p><em>This post is also on our <a href="https://tessel.io/docs/communicationProtocols">docs page</a>, where it will be kept up to date.</em></p>
+
+<p><em>This guide is meant as a companion to the <a href="https://shop.tessel.io/Modules/DIY%20Module%20Kit">Tessel DIY Modules</a> and the <a href="https://tessel.io/docs/DIYModule">DIY Module Guide</a>.</em></p>
+
+<p>Each of the four ports on a Tessel exposes ten pins for use in creating custom modules. Two of the pins are for power (3.3V and ground) and the other eight are digital pins that can be used to communicate with your module.</p>
+
+<p>All eight communication pins speak in terms of simple on/off states, but only three of them (the GPIO pins) are meant to be controlled manually. The rest, when grouped in pre-defined ways, are capable of encoding complex messages by having their state rapidly toggled in accordance with various protocols. It’s a lot like <a href="http://en.wikipedia.org/wiki/Morse_code">Morse code</a>, but for electronics.</p>
+
+<p>In embedded electronics, there are four common protocols and Tessel <a href="https://tessel.io/docs/hardwareAPI">supports them all in JavaScript</a>.</p>
+
+<ul><li><a href="https://tessel.io/blog/108840925797/a-web-developers-guide-to-communication-protocols#gpio">GPIO</a></li>
+<li><a href="https://tessel.io/blog/108840925797/a-web-developers-guide-to-communication-protocols#spi">SPI</a></li>
+<li><a href="https://tessel.io/blog/108840925797/a-web-developers-guide-to-communication-protocols#i2c">I2C</a></li>
+<li><a href="https://tessel.io/blog/108840925797/a-web-developers-guide-to-communication-protocols#uart">UART</a></li>
+</ul><p>This guide will provide a brief overview of the protocols and cover some of the strengths and weaknesses of each.</p>
+
+<h3>Quick Reference</h3>
+
+<p>Most of the time, you will choose your protocol based on the parts you are using when designing your module. Other things to consider are the pins you have available, as well as your communication speed requirements. The following table can be used as a quick reference for the more detailed explanations of each protocol below.</p>
+
+<table><thead><tr><th align="center">Protocol</th>
+  <th align="center"># Pins Required</th>
+  <th align="center">Supported Ports</th>
+  <th align="center">Max Speed</th>
+  <th align="center">Example Modules</th>
+</tr></thead><tbody><tr><td align="center">GPIO</td>
+  <td align="center"><strong>1</strong> (G1,G2 or G3)</td>
+  <td align="center">A,B,C,D</td>
+  <td align="center">1kHz</td>
+  <td align="center"><a href="https://tessel.io/modules">All Modules</a></td>
+</tr><tr><td align="center">SPI</td>
+  <td align="center"><strong>3+</strong> (MOSI, MISO, SCK + 1 GPIO pin)</td>
+  <td align="center">A,B,C,D</td>
+  <td align="center">25MBit/s</td>
+  <td align="center"><img src="./A Web Developer&#39;s Guide to Communication Protocols (SPI, I2C, UART, GPIO) _ Tessel Blog_files/tumblr_inline_nhxvuu2D961s75tgz.png" alt=""></td>
+</tr><tr><td align="center">I2C</td>
+  <td align="center"><strong>2</strong> (SCL and SDA)</td>
+  <td align="center">A,B (shared bus I2C1) C,D (shared bus I2C0)</td>
+  <td align="center">I2C0 - 1Mbit/s I2C1 - 400kbit/s</td>
+  <td align="center"><img src="./A Web Developer&#39;s Guide to Communication Protocols (SPI, I2C, UART, GPIO) _ Tessel Blog_files/tumblr_inline_nhxvxmbwfj1s75tgz.png" alt=""></td>
+</tr><tr><td align="center">UART</td>
+  <td align="center"><strong>2</strong> (TX and RX)</td>
+  <td align="center">A,B,D - hardware C - software</td>
+  <td align="center">8Mbit/s</td>
+  <td align="center"><img src="./A Web Developer&#39;s Guide to Communication Protocols (SPI, I2C, UART, GPIO) _ Tessel Blog_files/tumblr_inline_nhxvx9dw9y1s75tgz.png" alt=""></td>
+</tr></tbody></table><h3>A Note on Level Shifting</h3>
+
+<p>All of the diagrams and discussions below regarding communication protocols assume that the hardware modules you are communicating with operate at 3.3V, just like the Tessel.</p>
+
+<p>If you have a device on your custom module that operates at 5V, 1.8V, or any other non-3.3V voltage, be careful! Directly connecting components with different operating voltages can damage the Tessel and/or your device.</p>
+
+<p>You can use devices which operate at different voltages by employing a technique called ‘level shifting’. Sparkfun has a <a href="https://learn.sparkfun.com/tutorials/voltage-dividers">nice writeup on voltage dividers and level shifting</a> that can be used as a starting point.</p>
+
+<p>The easiest way to avoid this complication is by trying to find module components that natively work at 3.3V.</p>
+
+<p><a name="gpio"></a></p>
+
+<h3>GPIO</h3>
+
+<p><strong>Pros:</strong> Simple, Requires a single pin</p>
+
+<p><strong>Cons:</strong> Not good for sending complex data</p>
+
+<p>By far the simplest form of communication is via General Purpose Input/Output (GPIO). GPIO isn’t really a 'protocol’. It is a rudimentary form of communication where you manually (in code) turn a pin on and off or read its state.</p>
+
+<p>Each port on the Tessel exposes three GPIO pins that can serve as a digital input or output and are marked as G1, G2, and G3.</p>
+
+<h1 style="text-align:center;"><img src="./A Web Developer&#39;s Guide to Communication Protocols (SPI, I2C, UART, GPIO) _ Tessel Blog_files/gpio_blowout.jpg"></h1>
+
+<p style="text-align:center"><em>GPIO pins available on a Tessel module port: G1, G2, and G3</em></p>
+
+<p>By default, Tessel’s GPIO pins are configured to be inputs.</p>
+
+<h4>Input</h4>
+
+<p>When acting as a digital input, a pin can be queried in software and will return a value indicating the current state of the pin: high (1 or true) or low (0 or false).</p>
+
+<p>The following code snippet is an example of querying the G1 pin on port A.</p>
+
+<pre>var tessel = require('tessel'); // Import tessel
+var portA = tessel.port['A']; // Select Port A
+var myInputPin = portA.pin['G1']; // Assign the G1 pin to a variable
+
+var pinState = myInputPin.read(); // Query the state of the pin
+</pre>
+
+<p>This is great for connecting things like <a href="https://projects.tessel.io/projects/a-button-on-tessel">switches, buttons</a>, and even <a href="https://projects.tessel.io/projects/pir">motion detectors</a>. Just remember that the Tessel can only handle signals that are 3.3V or lower.</p>
+
+<h1 style="text-align:center;"><img src="./A Web Developer&#39;s Guide to Communication Protocols (SPI, I2C, UART, GPIO) _ Tessel Blog_files/microsd.jpg" height="200px"></h1>
+
+<p style="text-align:center"><em>The [MicroSD Card Module][sd_module] uses a GPIO pin acting as an input to detect whether a card is inserted or not.</em></p>
+
+<h5>Determining digital state– a note for the curious:</h5>
+
+<p>It’s pretty clear that if an input pin sees 3.3V it would be interpreted as a high state and if the pin is connected to ground it would recognize that as a low state. But what if the pin senses something in between, like 2V?</p>
+
+<p>Your first thought might be that a high state is anything 1.65V (halfway between 0 and 3.3) or higher, and anything lower than that would be considered the low state. However, this is not always the case.</p>
+
+<p>The high/low threshold is always determined by the main processor. In the case of the Tessel, that’s the LPC1830. The documentation on the LPC1830 tells us that the Tessel will consider an input to be high if it is at least 70% of the Tessel’s supply voltage (VDD) which is 3.3V. It also tells us that any signal that is 30% of VDD or lower is guaranteed to be read as a low state. That means anything 2.31V (referenced as VIH) or higher would be considered high, and anything .99V (referenced as VIL) or lower is guaranteed to be interpreted as a low state.</p>
+
+<p>What about the voltages between .99V and 2.31V? The read behavior is undefined and you are not guaranteed to get an accurate result. That’s one reason why it’s important to make sure that any module you connect to a Tessel input pin provides a high voltage that is between VIH and 3.3V and a low voltage between ground and VIL.</p>
+
+<p><a href="https://tessel.io/docs/hardwareAPI#pins">More GPIO example code and information</a></p>
+
+<h4>Output</h4>
+
+<p>When acting as a digital output, a pin can be set to one of two states: high (on/1/true) or low (off/0/false).
+High means the main Tessel board will set that pin to be 3.3V and low means it will set it to 0V.</p>
+
+<p>Digital output is useful for connected hardware that understands simple on/off states. The following code snippet shows how you can set the state of the G2 pin on port B.</p>
+
+<pre>var tessel = require('tessel'); // Import tessel
+var portB = tessel.port['B']; // Select Port B
+var myOutputPin = portB.pin['G2']; // Assign the G2 pin to a variable
+
+// Set the pin state with ones and zeroes
+myOutputPin.output(1); // Set the pin high
+myOutputPin.output(0); // Set the pin low
+
+// Or use booleans
+myOutputPin.output(false);
+myOutputPin.output(true);
+</pre>
+
+<p>Some examples of using a GPIO pin as an output are <a href="http://start.tessel.io/blinky">simple LEDs</a> and for turning appliances on and off with a <a href="https://tessel.io/modules#module-relay">relay</a>.</p>
+
+<h1 style="text-align:center;"><img src="./A Web Developer&#39;s Guide to Communication Protocols (SPI, I2C, UART, GPIO) _ Tessel Blog_files/320px-5mm_Red_LED.jpg"></h1>
+
+<p style="text-align:center"><em>An output pin is perfect for controlling an LED. Image is licensed under the [Creative Commons Attribution-Share Alike 2.0 Generic](<a href="http://creativecommons.org/licenses/by-sa/2.0/deed.en">http://creativecommons.org/licenses/by-sa/2.0/deed.en</a>) license.</em></p>
+
+<p><a href="https://tessel.io/docs/hardwareAPI#pins">More GPIO example code and information</a></p>
+
+<h4>Tessel Modules That Use The GPIO Protocol</h4>
+
+<p>Every Tessel First party module uses the GPIO protocol in some fashion.
+The <a href="https://tessel.io/modules#module-sdcard">MicroSD Card Module</a> uses a digital input to detect state on a module.
+The <a href="https://tessel.io/modules#module-accelerometer">Accelerometer Module</a> uses a digital input to detect a data interrupt from the sensor.
+The <a href="https://tessel.io/modules#module-relay">Relay Module</a> uses digital outputs to turn things on and off.</p>
+
+<p><a name="spi"></a></p>
+
+<h3>SPI</h3>
+
+<p><strong>Pros:</strong> Fast, supports multiple devices on a single bus, allows two-way communication</p>
+
+<p><strong>Cons:</strong> Requires at least 3 pins</p>
+
+<p>SPI stands for <a href="http://en.wikipedia.org/wiki/Serial_Peripheral_Interface_Bus">Serial Peripheral Interface</a>. The SPI protocol allows data to be exchanged one byte at a time between the Tessel and a module via two communication lines.
+This is great for transferring data like sensor readings or sending commands to a module.</p>
+
+<h1 style="text-align:center;"><img src="./A Web Developer&#39;s Guide to Communication Protocols (SPI, I2C, UART, GPIO) _ Tessel Blog_files/spi_blowout.jpg"></h1>
+
+<p style="text-align:center"><em>SPI pins SCK, MISO, and MOSI on Port B of the Tessel</em></p>
+
+<p>The SPI protocol is known as a Master/Slave protocol, which means that there is always a single master device which controls the flow of communication with one or more slave devices. Think of the master as a traffic cop. It directs all of the connected slave devices so they know when it’s their turn to communicate.</p>
+
+<p>When you are creating modules, the Tessel will always act as the master device, and your custom module will be a slave device.</p>
+
+<p>The SPI protocol requires a minimum of three signal connections and usually has four (this is in addition to the power connections). The following diagram shows the connections (arrows indicate flow of data).</p>
+
+<h1 style="text-align:center;"><img src="./A Web Developer&#39;s Guide to Communication Protocols (SPI, I2C, UART, GPIO) _ Tessel Blog_files/Simple_SPI.png"></h1>
+
+<p style="text-align:center"><em>The red lines constitute the shared bus connections used for talking to the slave devices. The green wire is the shared bus connection used by the slaves to talk to the master. The blue line is the chip select for signaling each slave individually.</em></p>
+
+<h4>SCK</h4>
+
+<p>This is the clock signal that keeps the Tessel and the module synchronized while transferring data. The two devices need to have a mutual understanding of how fast data is to be transferred between them.
+This is sometimes referred to as the baud or bitrate.
+The clock signal provides that reference signal for the devices to use when exchanging data.</p>
+
+<p>Without a clock signal to synchronize the devices, the devices would have no way to interpret the signal on the data lines.</p>
+
+<p>One bit of data is transferred with each clock cycle (see the diagram below).</p>
+
+<h4>MOSI</h4>
+
+<p>MOSI stands for <strong>M</strong>aster <strong>O</strong>ut <strong>S</strong>lave <strong>I</strong>n and is the connection used by the Tessel to send data to the module. It’s on this line that the Tessel will encode its data.</p>
+
+<h4>MISO</h4>
+
+<p>MISO stands for <strong>M</strong>aster <strong>I</strong>n <strong>S</strong>lave <strong>O</strong>ut and is the connection used by the module to send data to the Tessel.</p>
+
+<h4>SS or CS</h4>
+
+<p>This line, normally referred to as the <strong>Slave Select (SS)</strong> or <strong>Chip Select (CS)</strong> line, is used by the master device to notify a specific slave device that it is about to send data. We normally call it CS, but you may see it either way in datasheets and other references.</p>
+
+<p>When you create a Tessel module which uses the SPI protocol, the CS connection will be handled by one of the GPIO pins (G1, G2, G3) on the Tessel port.</p>
+
+<p>In the SPI protocol, the SCK, MOSI, and MISO connections are shared between all of the slave devices on a given SPI bus. For example, if you connect the MicroSD Card, Camera, and nRF24 modules to the Tessel at the same time, they will all be using the same SCK, MOSI, and MISO lines from the main Tessel chip.</p>
+
+<h1 style="text-align:center;"><img src="./A Web Developer&#39;s Guide to Communication Protocols (SPI, I2C, UART, GPIO) _ Tessel Blog_files/Multi_SPI.png"></h1>
+
+<p>When the Tessel needs to send data to the Camera Module, the MicroSD and nRF24  will see that data but should just ignore it. To accomplish this, the Tessel will pull the CS line that is connected to the Camera Module low and leave the CS line high for the MicroSD and nRF24 modules. This lets the camera know that it is the active module and should pay attention.</p>
+
+<p>The following diagram shows how the various pins in the SPI protocol are toggled to create meaningful data. In this case, the master sends the ASCII character ’S’, and the slave responds with 'F’.</p>
+
+<h1 style="text-align:center;"><img src="./A Web Developer&#39;s Guide to Communication Protocols (SPI, I2C, UART, GPIO) _ Tessel Blog_files/spi_diagram.jpg"></h1>
+
+<p style="text-align:center"><em>Timing diagram of SPI data exchange. Modified [image](<a href="https://dlnmh9ip6v2uc.cloudfront.net/assets/c/7/8/7/d/52ddb2dcce395fed638b4567.png">https://dlnmh9ip6v2uc.cloudfront.net/assets/c/7/8/7/d/52ddb2dcce395fed638b4567.png</a>) from Sparkfun is [CC BY-NC-SA 3.0](<a href="http://creativecommons.org/licenses/by-nc-sa/3.0/">http://creativecommons.org/licenses/by-nc-sa/3.0/</a>)</em></p>
+
+<p>Remember that the master initiates all communication. When it is ready, the first thing it will do is pull the CS/SS pin low to let the slave device know that a data transmission is about to begin.
+The master holds this pin low for the duration of the data exchange as seen in the diagram above.</p>
+
+<p>With the CS/SS pin low, the master will start to toggle the clock pin (SCK) while simultaneously controlling the MOSI to represent the bits of information it wishes to send to the slave.
+The numbers in green on the diagram above delineate each bit in the byte being transferred.</p>
+
+<p>It sounds complicated, but remember that the Tessel takes care of all of this pin manipulation for you. All you have to do is write some Javascript like this code snippet, which demonstrates the use of the SPI protocol on port A.</p>
+
+<pre>var portA = tessel.port['A'];
+var spi = new portA.SPI({
+  clockSpeed: 4000000 // 4MHz
+});
+
+spi.transfer(new Buffer([0xde, 0xad, 0xbe, 0xef]), function (err, rx) {
+  console.log('buffer returned by SPI slave:', rx);
+});
+</pre>
+
+<p><a href="https://tessel.io/docs/hardwareAPI#spi">More SPI example code and information</a></p>
+
+<h4>Tessel Modules That Use The SPI Protocol</h4>
+
+<p><a href="https://github.com/tessel/ambient-attx4">Ambient</a>, <a href="https://github.com/tessel/audio-vs1053b">Audio</a>, <a href="https://github.com/tessel/camera-vc0706">Camera</a>, <a href="https://github.com/tessel/sdcard">Micro SD</a>, <a href="https://github.com/tessel/rf-nrf24">nRF24</a>, and <a href="https://github.com/tessel/ir-attx4">Infrared</a></p>
+
+<p><a name="i2c"></a></p>
+
+<h3>I2C</h3>
+
+<p><strong>Pros:</strong> Only requires 2 pins, multiple devices on a single bus, allows two-way communication</p>
+
+<p><strong>Cons:</strong> Devices can have address conflicts, not as fast as SPI</p>
+
+<p>I2C stands for <a href="http://en.wikipedia.org/wiki/I%C2%B2C">Inter-Integrated Circuit</a> and is pronounced “I squared C”, “I two C” or “I-I-C”. I2C is a protocol that allows one device to exchange data with one or more connected devices through the use of a single data line and clock signal.</p>
+
+<h1 style="text-align:center;"><img src="./A Web Developer&#39;s Guide to Communication Protocols (SPI, I2C, UART, GPIO) _ Tessel Blog_files/i2c_blowout.jpg"></h1>
+
+<p style="text-align:center"><em>I2C pins SCL and SDA on Port B of the Tessel</em></p>
+
+<p>I2C is a Master/Slave protocol, which means that there is always a single master device which controls the flow of communication with one or more slave devices.</p>
+
+<p>I2C only requires two communication connections:</p>
+
+<h1 style="text-align:center;"><img src="./A Web Developer&#39;s Guide to Communication Protocols (SPI, I2C, UART, GPIO) _ Tessel Blog_files/Simple_I2C.png"></h1>
+
+<h4>SCL</h4>
+
+<p>This is the clock signal that keeps the Tessel and the module synchronized while transferring data. The two devices need to have a mutual understanding of how fast data is to be transferred between them. This is sometimes referred to as the baud or bitrate. The clock signal provides that reference signal for the devices to use when exchanging data. Without a clock signal to synchronize the devices, they would have no way to interpret the signal on the data lines.</p>
+
+<h4>SDA</h4>
+
+<p>This is the data line used for exchanging data between the master and slaves. Instead of having separate communication lines for the master and slave devices, they both share a single data connection. The master coordinates the usage of that connection so that only one device is “talking” at a time.</p>
+
+<p>Since multiple slave devices can use the same SDA line, the master needs a way to distinguish between them and talk to a single device at a time. The I2C protocol uses the concept of <strong>device addressing</strong> to coordinate traffic on the data line.</p>
+
+<p>Every single I2C device connected to the Tessel will have an internal address that cannot be the same as any other module connected to the Tessel. This address is usually determined by the device manufacturer and listed in the datasheet. Sometimes you can configure the address through device-specific tweaks defined by the manufacturer. The Tessel, as the master device, needs to know the address of each slave and will use it to notify a device when it wants to communicate with it before transferring data.</p>
+
+<h1 style="text-align:center;"><img src="./A Web Developer&#39;s Guide to Communication Protocols (SPI, I2C, UART, GPIO) _ Tessel Blog_files/Multi_I2C.png"></h1>
+
+<p style="text-align:center"><em>Flow of data between Tessel and multiple I2C devices.</em></p>
+
+<p>The following diagram illustrates how the SDA and SCL pins are toggled when transferring data with the I2C protocol.</p>
+
+<h1 style="text-align:center;"><img src="./A Web Developer&#39;s Guide to Communication Protocols (SPI, I2C, UART, GPIO) _ Tessel Blog_files/i2c_modified_timing.png"></h1>
+
+<p>To begin a data transaction, the master creates what is called a start condition by pulling the SDA pin low before the SCL pin.</p>
+
+<p>The master then broadcasts the address of the device it wishes to communicate with by sending each bit of the 7 bit address. Notice the clock signal (SCL) is toggled for each bit. This toggling is how the slaves know when to read each bit of the address so they can determine with which device the master wants to communicate.</p>
+
+<p>Right after the address, the master sends a read/write bit which signals whether it will be sending data to the slave or reading data from the slave.</p>
+
+<p>After broadcasting the address, the master either transmits data to the slave or sends the address of a register (internal storage) on the slave from which it wishes to retrieve data.</p>
+
+<p>Finally, the master will issue a stop condition on the bus by pulling SCL high, followed by SDA.</p>
+
+<p>It’s a little complicated, but the Tessel takes care of all the details for you. Using the I2C pins on port A looks like this:</p>
+
+<pre>var tessel = require('tessel'); // import tessel
+var portA = tessel.port['A']; // use Port A
+var slaveAddress = 0xDE; // This is the address of the attached module/sensor
+var i2c = new portA.I2C(slaveAddress)
+
+i2c.send(new Buffer([0xde, 0xad, 0xbe, 0xef]), function (err) {
+  console.log("I'm done sending the data");
+  // Can also use err for error handling
+})
+</pre>
+
+<p><a href="https://tessel.io/docs/hardwareAPI#i2c">More I2C example code and information</a></p>
+
+<h4>Tessel Modules That Use The I2C Protocol</h4>
+
+<p><a href="https://github.com/tessel/accel-mma84">Accelerometer</a>, <a href="https://github.com/tessel/climate-si7005">Climate</a>, <a href="https://github.com/tessel/rfid-pn532">RFID</a>, and <a href="https://github.com/tessel/servo-pca9685">Servo</a></p>
+
+<p><a name="uart"></a></p>
+
+<h3>UART</h3>
+
+<p><strong>Pros:</strong> Widely supported, allows two-way communication</p>
+
+<p><strong>Cons:</strong> Can’t share communication lines, slower than SPI and I2C</p>
+
+<p>UART stands for <a href="http://en.wikipedia.org/wiki/Universal_asynchronous_receiver/transmitter">Universal Asynchronous Receiver/Transmitter</a> and is really just a fancy way of referring to a serial port. It is really easy to understand as it only requires two lines: a transmission line (<strong>TX</strong>) and a receiving line (<strong>RX</strong>). The Tessel sends data to connected modules on the TX line and gets data back on the RX line.</p>
+
+<h1 style="text-align:center;"><img src="./A Web Developer&#39;s Guide to Communication Protocols (SPI, I2C, UART, GPIO) _ Tessel Blog_files/uart_blowout.jpg"></h1>
+
+<p style="text-align:center"><em>UART pins TX and RX on Port B of the Tessel</em></p>
+
+<h3>TX</h3>
+
+<p>Used by the Tessel to send data to the module.</p>
+
+<h3>RX</h3>
+
+<p>Used by the module to send data to the Tessel.</p>
+
+<p>When using a UART, it’s important to remember that the communication lines cannot be shared between modules. In fact, because of this, each Tessel port needs its own RX and TX line from the main Tessel chip (LPC1830) as seen below.</p>
+
+<h1 style="text-align:center;"><img src="./A Web Developer&#39;s Guide to Communication Protocols (SPI, I2C, UART, GPIO) _ Tessel Blog_files/UART_Connections.jpg"></h1>
+
+<p style="text-align:center;"><em>Only ports A, B, and D have dedicated UART lines from the LPC1830.</em></p>
+
+<p>Since the LPC1830 doesn’t have 4 UARTs, only Ports A, B, and D have a hardware UART. A software UART can be implemented on Port C but is beyond the scope of this guide. If you need to use a UART for communication we recommend using Port A, B or D.</p>
+
+<h1 style="text-align:center;"><img src="./A Web Developer&#39;s Guide to Communication Protocols (SPI, I2C, UART, GPIO) _ Tessel Blog_files/uart_example.jpg"></h1>
+
+<p style="text-align:center;"><em>A UART data transmission.</em></p>
+
+<p>UART transmissions begin with a start bit where the appropriate line (TX or RX) is pulled low by the sending party. Then 5 to 8 data bits are sent. The diagram above shows a scenario where 8 bits are sent.</p>
+
+<p>Following the data, an optional <a href="http://en.wikipedia.org/wiki/Parity_bit">parity bit</a> is sent, followed by 1 or 2 stop bits, where the sending module pulls the pin high.</p>
+
+<p>For this protocol to work, the sender and receiver have to agree on a few things.</p>
+
+<ol><li>How many data bits are sent with each packet (5 to 8)?</li>
+<li>How fast should the data be sent? This is know as the baud rate.</li>
+<li>Is there a parity bit after the data, and is it high or low?</li>
+<li>How many stop bits will be sent at the end of each transmission?</li>
+</ol><p>When you want to interact with a specific module via UART, the answers to these questions are found in the module’s datasheet. Using that information you can configure the UART in Javascript like this:</p>
+
+<pre>var port = tessel.port['A'];
+var uart = new port.UART({
+  dataBits: 8,
+  baudrate: 115200,
+  parity: "none",
+  stopBits: 1
+});
+
+uart.write('Hello UART');
+</pre>
+
+<p><a href="https://tessel.io/docs/hardwareAPI#uart">More example code using a UART</a></p>
+
+<h4>Tessel Modules That Use a UART</h4>
+
+<p><a href="https://github.com/tessel/ble-ble113a">BLE</a>, <a href="https://github.com/tessel/camera-vc0706">Camera</a>, <a href="https://github.com/tessel/gps-a2235h">GPS</a>, and <a href="https://github.com/tessel/gprs-sim900">GPRS</a></p>
+
+<p><em>This post is also on our <a href="https://tessel.io/docs/communicationProtocols">docs page</a>, where it will be kept up to date.</em></p></div><p class="tags">#modules #tessel #kevin sidwar #technical machine #diy #diy module #new module #prototyping</p></li></ul><div class="pagination"><a href="https://tessel.io/blog/" class="bloglink active">← Back to Tessel Blog</a></div></div><div class="large-3 columns"><div id="blog-sidebar"><h3>April 2016</h3><ul><li><a href="https://tessel.io/blog/142629230957/tessel-2-has-shipped">Tessel 2 Has Shipped!</a></li></ul><h3>March 2016</h3><ul><li><a href="https://tessel.io/blog/141886992057/tessel-2-shipping-progress">Tessel 2 Shipping Progress</a></li><li><a href="https://tessel.io/blog/141418883972/hi-wheres-my-tessel">Hi, where’s my Tessel?</a></li><li><a href="https://tessel.io/blog/140747686642/the-wait-is-almost-over">The wait is almost over!</a></li></ul><h3>February 2016</h3><ul><li><a href="https://tessel.io/blog/139896385122/tessel-2-available-for-pre-order-again">Tessel 2 Available for Pre-Order Again!</a></li><li><a href="https://tessel.io/blog/139078034627/shipping-update-no-news-is-good-news">Shipping Update: No News is Good News</a></li><li><a href="https://tessel.io/blog/138528250632/backer-update-january-february">Backer Update: January == February</a></li><li><a href="https://tessel.io/blog/138528095052/backer-update-getting-ready-to-ship-tessel-2">Backer Update: Getting Ready to Ship Tessel 2 (!)</a></li></ul><h3 class="inactive">November 2015</h3><ul><li><a href="https://tessel.io/blog/132893473277/this-week-in-tessel-another-fcc-update-and-some">This Week In Tessel: Another FCC Update, And Some Of The Things We've Been Working On</a></li></ul><h3 class="inactive">September 2015</h3><ul><li><a href="https://tessel.io/blog/128489969922/this-week-in-tessel-shipping-timeline-update-and">This Week in Tessel: Shipping timeline update and more</a></li></ul><h3 class="inactive">August 2015</h3><ul><li><a href="https://tessel.io/blog/126784756137/this-week-in-tessel-first-batch-of-tessel-2">This week in Tessel: First batch of Tessel 2, OpenWRT issues, Python, and more</a></li></ul><h3 class="inactive">July 2015</h3><ul><li><a href="https://tessel.io/blog/123813923817/this-week-in-tessel-shipping-update">This week in Tessel: Shipping update, Hanselminutes, new projects</a></li></ul><h3 class="inactive">June 2015</h3><ul><li><a href="https://tessel.io/blog/122348298667/this-week-in-tessel-june-24-2015">This Week in Tessel – June 24, 2015</a></li><li><a href="https://tessel.io/blog/121734541002/welcoming-three-new-team-members">Welcoming Three New Team Members</a></li><li><a href="https://tessel.io/blog/121284956252/this-week-in-tessel-june-11-2015">This Week in Tessel – June 11, 2015</a></li><li><a href="https://tessel.io/blog/120850543061/tessel-at-conferences">Tessel at Conferences</a></li><li><a href="https://tessel.io/blog/120787387602/this-week-in-tessel-june-3-2015">This Week in Tessel – June 3, 2015</a></li></ul><h3 class="inactive">May 2015</h3><ul><li><a href="https://tessel.io/blog/119481196202/tessel-project-joins-dojo-foundation-under-open">Tessel Project joins Dojo Foundation under open governance</a></li><li><a href="https://tessel.io/blog/118892358912/this-week-in-tessel-may-13-2015">This Week in Tessel — May 13, 2015</a></li><li><a href="https://tessel.io/blog/118385488827/contributing-to-tessel-2-without-hardware">Contributing to Tessel 2 Without Hardware</a></li><li><a href="https://tessel.io/blog/118327501952/this-week-in-tessel-may-6-2015">This Week in Tessel — May 6, 2015</a></li></ul><h3 class="inactive">March 2015</h3><ul><li><a href="https://tessel.io/blog/113974925762/run-push-and-erase-developing-on-tessel-2">Run, Push, and Erase: Developing on Tessel 2</a></li><li><a href="https://tessel.io/blog/113532308027/dominik-wind-creating-a-tangible-vision-for-a">Dominik Wind: Creating a Tangible Vision for a Sustainable, Open World</a></li><li><a href="https://tessel.io/blog/113259439202/tessel-2-hardware-overview">Tessel 2 Hardware Overview</a></li><li><a href="https://tessel.io/blog/112888410737/moving-faster-with-iojs">Moving Faster with io.js</a></li><li><a href="https://tessel.io/blog/112787427217/a-truly-open-hardware-development-platform">A Truly Open Hardware Development Platform</a></li></ul><h3 class="inactive">February 2015</h3><ul><li><a href="https://tessel.io/blog/111880314797/an-interview-with-jay-henderson-product">An Interview with Jay Henderson: Product Prototyping on Tessel</a></li><li><a href="https://tessel.io/blog/110748152142/hacking-community-interview-with-dave-nugent">Hacking Community: Interview with Dave Nugent</a></li><li><a href="https://tessel.io/blog/110166221802/business-solutions-for-the-physical-world-an">Business solutions for the physical world: an interview with Jonathan Clark, Sine-Wave Technologies</a></li><li><a href="https://tessel.io/blog/110115579867/upcoming-hardware-from-technical-machine">Upcoming Hardware from Technical Machine</a></li></ul><h3 class="inactive">January 2015</h3><ul><li><a href="https://tessel.io/blog/108840925797/a-web-developers-guide-to-communication-protocols">A Web Developer's Guide to Communication Protocols (SPI, I2C, UART, GPIO)</a></li><li><a href="https://tessel.io/blog/108750595487/creating-your-own-tessel-module">Creating Your Own Tessel Module</a></li><li><a href="https://tessel.io/blog/108663838022/community-contributed-and-diy-modules">Community-Contributed and DIY Modules</a></li><li><a href="https://tessel.io/blog/107602833137/an-interview-with-pirumpi-webservers-on">An Interview with Pirumpi: Webservers on Microcontrollers</a></li></ul><h3 class="inactive">December 2014</h3><ul><li><a href="https://tessel.io/blog/105980486687/an-interview-with-io2work-industrial-automation">An Interview with io2work: Industrial Automation</a></li><li><a href="https://tessel.io/blog/105626011567/what-were-working-on">What we're working on</a></li><li><a href="https://tessel.io/blog/105551338172/12182014-kelsey-breseman-i-gave-a-talk-last"></a></li><li><a href="https://tessel.io/blog/104864533692/cart-to-doorstep-things-to-consider-when-selling">Cart to Doorstep - Things to consider when selling a product</a></li></ul><h3 class="inactive">November 2014</h3><ul><li><a href="https://tessel.io/blog/102971943072/luajit-on-tessel-first-steps">LuaJIT on Tessel: First Steps</a></li><li><a href="https://tessel.io/blog/102381339917/a-new-engine-for-your-tessel">A New Engine for your Tessel</a></li><li><a href="https://tessel.io/blog/101857408312/new-hire-kwyn-alice-meagher">New Hire: Kwyn Alice Meagher</a></li></ul><h3 class="inactive">October 2014</h3><ul><li><a href="https://tessel.io/blog/101190208282/bringing-hardware-to-life-with-js-and-node">Bringing Hardware to Life with JS and Node</a></li><li><a href="https://tessel.io/blog/101109458547/what-comes-next-fractal">What Comes Next: Fractal</a></li><li><a href="https://tessel.io/blog/100250783387/talk-slides-apis-to-electrons">Talk slides: "APIs to Electrons"</a></li><li><a href="https://tessel.io/blog/100161311142/tessel-keenio">Tessel + Keen.io</a></li><li><a href="https://tessel.io/blog/100084265042/onboarding-with-the-samr21-mcu-on-osx-ubuntu">Onboarding with the SAMR21 MCU on OSX &amp; Ubuntu</a></li><li><a href="https://tessel.io/blog/100031936517/a-peek-at-technical-machines-plans">A Peek at Technical Machine's Plans</a></li><li><a href="https://tessel.io/blog/99417337097/community-feedback">Community Feedback</a></li><li><a href="https://tessel.io/blog/98930010967/tessel-near-you-events-and-conferences">Tessel Near You: Events and Conferences</a></li></ul><h3 class="inactive">September 2014</h3><ul><li><a href="https://tessel.io/blog/98840892607/the-unintended-cost-of-shipping">The Unintended Cost of Shipping</a></li><li><a href="https://tessel.io/blog/98339010407/mqtt-on-tessel">MQTT on Tessel</a></li><li><a href="https://tessel.io/blog/98322857662/how-to-adding-buttons-to-tessel">How-to: Adding Buttons to Tessel</a></li><li><a href="https://tessel.io/blog/98257815497/how-tessel-works-the-basics">How Tessel Works: The Basics</a></li><li><a href="https://tessel.io/blog/97680406747/twilio-tessel-and-the-internet-of-people">Twilio, Tessel, and the Internet of People</a></li><li><a href="https://tessel.io/blog/97578591877/were-hiring-cool-projects-and-meeting-up">We’re hiring, cool projects, and meeting up</a></li></ul><h3 class="inactive">August 2014</h3><ul><li><a href="https://tessel.io/blog/96182401967/an-interview-with-stefan-van-dockum">An Interview with Stefan van Dockum</a></li><li><a href="https://tessel.io/blog/96095111562/paiges-intern-farewell">Paige’s Intern Farewell</a></li><li><a href="https://tessel.io/blog/95945850577/how-to-expose-a-c-function-up-to-js-userspace-on">How to Expose a C Function up to JS Userspace on Tessel</a></li><li><a href="https://tessel.io/blog/95383451952/arduino-tessel-communication">Arduino &lt;-&gt; Tessel communication</a></li><li><a href="https://tessel.io/blog/95294380547/tessel-faster-better-stronger">Tessel Faster Better Stronger</a></li><li><a href="https://tessel.io/blog/95112616457/evans-summer-internship-farewell">Evan's Summer Internship Farewell</a></li><li><a href="https://tessel.io/blog/94836877892/getting-the-cc3000-working-with-javascript">Getting the CC3000 working with JavaScript</a></li><li><a href="https://tessel.io/blog/94736742342/getting-started-with-ble-tessel">Getting Started with BLE + Tessel</a></li><li><a href="https://tessel.io/blog/94640924127/introducing-the-tessel-projects-portal">Introducing the Tessel Projects Portal</a></li><li><a href="https://tessel.io/blog/94552503777/tessel-projects-page-new-hire-and-more">Tessel Projects Page, New Hire, and More</a></li><li><a href="https://tessel.io/blog/94443447307/new-hire-ken-nierenhausen">New Hire: Ken Nierenhausen</a></li><li><a href="https://tessel.io/blog/94173952967/you-probably-dont-need-an-ibeacon">You Probably Don’t Need an iBeacon</a></li><li><a href="https://tessel.io/blog/94084496782/making-a-tessel-style-library-for-third-party">Making a Tessel-style Library for Third-Party Hardware</a></li><li><a href="https://tessel.io/blog/93535347432/tools-for-tessel">Tools for Tessel</a></li></ul><h3 class="inactive">July 2014</h3><ul><li><a href="https://tessel.io/blog/93254241807/usb-communication-between-tessel-and-node-on-your">USB communication between Tessel and Node on your PC</a></li><li><a href="https://tessel.io/blog/92169944287/digital-fireworks-with-tessel">Digital Fireworks with Tessel</a></li><li><a href="https://tessel.io/blog/92057739927/an-interview-with-unrob-first-tessel-projects">An Interview with unRob: First Tessel Projects</a></li><li><a href="https://tessel.io/blog/91390692862/tessel-is-in-your-hands">Tessel is in your hands.</a></li><li><a href="https://tessel.io/blog/91172083397/tessel-run-internship">Tessel Run Internship</a></li></ul><h3 class="inactive">June 2014</h3><ul><li><a href="https://tessel.io/blog/90377406802/new-intern-2-introducing-evan">New Intern #2 - Introducing Evan</a></li><li><a href="https://tessel.io/blog/88625500162/humans-as-input-and-output-kelseys-talk-at"></a></li><li><a href="https://tessel.io/blog/88595720252/intern-introduction-paige">Intern Introduction: Paige</a></li><li><a href="https://tessel.io/blog/87994947332/js-on-mcus-only-getting-better-from-here">JS on MCUs – Only Getting Better From Here</a></li><li><a href="https://tessel.io/blog/87905095507/hardware-is-different">Hardware is *different*</a></li><li><a href="https://tessel.io/blog/87771468737/tessel-shipped-and-other-news">Tessel Shipped! And Other News</a></li></ul><h3 class="inactive">May 2014</h3><ul><li><a href="https://tessel.io/blog/86411344397/designing-for-humans">Designing for Humans</a></li><li><a href="https://tessel.io/blog/85831895787/update-modules-are-in-tessels-starting-to-come">Update: Modules are in, Tessels starting to come off the line</a></li><li><a href="https://tessel.io/blog/85735580172/this-is-how-a-tessel-is-made-video-courtesy-of"></a></li><li><a href="https://tessel.io/blog/85632183767/testing-tessel-with-testalator">Testing Tessel with Testalator</a></li><li><a href="https://tessel.io/blog/85222059052/hidden-costs-of-office-space">Hidden Costs of Office Space</a></li><li><a href="https://tessel.io/blog/84532742222/tessel-update-20-manufacturing">Tessel Update 20: Manufacturing</a></li></ul><h3 class="inactive">April 2014</h3><ul><li><a href="https://tessel.io/blog/83625102398/high-level-automated-hardware-debugging">High-Level Automated Hardware Debugging</a></li><li><a href="https://tessel.io/blog/83414887955/tessels-are-in-production">Tessels are in production!</a></li><li><a href="https://tessel.io/blog/82688165034/how-to-get-stuff-done">How to Get Stuff Done</a></li><li><a href="https://tessel.io/blog/82193726811/tessel-progression">Tessel Progression</a></li><li><a href="https://tessel.io/blog/82008011204/tessels-first-run">Tessel's First Run</a></li><li><a href="https://tessel.io/blog/81681294634/stress-testing-04">Stress Testing 04</a></li><li><a href="https://tessel.io/blog/81681035313/442014-eric-kolker-stress-testing-the"></a></li><li><a href="https://tessel.io/blog/81609160856/final-hardware-testing">Final Hardware Testing</a></li></ul><h3 class="inactive">March 2014</h3><ul><li><a href="https://tessel.io/blog/80703444683/update-shipping-schedule">Update: Shipping Schedule</a></li><li><a href="https://tessel.io/blog/80694491677/technical-machines-hardware-playbook-technical"></a></li><li><a href="https://tessel.io/blog/79903139501/embedded-javascript-the-skills-you-have-in-2014"></a></li><li><a href="https://tessel.io/blog/79168037163/ble-module-mooshimeter">BLE Module &amp; Mooshimeter</a></li><li><a href="https://tessel.io/blog/78863227277/the-first-day-with-tm-00-03">The first day with TM-00-03</a></li><li><a href="https://tessel.io/blog/78756796917/new-board-revision-is-in-time-for-some-serious"></a></li><li><a href="https://tessel.io/blog/78452003604/power-upgrades-back-in-production">Power Upgrades, Back in Production</a></li></ul><h3 class="inactive">February 2014</h3><ul><li><a href="https://tessel.io/blog/76637645290/transparency-keeping-an-open-company">Transparency: Keeping an Open Company</a></li><li><a href="https://tessel.io/blog/76530100640/reset-electrical-engineering-from-the-front-lines">Reset: Electrical Engineering from the Front Lines</a></li><li><a href="https://tessel.io/blog/76228806867/potential-hardware-delay-software-making-progress">Potential Hardware Delay, Software Making Progress</a></li></ul><h3 class="inactive">January 2014</h3><ul><li><a href="https://tessel.io/blog/75052928417/how-to-write-a-press-release">How to Write a Press Release</a></li><li><a href="https://tessel.io/blog/74730229332/gprs-2g-module">GPRS (2G) Module</a></li><li><a href="https://tessel.io/blog/74175870675/updates-manufacturing-and-testing">Updates: Manufacturing and Testing</a></li><li><a href="https://tessel.io/blog/74067878165/the-tale-of-the-dreaded-infrared-module">The Tale of the Dreaded Infrared Module</a></li><li><a href="https://tessel.io/blog/73618767099/costs-benefits-of-beta-testing">Costs &amp; Benefits of Beta Testing</a></li><li><a href="https://tessel.io/blog/73415641960/meta-post-the-blog">Meta-Post: The Blog</a></li><li><a href="https://tessel.io/blog/73210671542/musings-on-tessel-two">Musings on Tessel Two</a></li><li><a href="https://tessel.io/blog/72890484614/delivery-schedule">Delivery Schedule</a></li><li><a href="https://tessel.io/blog/72669952552/ideas-for-next-generation-tessels">Ideas for Next-Generation Tessels</a></li><li><a href="https://tessel.io/blog/72100061554/designing-the-first-run-experience">Designing the First Run Experience</a></li><li><a href="https://tessel.io/blog/71868894308/testing-hardware">Testing Hardware</a></li></ul><h3 class="inactive">December 2013</h3><ul><li><a href="https://tessel.io/blog/70909557957/hell-week">Hell Week</a></li><li><a href="https://tessel.io/blog/70520262063/how-to-ship-product">How to Ship Product</a></li><li><a href="https://tessel.io/blog/70233816380/technical-machine-is-growing">Technical Machine is Growing!</a></li><li><a href="https://tessel.io/blog/70201028299/updates-accelerometer-camera-gps">Updates: Accelerometer, Camera, GPS</a></li><li><a href="https://tessel.io/blog/69599254087/zero-to-tessel-teach-yourself-node">Zero to Tessel: Teach Yourself Node</a></li><li><a href="https://tessel.io/blog/69491145111/power-work-is-never-over">Power work is never over</a></li><li><a href="https://tessel.io/blog/68900085629/ambient-and-infrared-layout-updates">Ambient and Infrared, Layout Updates</a></li><li><a href="https://tessel.io/blog/68781598890/getting-custom-pcbs-for-prototyping">Getting Custom PCBs for Prototyping</a></li></ul><h3 class="inactive">November 2013</h3><ul><li><a href="https://tessel.io/blog/68067410677/the-reluctant-programmer-feminism-and-tech">The Reluctant Programmer: Feminism and Tech</a></li><li><a href="https://tessel.io/blog/67667723038/inside-erics-toolbox-an-electrical-engineering">Inside Eric's Toolbox: An Electrical Engineering Kit</a></li><li><a href="https://tessel.io/blog/67472869771/monetizing-open-source">Monetizing Open Source</a></li><li><a href="https://tessel.io/blog/67368925253/updates">Updates</a></li><li><a href="https://tessel.io/blog/66787380460/electrical-engineering-and-the-internet-of-things">Electrical Engineering and the Internet of Things</a></li><li><a href="https://tessel.io/blog/66686276686/reverse-engineering-lpcs-device-firmware-upgrade">Reverse Engineering LPC’s Device Firmware Upgrade Protocol</a></li><li><a href="https://tessel.io/blog/66391929436/debugging-the-rfid-module">Debugging the RFID Module</a></li><li><a href="https://tessel.io/blog/66223097277/the-making-of-a-module-the-dive-from-hardware-to">The Making of a Module: The Dive from Hardware to JS</a></li><li><a href="https://tessel.io/blog/66107571478/the-making-of-an-ambient-sensor">The Making of an Ambient Sensor</a></li><li><a href="https://tessel.io/blog/66016274023/progress">Progress</a></li></ul><h3 class="inactive">October 2013</h3><ul><li><a href="https://tessel.io/blog/65540821184/startup-marketing-tips-from-an-engineer">Startup Marketing Tips from an Engineer</a></li><li><a href="https://tessel.io/blog/65440059253/it-is-known">"It is Known"</a></li><li><a href="https://tessel.io/blog/64792395344/prism-could-change-the-internet-of-things-for-the">PRISM Could Change the Internet of Things For The Better</a></li><li><a href="https://tessel.io/blog/64390979135/introducing-kelsey">Introducing Kelsey</a></li><li><a href="https://tessel.io/blog/64348199725/layout-updates">Layout Updates</a></li><li><a href="https://tessel.io/blog/63748658066/javascript-is-a-fixed-point">JavaScript is a fixed point</a></li><li><a href="https://tessel.io/blog/63602294200/var-eric-requireelectrical">var eric = require(“electrical”);</a></li><li><a href="https://tessel.io/blog/63408416647/project-statistics-from-backers">Project Statistics from Backers</a></li><li><a href="https://tessel.io/blog/63089046642/8-tips-for-jumpstarting-a-hardware-startup">8 Tips For Jumpstarting a Hardware Startup</a></li><li><a href="https://tessel.io/blog/62761817861/updates">Updates</a></li></ul><h3 class="inactive">September 2013</h3><ul><li><a href="https://tessel.io/blog/62525010070/a-candid-conversation-with-jialiya-huang">A Candid Conversation with Jialiya Huang</a></li><li><a href="https://tessel.io/blog/62057305374/mid-campaign-updates">Mid-Campaign Updates</a></li><li><a href="https://tessel.io/blog/60351476205/weve-launched">We've Launched!</a></li></ul><h3 class="inactive">August 2013</h3><ul><li><a href="https://tessel.io/blog/59877871948/goodbye-highland-hello-dragon">Goodbye Highland, Hello Dragon</a></li><li><a href="https://tessel.io/blog/58445812747/answering-questions">Answering Questions</a></li><li><a href="https://tessel.io/blog/57797141777/p-were-in-our-last-few-weeks-at-highland-capitals">Boards and Branding</a></li></ul><h3 class="inactive">July 2013</h3><ul><li><a href="https://tessel.io/blog/57797141842/p-it8217s-been-an-incredibly-busy-summer-for-us-at">Revision Four</a></li><li><a href="https://tessel.io/blog/57797141932/p-dir-ltr-technical-machine-is-empowering-software">Introducing Technical Machine</a></li></ul></div></div></div></section><footer><section id="sec-footer"><div class="row"><div class="large-10 column large-centered"><div class="row text-center"><p>Tessel © 2013-2015.</p></div><div class="row text-center"><p> <a href="https://tessel.io/resellers">Resellers</a> | <a href="https://tessel.io/community">Community</a> | <a href="https://tessel.io/opensource">Open Source</a> |<a href="https://tessel.io/about">About us</a> | <a href="https://tessel.io/blog">Blog</a> | <a href="https://tessel.io/press">Press</a></p></div><div class="row text-center"><a href="https://heapanalytics.com/?utm_source=badge"><img style="width:100px;height:40px" src="./A Web Developer&#39;s Guide to Communication Protocols (SPI, I2C, UART, GPIO) _ Tessel Blog_files/badge.png" alt="Heap - iOS and Web Analytics"></a></div></div></div></section></footer><script type="text/javascript" async="" src="./A Web Developer&#39;s Guide to Communication Protocols (SPI, I2C, UART, GPIO) _ Tessel Blog_files/o.min.js"></script><script type="text/javascript" async="" src="./A Web Developer&#39;s Guide to Communication Protocols (SPI, I2C, UART, GPIO) _ Tessel Blog_files/heap-2205555348.js"></script><script async="" src="./A Web Developer&#39;s Guide to Communication Protocols (SPI, I2C, UART, GPIO) _ Tessel Blog_files/analytics.js"></script><script src="./A Web Developer&#39;s Guide to Communication Protocols (SPI, I2C, UART, GPIO) _ Tessel Blog_files/vendor.min.js"></script><!-- Foundation--><script src="./A Web Developer&#39;s Guide to Communication Protocols (SPI, I2C, UART, GPIO) _ Tessel Blog_files/foundation.min.js"></script><script src="./A Web Developer&#39;s Guide to Communication Protocols (SPI, I2C, UART, GPIO) _ Tessel Blog_files/foundation.topbar.min.js"></script><!-- Celery modal--><script async="async" type="text/javascript" src="./A Web Developer&#39;s Guide to Communication Protocols (SPI, I2C, UART, GPIO) _ Tessel Blog_files/celery.js"></script><script>$(function () {
+  $('#blog-sidebar h3').on('click', function () {
+    $(this).toggleClass('inactive');
+  })
+})
+</script><!-- onload--><script>$(document).ready(function(){
+  $(document).foundation();
+});
+</script><!-- Google Analytics--><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-53817604-2', 'auto');
+ga('send', 'pageview');
+</script><!-- Google Analytics events--><script src="./A Web Developer&#39;s Guide to Communication Protocols (SPI, I2C, UART, GPIO) _ Tessel Blog_files/event_track.js"></script><!-- Heap Analytics--><script>window.heap=window.heap||[],heap.load=function(t,e){window.heap.appid=t,window.heap.config=e;var a=document.createElement("script");a.type="text/javascript",a.async=!0,a.src=("https:"===document.location.protocol?"https:":"http:")+"//cdn.heapanalytics.com/js/heap-"+t+".js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(a,n);for(var o=function(t){return function(){heap.push([t].concat(Array.prototype.slice.call(arguments,0)))}},p=["clearEventProperties","identify","setEventProperties","track","unsetEventProperty"],c=0;c<p.length;c++)heap[p[c]]=o(p[c])};
+heap.load("2205555348");</script></body><!-- Global scripts--></html>

@@ -11,15 +11,17 @@ void commandInterfaceInit() {
 void commandInterfaceTick() {
   //Serial.println("commandInterfaceTick");	
   //int packetSize = ESP8266wifi::getWifi().parseUDPPacket();
-  if(ESP8266wifi::getWifi().available('0')) {
+  if(ESP8266wifi::getWifi().available(10, NULL, '0')) {
   	Serial.println(F("available"));
     // read the packet into packetBufffer
-    ESP8266wifi::getWifi().read((char*)udpPacketBuffer, PACKET_SIZE);
-          
+    size_t r = ESP8266wifi::getWifi().read((char*)udpPacketBuffer, PACKET_SIZE);
+    Serial.print(F("Packet size: "));
+    Serial.println(r);
     if(memcmp("INGV\0", udpPacketBuffer, 5) != 0) {
-      //return;
+      return;
     }
     
+    /*
     Serial.println((char)udpPacketBuffer[0],HEX);
     Serial.println((char)udpPacketBuffer[1],HEX);
     Serial.println((char)udpPacketBuffer[2],HEX);
@@ -28,7 +30,7 @@ void commandInterfaceTick() {
     Serial.println((char)udpPacketBuffer[5],HEX);
     Serial.println((char)udpPacketBuffer[6],HEX);
     Serial.println((char)udpPacketBuffer[7],HEX);
-    Serial.println((char*)udpPacketBuffer);
+    Serial.println((char*)udpPacketBuffer); */
     
     bool reboot = false;
     unsigned long unixTimeM = getUNIXTime();
@@ -44,7 +46,7 @@ void commandInterfaceTick() {
 
     float longitude = 0;
     float latitude = 0;
-    
+    /*
     Serial.println(F("Buffer[5]"));
     Serial.print((char)udpPacketBuffer[0]);
     Serial.print((char)udpPacketBuffer[1]);
@@ -53,7 +55,7 @@ void commandInterfaceTick() {
     Serial.print((char)udpPacketBuffer[4]);
     Serial.print((char)udpPacketBuffer[5]);
     Serial.print((char)udpPacketBuffer[6]);
-    Serial.println((char)udpPacketBuffer[7]);
+    Serial.println((char)udpPacketBuffer[7]);*/
     
     //memcpy(udpPacketBuffer + 6, "0", 64);
     switch(udpPacketBuffer[5]) {
@@ -70,10 +72,12 @@ void commandInterfaceTick() {
         memcpy(udpPacketBuffer + 16, "uno", 3);
         break;
       case PKYTYPE_PING:
+      	Serial.println("PING");
         // Reply to ping
         udpPacketBuffer[5] = PKYTYPE_PONG;
         break;
       case PKTTYPE_SENDGPS:
+      	Serial.println("SENDGPS");
         // Get coords
         udpPacketBuffer[5] = PKTTYPE_OK;
 
@@ -84,12 +88,14 @@ void commandInterfaceTick() {
         
         break;
       case PKTTYPE_REBOOT:
+      	Serial.println("REBOOT");
         // Reboot
         // Reply with OK
         udpPacketBuffer[5] = PKTTYPE_OK;
         reboot = true;
         break;
       case PKTTYPE_GETINFO:
+      	Serial.println("GETINFO");
         udpPacketBuffer[5] = PKTTYPE_GETINFO_REPLY;
 
         memcpy(udpPacketBuffer + 6, macaddress, 6);
@@ -111,6 +117,7 @@ void commandInterfaceTick() {
 #endif
       default:
         // Unknown packet or invalid command
+        Serial.println("INVALID COMMAND");
         return;
     }
 
