@@ -5,11 +5,10 @@
 
 void httpQuakeRequest() {
   String postVars = String("deviceid=");
-  String macaddress;
   
-  macaddress=ESP8266wifi::getWifi().getMAC();
-  
-  postVars += macaddress;
+  char * s, *d, *mac;
+  for(mac=s=d=ESP8266wifi::getWifi().getMAC();*d=*s;d+=(*s++!=':')); //rimuove i :
+  postVars += String(mac);
   
   postVars += "&tsstart=";
   postVars += getUNIXTime();
@@ -20,12 +19,13 @@ void httpQuakeRequest() {
 
 void httpAliveRequest() {
   String postVars = String("deviceid=");
-  String macaddress;
+  //String macaddress;
   
-  macaddress=ESP8266wifi::getWifi().getMAC();
-  postVars += macaddress;
+  char * s, *d, *mac;
+  for(mac=s=d=ESP8266wifi::getWifi().getMAC();*d=*s;d+=(*s++!=':')); //rimuove i :
+  postVars += String(mac);
   
-  // TODO: parametrized version and model
+    // TODO: parametrized version and model
   postVars += "&model=uno&version=" + getVersionAsString() + "&lat=" + getLatitudeAsString() + "&lon=" + getLongitudeAsString();
   httpRequest(DEFAULTHOST, "80", "/seismocloud/alive.php", postVars);
 }
@@ -33,6 +33,11 @@ void httpAliveRequest() {
 void httpRequest(char* host, char* port, char* path, String postVars) {
   char buf[6];
   ESP8266wifi &client=ESP8266wifi::getWifi();
+  
+  /*Serial.println(F("Read reply"));
+  Serial.println(postVars);
+  Serial.println(F("path"));
+  Serial.println(path);*/
   
   // if there's a successful connection:
   int cresult = client.beginTCPConnection(host, port);
@@ -75,6 +80,7 @@ void httpRequest(char* host, char* port, char* path, String postVars) {
         memset(buf, 0, 128+1);
         int r = client.readLine(buf, 128);
          Serial.println(F("Read reply2"));
+         Serial.println(buf);
         if(r < -1) break;
         if(headerPass) {
           // TODO: Read body
@@ -102,31 +108,7 @@ void httpRequest(char* host, char* port, char* path, String postVars) {
   //if(client.connected()) {
   //  client.stop();
   //}
-  Serial.println(F("Disconnect"));
+  Serial.println(F("\nDisconnect"));
     client.disconnectFromServer();
 }
 
-/*void ShowSockStatus()
-{
- Serial.println();
- for (int i = 0; i < MAX_SOCK_NUM; i++) {
-   Serial.print(F("Socket#"));
-   Serial.print(i);
-   uint8_t s = W5100.readSnSR(i);
-   Serial.print(F(":0x"));
-   Serial.print(s,16);
-   Serial.print(F(" "));
-   Serial.print(W5100.readSnPORT(i));
-   Serial.print(F(" D:"));
-   uint8_t dip[4];
-   W5100.readSnDIPR(i, dip);
-   for (int j=0; j<4; j++) {
-     Serial.print(dip[j],10);
-     if (j<3) Serial.print(".");
-   }
-   Serial.print(F("("));
-   Serial.print(W5100.readSnDPORT(i));
-   Serial.println(F(")"));
- }
-  Serial.println();
-}*/

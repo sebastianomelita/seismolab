@@ -22,7 +22,7 @@ unsigned long lastAliveMs = 0;
 unsigned long lastProbeMs = 0;
 uint32_t probeCount = 0;
 
-void setup() {  
+void setup() { 
     // start debug serial
     swSerial.begin(19200);
     // start HW serial for ESP8266 (change baud depending on firmware)
@@ -111,6 +111,8 @@ void setup() {
     Serial.println();
     LED::startupBlink();
     LED::green(true);
+	
+	lastAliveMs=0; 
 }
 
 void loop() {
@@ -125,15 +127,15 @@ void loop() {
   LED::tick();
 
   // Calling alive every 14 minutes
-  if((millis() - lastAliveMs) >= 840000) {
-    Serial.print(F("Keepalive sent at "));
+  if((millis() - lastAliveMs) >= 10000) {
+    Serial.print(F("------------Keepalive sent at-------------- "));
     printUNIXTime();
     Serial.println();
     
     httpAliveRequest();
     lastAliveMs = millis();
     
-    Serial.print(F("Keepalive ACK at "));
+    Serial.print(F("--------------Keepalive ACK at--------------- "));
     printUNIXTime();
     Serial.println();
   }
