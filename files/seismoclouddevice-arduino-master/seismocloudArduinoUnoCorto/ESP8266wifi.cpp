@@ -1036,11 +1036,7 @@ char ESP8266wifi::readTCP(char *nextFrom){
 size_t ESP8266wifi::read(char* buf, size_t size){
 if(pos+size<msg.length && msg.hasData){
    memcpy((char *)buf, (const char *)(msgIn+pos), size);
-   Serial.print(F("pos: "));
-   Serial.println(pos);
    pos+=size;
-   Serial.print(F("pos2: "));
-   Serial.println(pos);
    return size;	
 }
 else

@@ -37,10 +37,9 @@ void commandInterfaceTick() {
     unsigned long unixTimeM = getUNIXTime();
     unsigned long uptime = getUNIXTime() - getBootTime();
     byte macaddress[6] = { 0 };
-    char * s;
-	char * d;
-    for(s=d=ESP8266wifi::getWifi().getMAC();*d=*s;d+=(*s++!=':'));
-    memcpy(macaddress, d, 6);
+    char * s, *d, *mac;
+    for(mac=s=d=ESP8266wifi::getWifi().getMAC();*d=*s;d+=(*s++!=':')); //rimuove i :
+    HEXStrToByte(macaddress, mac);
     uint32_t probeSpeed = getProbeSpeedStatistic();
     uint32_t freeramkb = freeMemory();
     float latency = 0;
@@ -68,10 +67,9 @@ void commandInterfaceTick() {
         // Reply to discovery
         udpPacketBuffer[5] = PKTTYPE_DISCOVERY_REPLY;
 
-        memcpy(udpPacketBuffer + 6, macaddress, 6);
-        
+        memcpy(udpPacketBuffer + 6,  macaddress, 6);
         memcpy(udpPacketBuffer + 12, getVersionAsString().c_str(), 4);
-        memcpy(udpPacketBuffer + 16, "uno", 3);
+        memcpy(udpPacketBuffer + 16, "unoWiFi", 3);
         break;
       case PKYTYPE_PING:
       	Serial.println(F("PING"));
@@ -100,7 +98,7 @@ void commandInterfaceTick() {
       	Serial.println(F("GETINFO"));
         udpPacketBuffer[5] = PKTTYPE_GETINFO_REPLY;
 
-        memcpy(udpPacketBuffer + 6, macaddress, 6);
+        memcpy(udpPacketBuffer + 6,  macaddress, 6);
         memcpy(udpPacketBuffer + 28, &uptime, 4);
         memcpy(udpPacketBuffer + 32, &unixTimeM, 4);
         memcpy(udpPacketBuffer + 36, VERSION, 4);

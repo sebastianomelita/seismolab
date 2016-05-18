@@ -34,5 +34,7 @@ void loadConfig();
 void setProbeSpeedStatistic(uint32_t);
 uint32_t getProbeSpeedStatistic();
 String getVersionAsString();
+byte* HEXStrToByte(byte* , char*);
+byte getNumVal(char);
 
 #endif

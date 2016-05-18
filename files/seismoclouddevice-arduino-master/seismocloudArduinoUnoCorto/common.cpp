@@ -151,6 +151,24 @@ void getMACAddress(byte* mac) {
   memcpy(mac, ethernetMac, 6);
 }*/
 
+byte getNumVal(char c) 
+{
+    if(c >= '0'  &&  c <=  '9') 
+       return (byte)(c - '0'); 
+    else
+       return (byte)(c-'A'+10); 
+}
+
+byte* HEXStrToByte(byte* num, char* buf){
+for(int i  =  0;  i  <  strlen(buf);  i+=2)
+   {  
+    byte sendb = getNumVal(toupper(buf[i+1])) + (getNumVal(toupper(buf[i])) << 4);
+    num[i/2]=sendb;
+   }
+  Serial.println(buf);
+  return num;
+}
+
 void ftoa(char* buf, int m, float fnum) {
   int num = (int)fnum;
   fnum -= num;
