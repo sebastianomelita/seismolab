@@ -69,6 +69,7 @@ bool HttpRequest(char* host, char* port, char* path, char * buf, char * offset) 
     Serial.print(" ");
     Serial.println(cresult);
   }
+  client.println(F("Disconnect NTP"));
   client.disconnectFromServer();
   return false;
 }

@@ -85,7 +85,6 @@ void commandInterfaceTick() {
         memcpy(&longitude, udpPacketBuffer + 16, 4);
         reverse4bytes((byte*)&latitude);
         reverse4bytes((byte*)&longitude);
-        
         break;
       case PKTTYPE_REBOOT:
       	Serial.println(F("REBOOT"));

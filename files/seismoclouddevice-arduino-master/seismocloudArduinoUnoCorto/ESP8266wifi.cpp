@@ -400,8 +400,9 @@ bool ESP8266wifi::connectToServer(bool peerChange) {
 void ESP8266wifi::disconnectFromServer(){
     flags.connectedToServer = false;
     flags.serverConfigured = false;//disable reconnect
-    writeCommand(CIPCLOSE);
-    readCommand(2000, OK); //fire and forget in this case..
+    writeCommand(CIPCLOSE, EOL);
+    //readCommand(5000, OK); //fire and forget in this case..
+    readCommand(5000, OK, ERROR);
 }
 
 

@@ -78,6 +78,9 @@ void setup() {
     Serial.println(F("Send first keep-alive to server..."));
     httpAliveRequest();
     lastAliveMs = millis();
+	
+	setLatitude(42.091522);
+    setLongitude(11.799870);
 
     if(getLatitude() == 0 && getLongitude() == 0) {
       LED::green(false);

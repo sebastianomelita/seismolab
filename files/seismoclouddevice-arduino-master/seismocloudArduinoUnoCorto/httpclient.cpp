@@ -33,8 +33,10 @@ void httpAliveRequest() {
 void httpRequest(char* host, char* port, char* path, String postVars) {
   char buf[6];
   ESP8266wifi &client=ESP8266wifi::getWifi();
+  
   // if there's a successful connection:
   int cresult = client.beginTCPConnection(host, port);
+ 
   if (cresult) {
     if(postVars == NULL) {
       client.print(F("GET "));
@@ -43,7 +45,7 @@ void httpRequest(char* host, char* port, char* path, String postVars) {
     }
     client.print(path);
     client.println(F(" HTTP/1.1"));
-
+    
     client.print(F("Host: "));
     client.println(host);
     client.println(F("User-Agent: arduino-ethernet"));
@@ -54,8 +56,8 @@ void httpRequest(char* host, char* port, char* path, String postVars) {
       client.println(buf);
     }
     client.println(F("Connection: close"));
-    client.println();
-
+    //client.println("\n"); 
+    
     if(postVars != NULL) {
       String(postVars.length(), DEC).toCharArray(buf, 6);
       client.println(buf);	
@@ -64,13 +66,15 @@ void httpRequest(char* host, char* port, char* path, String postVars) {
     //unsigned long connms = millis();
 
     //while(!client.available() && millis() - connms < 10*1000);
-    if(client.available(10*1000)) {
+   if(client.available(10*1000)) {
       // Read reply
+      Serial.println(F("Read reply"));
       bool headerPass = false;
       while(client.available()) {
       	char buf[128+1];
         memset(buf, 0, 128+1);
         int r = client.readLine(buf, 128);
+         Serial.println(F("Read reply2"));
         if(r < -1) break;
         if(headerPass) {
           // TODO: Read body
@@ -98,8 +102,8 @@ void httpRequest(char* host, char* port, char* path, String postVars) {
   //if(client.connected()) {
   //  client.stop();
   //}
-  
-    //client.disconnectFromServer();
+  Serial.println(F("Disconnect"));
+    client.disconnectFromServer();
 }
 
 /*void ShowSockStatus()
