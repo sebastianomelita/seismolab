@@ -3,7 +3,7 @@
 
 #include "common.h"
 #define DEFAULTHOST "www.sapienzaapps.it"
-//#define DEFAULTHOST "192.0.2.20"
+//#define DEFAULTHOST "10.4.0.195"
 
 void httpRequest(char* host, char* port, char* path, String postVars);
 void httpAliveRequest();

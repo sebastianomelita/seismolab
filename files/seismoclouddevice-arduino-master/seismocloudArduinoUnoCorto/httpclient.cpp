@@ -18,20 +18,26 @@ void httpQuakeRequest() {
 }
 
 void httpAliveRequest() {
-  String postVars = String("deviceid=");
   //String macaddress;
   
   char * s, *d, *mac;
   for(mac=s=d=ESP8266wifi::getWifi().getMAC();*d=*s;d+=(*s++!=':')); //rimuove i :
-  postVars += String(mac);
-  
     // TODO: parametrized version and model
-  postVars += "&model=uno&version=" + getVersionAsString() + "&lat=" + getLatitudeAsString() + "&lon=" + getLongitudeAsString();
+  String postVars = String("deviceid=");
+  postVars += String(mac);
+  postVars += "&model=uno";
+  postVars += "&version=" + getVersionAsString();
+  postVars += "&lat=" + getLatitudeAsString();
+  postVars += "&lon=" + getLongitudeAsString();
+  postVars += "&avg=" + String(getCurrentAVG());
+  postVars += "&stddev=" + String(getCurrentSTDDEV());
+  postVars += "&sensor=MPU6050";
+  //postVars += "&memfree"=" + "10";
   httpRequest(DEFAULTHOST, "80", "/seismocloud/alive.php", postVars);
 }
 
 void httpRequest(char* host, char* port, char* path, String postVars) {
-  char buf[6];
+  char buf[50];
   ESP8266wifi &client=ESP8266wifi::getWifi();
   
   /*Serial.println(F("Read reply"));
@@ -50,47 +56,30 @@ void httpRequest(char* host, char* port, char* path, String postVars) {
     }
     client.print(path);
     client.println(F(" HTTP/1.1"));
-    
     client.print(F("Host: "));
     client.println(host);
-    client.println(F("User-Agent: arduino-ethernet"));
+    client.println(F("User-Agent: arduino-wifi"));
+    client.println(F("Connection: close"));
+    //client.println(F("User-Agent: arduino-ethernet"));
     if(postVars != NULL) {
       client.println(F("Content-Type: application/x-www-form-urlencoded"));
       client.print(F("Content-Length: "));
 	  String(postVars.length(), DEC).toCharArray(buf, 6);
       client.println(buf);
-    }
-    client.println(F("Connection: close"));
-    //client.println("\n"); 
-    
-    if(postVars != NULL) {
-      String(postVars.length(), DEC).toCharArray(buf, 6);
-      client.println(buf);	
-    }
-
+      client.println(F(""));
+      client.print((char*)postVars.c_str());
+    }else{
+    	client.println(F("Content-Length: 0"));
+		client.println(F(""));
+	} 
+    Serial.println(postVars);
     //unsigned long connms = millis();
 
     //while(!client.available() && millis() - connms < 10*1000);
-   if(client.available(10*1000)) {
-      // Read reply
-      Serial.println(F("Read reply"));
-      bool headerPass = false;
-      while(client.available()) {
-      	char buf[128+1];
-        memset(buf, 0, 128+1);
-        int r = client.readLine(buf, 128);
-         Serial.println(F("Read reply2"));
-         Serial.println(buf);
-        if(r < -1) break;
-        if(headerPass) {
-          // TODO: Read body
-        } else if(r != 0) {
-          // TODO: Read header
-        } else {
-          // Header separator
-          headerPass = true;
-        }
-      }
+   if(client.available(10*1000,NULL,'4')) {
+        client.readLine(buf,50);
+		Serial.println(F("\nResponse"));
+        Serial.println(buf);
     } else {
       Serial.println(F("Socket read error"));
     }
@@ -108,7 +97,11 @@ void httpRequest(char* host, char* port, char* path, String postVars) {
   //if(client.connected()) {
   //  client.stop();
   //}
-  Serial.println(F("\nDisconnect"));
-    client.disconnectFromServer();
+  Serial.print(F("\nDisconnect HTTP From: "));
+  Serial.print(host);
+  Serial.print(":");
+  Serial.print(port);
+  Serial.println(" ");
+  client.disconnectFromServer();
 }
 

@@ -5,6 +5,9 @@
 #include "common.h"
 void seismometerInit();
 void seismometerTick();
+statistics& getStat();
+double getCurrentAVG();
+double getCurrentSTDDEV();
 
 typedef struct {
 	unsigned long ts;

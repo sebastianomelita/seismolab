@@ -1073,7 +1073,7 @@ void ESP8266wifi::print(const __FlashStringHelper *s, char channel){
 		{
 			msgOut[posw] = c;
 			if(posw > 0){
-				//Serial.println(msgOut);
+				Serial.println(msgOut);
 				endUDPPacket(channel);
 				//posw=0;
 			}	
@@ -1123,14 +1123,14 @@ char ESP8266wifi::getCurrLinkId(){
 }
 
 int ESP8266wifi::available(int timeoutMillis, char *from, char channel){
-	//Serial.print("hasData: ");
-	//Serial.println(msg.hasData);
-	//Serial.print("-length: ");
-	//Serial.println(msg.length);
-	if(msg.hasData && msg.channel == channel && msg.length > pos)
-		return msg.length-pos;
-	else if(listenForIncomingMessage(timeoutMillis,from).hasData){
-		//INGV\0t("hasDataDopo: ");
+	if(msg.hasData && msg.channel == channel && msg.length > pos){
+		//Serial.print("hasData: ");
+		//Serial.println(msg.hasData);
+		//Serial.print("-length: ");
+		//Serial.println(msg.length);
+		return msg.length-pos;	
+	}else if(listenForIncomingMessage(timeoutMillis,from).hasData){
+		//Serial.println("hasDataDopo: ");
 	    //Serial.println(msg.hasData);
 		//Serial.println("Ricaricato");
 		//Serial.print("pos2: ");

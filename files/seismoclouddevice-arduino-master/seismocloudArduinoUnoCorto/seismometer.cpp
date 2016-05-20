@@ -28,6 +28,14 @@
 MPU6050 accelero;
 statistics stat;
 
+double getCurrentAVG(){
+	return stat.getCurrentAVG();
+}
+
+double getCurrentSTDDEV(){
+	return stat.getCurrentSTDDEV();
+}
+
 void seismometerInit() {
   // join I2C bus (I2Cdev library doesn't do this automatically)
    #if I2CDEV_IMPLEMENTATION == I2CDEV_ARDUINO_WIRE
@@ -35,7 +43,7 @@ void seismometerInit() {
    #elif I2CDEV_IMPLEMENTATION == I2CDEV_BUILTIN_FASTWIRE
         Fastwire::setup(400, true);
    #endif
-  
+
   // initialize device
   Serial.println(F("Initializing I2C devices..."));
   accelero.initialize();
@@ -91,7 +99,8 @@ void seismometerTick() {
 	}*/
 
 	// TODO: better checking
-	if(db.overThreshold) {
+	//if(db.overThreshold) {
+	if(0) {
 		LED::red(true);
 		// QUAKE
 		Serial.print(F("QUAKE: "));
