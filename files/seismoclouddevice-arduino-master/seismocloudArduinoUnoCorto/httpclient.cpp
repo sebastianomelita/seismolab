@@ -87,9 +87,9 @@ void httpRequest(char* host, char* port, char* path, String postVars) {
     // if you couldn't make a connection:
     Serial.print(F("connection failed to: "));
     Serial.print(host);
-    Serial.print(":");
+    Serial.print(F(":"));
     Serial.print(port);
-    Serial.print(" ");
+    Serial.print(F(" "));
     Serial.println(cresult);
 
     //ShowSockStatus();
@@ -99,9 +99,9 @@ void httpRequest(char* host, char* port, char* path, String postVars) {
   //}
   Serial.print(F("\nDisconnect HTTP From: "));
   Serial.print(host);
-  Serial.print(":");
+  Serial.print(F(":"));
   Serial.print(port);
-  Serial.println(" ");
+  Serial.println(F(""));
   client.disconnectFromServer();
 }
 
