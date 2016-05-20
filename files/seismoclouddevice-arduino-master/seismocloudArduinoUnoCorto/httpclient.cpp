@@ -66,7 +66,7 @@ void httpRequest(char* host, char* port, char* path, String postVars) {
     if(postVars != NULL) {
       client.println(F("Content-Type: application/x-www-form-urlencoded"));
       client.print(F("Content-Length: "));
-	  String(postVars.length(), DEC).toCharArray(buf, 6);
+	  String(postVars.length(), DEC).toCharArray(buf, 50);
       client.println(buf);
       client.println(F(""));
       client.print((char*)postVars.c_str());
@@ -74,7 +74,6 @@ void httpRequest(char* host, char* port, char* path, String postVars) {
     	client.println(F("Content-Length: 0"));
 		client.println(F(""));
 	} 
-    Serial.println(postVars);
     //unsigned long connms = millis();
 
     //while(!client.available() && millis() - connms < 10*1000);

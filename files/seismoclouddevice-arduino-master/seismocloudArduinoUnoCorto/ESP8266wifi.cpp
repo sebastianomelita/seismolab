@@ -529,6 +529,12 @@ bool ESP8266wifi::send(char channel, const char * message, bool sendNow){
     
     if(flags.endSendWithNewline)
         length += 2;
+    //Serial.print(F("message: "));
+    //Serial.println(message);
+    //Serial.print(F("msgOut: "));
+    //Serial.println(msgOut);
+    //Serial.print(F("length: "));
+    //Serial.println(length);
     
     writeCommand(CIPSEND);
     _serialOut -> print(channel);
@@ -541,7 +547,7 @@ bool ESP8266wifi::send(char channel, const char * message, bool sendNow){
         else
             _serialOut -> print(msgOut);
         byte sendStatus = readCommand(5000, SEND_OK, BUSY);
-        
+        Serial.println(msgOut);
         if (sendStatus == 1) {
             msgOut[0] = '\0';
             if(channel == SERVER)
