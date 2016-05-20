@@ -19,6 +19,7 @@ void httpQuakeRequest() {
 
 void httpAliveRequest() {
   //String macaddress;
+  Serial.println(F("\nBegin HttpAliveRequest"));
   
   char * s, *d, *mac;
   for(mac=s=d=ESP8266wifi::getWifi().getMAC();*d=*s;d+=(*s++!=':')); //rimuove i :
@@ -34,6 +35,7 @@ void httpAliveRequest() {
   postVars += "&sensor=MPU6050";
   //postVars += "&memfree"=" + "10";
   httpRequest(DEFAULTHOST, "80", "/seismocloud/alive.php", postVars);
+  Serial.println(F("\nEnd HttpAliveRequest"));
 }
 
 void httpRequest(char* host, char* port, char* path, String postVars) {
@@ -76,7 +78,7 @@ void httpRequest(char* host, char* port, char* path, String postVars) {
     //unsigned long connms = millis();
 
     //while(!client.available() && millis() - connms < 10*1000);
-   if(client.available(10*1000,NULL,'4')) {
+   if(client.available(10*1000,NULL)) {
         client.readLine(buf,50);
 		Serial.println(F("\nResponse"));
         Serial.println(buf);

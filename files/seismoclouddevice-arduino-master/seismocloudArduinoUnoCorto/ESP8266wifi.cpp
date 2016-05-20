@@ -671,6 +671,8 @@ WifiMessage ESP8266wifi::listenForIncomingMessage(int timeout, char *from){
         readBuffer(&buf[0], sizeof(buf) - 1, ':'); // read char count
         readChar(); // removing ':' delim
 		uint16_t length = atoi(buf);
+		//Serial.print("From channel: "); 
+		//Serial.println(channel); 
 		//Serial.print("length: "); 
 		//Serial.println(length); 
         if(from!=NULL)
@@ -688,6 +690,7 @@ WifiMessage ESP8266wifi::listenForIncomingMessage(int timeout, char *from){
 	    //Serial.println(msg.hasData);
         readCommand(10, OK); // cleanup after rx
     }
+    //Serial.println("No response");
     return msg;
 }
 
