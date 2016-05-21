@@ -79,6 +79,7 @@ void setup() {
     httpAliveRequest();
     lastAliveMs = millis();
 	
+	//finchè non funziona la comunicazione con telefono....
 	setLatitude(42.091522);
     setLongitude(11.799870);
 
@@ -127,7 +128,7 @@ void loop() {
   LED::tick();
 
   // Calling alive every 14 minutes
-  if((millis() - lastAliveMs) >= 10000) {
+  if((millis() - lastAliveMs) >= 20000) {
     Serial.print(F("------------Keepalive sent at-------------- "));
     printUNIXTime();
     Serial.println();
