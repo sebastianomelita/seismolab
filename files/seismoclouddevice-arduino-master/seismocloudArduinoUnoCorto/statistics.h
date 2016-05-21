@@ -42,3 +42,4 @@ class statistics {
 	    //double factor;
 };
 #endif
+

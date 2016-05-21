@@ -224,3 +224,4 @@ bool readParameter(char* cfg, char* tag, char* into, int maxn) {
   } while(sep != NULL);
   return ret;
 }
+

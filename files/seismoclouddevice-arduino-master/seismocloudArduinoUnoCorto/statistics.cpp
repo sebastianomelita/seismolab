@@ -135,3 +135,4 @@ double statistics::getCurrentAVG() {
 double statistics::getCurrentSTDDEV() {
 	return sqrt(partialStdDev / (elements - 1));
 }
+

@@ -33,7 +33,7 @@ void httpAliveRequest() {
   postVars += "&avg=" + String(getCurrentAVG());
   postVars += "&stddev=" + String(getCurrentSTDDEV());
   postVars += "&sensor=MPU6050";
-  //postVars += "&memfree"=" + "10";
+  postVars += "&memfree="  + String(freeMemory());
   httpRequest(DEFAULTHOST, "80", "/seismocloud/alive.php", postVars);
   Serial.println(F("\nEnd HttpAliveRequest"));
 }
@@ -105,4 +105,5 @@ void httpRequest(char* host, char* port, char* path, String postVars) {
   Serial.println(F(""));
   client.disconnectFromServer();
 }
+
 

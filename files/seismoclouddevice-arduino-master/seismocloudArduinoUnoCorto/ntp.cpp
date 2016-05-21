@@ -1,5 +1,5 @@
 /*
- * © Francesco Potortì 2013 - GPLv3 - Revision: 1.13
+ * Â© Francesco PotortÃ¬ 2013 - GPLv3 - Revision: 1.13
  *
  * Send an NTP packet and wait for the response, return the Unix time
  *
@@ -274,4 +274,5 @@ void printUNIXTime() {
   snprintf(buf, 50, "%04i-%02i-%02i %02i:%02i:%02i UTC", year+1970, smonth, day, hour, minute, second);
   Serial.print(buf);
 }
+
 

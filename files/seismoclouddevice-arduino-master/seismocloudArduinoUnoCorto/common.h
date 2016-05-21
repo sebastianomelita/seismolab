@@ -38,3 +38,4 @@ byte* HEXStrToByte(byte* , char*);
 byte getNumVal(char);
 
 #endif
+

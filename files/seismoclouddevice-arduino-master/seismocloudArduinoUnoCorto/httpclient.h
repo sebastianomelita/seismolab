@@ -10,3 +10,4 @@ void httpAliveRequest();
 void httpQuakeRequest();
 void ShowSockStatus();
 #endif
+

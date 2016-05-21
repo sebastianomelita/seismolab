@@ -9,3 +9,4 @@ void reverse4bytes(byte* memory);
 unsigned long tcpLatency();
 
 #endif
+

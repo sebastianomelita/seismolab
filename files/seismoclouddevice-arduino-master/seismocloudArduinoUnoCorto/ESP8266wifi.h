@@ -24,7 +24,7 @@
 #include "HardwareSerial.h"
 
 #define SERVER '4'
-#define FIRST '0'
+#define LOCALSERVER '0'
 #define MAX_CONNECTIONS 3
 
 #define MSG_BUFFER_MAX 128
@@ -155,8 +155,8 @@ public:
 	//Per connessioni UDP------------------------------------------------------------------
 	bool registerUDP(char* addr, char* port, char channel='0');
     bool beginUDPPacket(const char* host, const char* port, bool transparent=false); //connette ad un server UDP imposta writeChannel=SERVER
-    bool beginTCPConnection(const char* host, const char* port); //connette ad un server TCP imposta writeChannel=SERVER
-    bool beginUDPPacket(char channel);
+    bool beginUDPPacket();
+	bool beginTCPConnection(const char* host, const char* port); //connette ad un server TCP imposta writeChannel=SERVER
     //bool beginLocalServer(const char* port); //fa partire un server in attesa su tutte le connessioni (channel)
     bool endUDPPacket(char channel=SERVER);
     int parseUDPPacket(int timeout=10, char *from=NULL);
@@ -166,8 +166,8 @@ public:
     size_t read(char* buf, size_t size);
     char getCurrLinkId();
     int available(int timeoutMillis=10, char *from=NULL, char channel=SERVER);
-    bool beginUDPServer(char* localPort, char channel= FIRST);
-    bool registerUDP(const char* remoteAddr, const char* remotePort, char* localPort, char channel=FIRST);
+    bool beginUDPServer(char* localPort, char channel= LOCALSERVER);
+    bool registerUDP(const char* remoteAddr, const char* remotePort, char* localPort, char channel=LOCALSERVER);
     //per connesioni TCP-------------------
     void print(char *s, char channel=SERVER);
 	void println(char *s, char channel=SERVER);
@@ -179,7 +179,7 @@ public:
     //metodo di classe singleton da invocare alla prima chiamata
     static ESP8266wifi &getWifi(Stream &serialIn, Stream &serialOut, byte resetPin, Stream &dbgSerial){
     	// l'unica istanza della classe viene creata alla prima chiamata di getWifi()
-        // e verr‡ distrutta solo all'uscita dal programma
+        // e verr√† distrutta solo all'uscita dal programma
 		static ESP8266wifi wifi(serialIn,serialOut,resetPin,dbgSerial); 
 		return wifi;
 	}
@@ -188,13 +188,13 @@ public:
 
 private:
 	//modificate rispetto all'originale
-	//sono adesso propriet‡ di classe
+	//sono adesso propriet√† di classe
     static Stream* _serialIn;
     static Stream* _serialOut;
     static byte _resetPin;
     static Stream* _dbgSerial;
-    //-----fine propriet‡ di classe-------------
-    //in pi˘ rispetto all'originale-------------
+    //-----fine propriet√† di classe-------------
+    //in pi√π rispetto all'originale-------------
     static WifiMessage msg;
     uint16_t  pos;  //segnaposto
     uint16_t  posw;  //segnaposto
@@ -251,3 +251,4 @@ private:
 };
 
 #endif
+

@@ -18,9 +18,11 @@ typedef enum {
   	PKTTYPE_GETINFO = 11,
   	PKTTYPE_GETINFO_REPLY = 12,
   	PKTTYPE_RESET = 13
+	//PKTTYPE_TRACE = 14
 	} PacketType;
 
 void commandInterfaceInit();
 void commandInterfaceTick();
 #endif
+
 

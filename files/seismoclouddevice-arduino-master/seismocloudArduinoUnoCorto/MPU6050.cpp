@@ -642,3 +642,4 @@ void MPU6050::setDeviceID(uint8_t id) {
     I2Cdev::writeBits(devAddr, MPU6050_RA_WHO_AM_I, MPU6050_WHO_AM_I_BIT, MPU6050_WHO_AM_I_LENGTH, id);
 }
 
+

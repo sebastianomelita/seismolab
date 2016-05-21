@@ -11,8 +11,8 @@ void commandInterfaceInit() {
 void commandInterfaceTick() {
   //Serial.println("commandInterfaceTick");	
   //int packetSize = ESP8266wifi::getWifi().parseUDPPacket(); //ci vorrebbe ma, se si legge tutto il buffer con una read, 
-  //l'available è sufficiente per richiamare un nuovo paccchetto
-  if(ESP8266wifi::getWifi().available(10, NULL, '0')) {
+  //l'available Ã¨ sufficiente per richiamare un nuovo paccchetto
+  if(ESP8266wifi::getWifi().available(10, NULL, LOCALSERVER)) {
   	Serial.println(F("available"));
     // read the packet into packetBufffer
     size_t r = ESP8266wifi::getWifi().read((char*)udpPacketBuffer, PACKET_SIZE);
@@ -69,7 +69,7 @@ void commandInterfaceTick() {
 
         memcpy(udpPacketBuffer + 6,  macaddress, 6);
         memcpy(udpPacketBuffer + 12, getVersionAsString().c_str(), 4);
-        memcpy(udpPacketBuffer + 16, "unoWiFi", 3);
+        memcpy(udpPacketBuffer + 16, "uno", 4);
         break;
       case PKYTYPE_PING:
       	Serial.println(F("PING"));
@@ -126,15 +126,16 @@ void commandInterfaceTick() {
     }
 
 
-    ESP8266wifi::getWifi().beginUDPPacket('0');
+    ESP8266wifi::getWifi().beginUDPPacket();
     ESP8266wifi::getWifi().write((unsigned char*) udpPacketBuffer,sizeof(udpPacketBuffer));
     //ESP8266wifi::getWifi().write((unsigned char*) "pippo",sizeof("pippo"));
     Serial.println(F("write"));
-    ESP8266wifi::getWifi().endUDPPacket('0');
+    ESP8266wifi::getWifi().endUDPPacket(LOCALSERVER);
 
     /*if(reboot) {
       soft_restart();
     }*/
   }
 }
+
 

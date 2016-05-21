@@ -85,7 +85,7 @@ const char DATAEND[] PROGMEM = "+++";
 //const char UDPNULL[] PROGMEM =  ",\"UDP\","\"0.0.0.0\",0,";
 //--------------MODIFICHE ALLA LIBRERIA ORIGINALE-----------------------------
 const char PEERIP[] PROGMEM = "AT+CIPSTATUS,\"";
-//propriet� di classe
+//proprietï¿½ di classe
 Stream* ESP8266wifi::_serialIn;
 Stream* ESP8266wifi::_serialOut;
 byte ESP8266wifi::_resetPin;
@@ -939,7 +939,7 @@ bool ESP8266wifi::beginTCPConnection(const char* host,const char* port){
     pos=-1;
 }
 
-bool ESP8266wifi::beginUDPPacket(char channel){ 
+bool ESP8266wifi::beginUDPPacket(){ 
     setTransportToUDP(); 
     endSendWithNewline(false);
     posw=0;
@@ -1184,3 +1184,4 @@ bool ESP8266wifi::beginUDPServer( char* localPort, char channel){
     flags.localServerRunning = (readCommand(5000, OK, NO_CHANGE) > 0);
     return flags.localServerRunning;
 }*/
+
