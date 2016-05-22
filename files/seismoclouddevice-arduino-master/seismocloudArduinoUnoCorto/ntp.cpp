@@ -54,7 +54,7 @@ bool HttpRequest(char* host, char* port, char* path, char * buf, char * offset) 
     client.println(F("Connection: close"));
     client.println("\n");  
  
-    if(client.available(10*1000,offset)) {
+    if(client.available(10*1000,offset)) { //legge la risposta a partire da valore memorizzato in offset:
         client.readLine(buf,50);
 		//client.disconnectFromServer();
 		return true;
