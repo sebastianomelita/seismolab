@@ -78,13 +78,6 @@ bool HttpRequest(char* host, char* port, char* path, char * buf, char * offset) 
 unsigned long ntpUnixTimeOld ()
 {  
   char *timeServer = "pool.ntp.org";  // NTP server
-  //char *timeServer = "10.4.0.195";  // NTP server
-  //Serial.println(ESP8266wifi::getWifi().getVersion());
-  //Serial.println(ESP8266wifi::getWifi().startNTPClient());
-  //Serial.println(ESP8266wifi::getWifi().getNTP());
-  // Only the first four bytes of an outgoing NTP packet need to be set
-  // appropriately, the rest can be whatever.
-  //const long ntpFirstFourBytes = 0xEC0600E3;// NTP request header
  // set all bytes in the buffer to 0
   memset(packetBuffer, 0, NTP_PACKET_SIZE); 
   // Initialize values needed to form NTP request
@@ -98,33 +91,11 @@ unsigned long ntpUnixTimeOld ()
   packetBuffer[13]  = 0x4E;
   packetBuffer[14]  = 49;
   packetBuffer[15]  = 52;
-  /*
-  packetBuffer[0] = 0b11100011;   // LI, Version, Mode
-  packetBuffer[1] = 92;     // Stratum, or type of clock
-  packetBuffer[2] = 1;     // Polling Interval
-  packetBuffer[3] = 6;  // Peer Clock Precision
-  packetBuffer[4] = 0xEC;  // Peer Clock Precision
-  // 8 bytes of zero for Root Delay & Root Dispersion
-  packetBuffer[13]  = 49; 
-  packetBuffer[14]  = 0x4E;
-  packetBuffer[15]  = 49;
-  packetBuffer[16]  = 52;*/
-	//    msgOut[posw+i]=0;
-  // Clear received data from possible stray received packets
-   //udp.flush();
-
   // Send an NTP request
-  if (!(ESP8266wifi::getWifi().beginUDPPacket((const char*)timeServer, "123") // 123 is the NTP port
-   && ESP8266wifi::getWifi().write((const unsigned char*)packetBuffer,NTP_PACKET_SIZE)
-   && ESP8266wifi::getWifi().endUDPPacket())) {
-    return 0;       // sending request failed
-  }
-  //char* foo = reinterpret_cast<char*>(byte);
-  /*ESP8266wifi::getWifi().beginUDPPacket((const char*)timeServer, "123",false); // 123 is the NTP port
+  ESP8266wifi::getWifi().beginUDPPacket((const char*)timeServer, "123"); // 123 is the NTP port
   ESP8266wifi::getWifi().write((const unsigned char*)packetBuffer,NTP_PACKET_SIZE);
-  ESP8266wifi::getWifi().endUDPPacket();*/
-  //ESP8266wifi::getWifi().send(SERVER,(char*)"pippo",6);
-  //Serial.println(F("NTP:45"));
+  ESP8266wifi::getWifi().endUDPPacket();
+  Serial.println(F("NTP:45"));
   // Wait for response; check every pollIntv ms up to maxPoll times
   const int pollIntv = 50;   // poll every this many ms
   const byte maxPoll = 100;    // poll up to this many times

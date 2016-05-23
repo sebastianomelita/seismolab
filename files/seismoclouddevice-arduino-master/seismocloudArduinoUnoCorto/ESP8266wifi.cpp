@@ -80,7 +80,6 @@ const char CIPSTART_2[] PROGMEM = "AT+CIPSTART=";
 const char COMMA_3[] PROGMEM = ",\"";
 const char TWO_COMMA[] PROGMEM = ",2";
 const char NO_PORT[] PROGMEM = "0";
-const char ENDL[] PROGMEM = "\n";
 const char DATAEND[] PROGMEM = "+++";
 //const char UDPNULL[] PROGMEM =  ",\"UDP\","\"0.0.0.0\",0,";
 //--------------MODIFICHE ALLA LIBRERIA ORIGINALE-----------------------------
@@ -937,6 +936,7 @@ bool ESP8266wifi::beginTCPConnection(const char* host,const char* port){
     setTransportToTCP(); 
     return connectToServer(host,port);
     pos=-1;
+    posw=0;
 }
 
 bool ESP8266wifi::beginUDPPacket(){ 
@@ -1057,17 +1057,18 @@ else
 }
 
 void ESP8266wifi::print(char* str, char channel){
+	endSendWithNewline(false);
 	send(channel,str,true);//da cambiare
 }
 
 void ESP8266wifi::println(char* str, char channel){
-	endSendWithNewline(true);
+	endSendWithNewline(true);//da cambiare
 	send(channel,str,true);
 	endSendWithNewline(false);
 }
 
 void ESP8266wifi::println(char channel){
-	send(channel,ENDL,true);
+	send(channel,"\n",true);//da cambiare
 }
 
 void ESP8266wifi::print(const __FlashStringHelper *s, char channel){
@@ -1091,6 +1092,71 @@ void ESP8266wifi::print(const __FlashStringHelper *s, char channel){
 		msgOut[posw++] = c;
 		if(posw >= MSG_BUFFER_MAX) 
 		{ 
+			endUDPPacket(channel);
+		}
+	}	
+}
+	
+void ESP8266wifi::printlnD(const __FlashStringHelper *s, char channel){
+	printD(s, channel);
+	printD((char*)"\n", channel);
+	//Serial.println(msgOut);
+}
+
+void ESP8266wifi::printD(char* str, char channel){
+	endSendWithNewline(false);
+	while (1)
+	{
+		unsigned char c = *(str++);
+		//Serial.print((char)c);
+		if(c == 0)
+		{
+			msgOut[posw] = c;
+			//Serial.print(msgOut);
+			return;
+		}
+		msgOut[posw++] = c;
+		if(posw >= MSG_BUFFER_MAX) 
+		{ 
+			char app=msgOut[127];
+			msgOut[127]=0;
+			Serial.print(msgOut);
+			msgOut[127]=app;
+			endUDPPacket(channel);
+		}
+	}	
+}
+
+void ESP8266wifi::printlnD(char* str, char channel){
+	printD(str, channel);
+	printD((char*)"\n", channel);
+}
+
+void ESP8266wifi::printlnD(char channel){
+	printD((char*)"\n", channel);
+}
+
+void ESP8266wifi::printD(const __FlashStringHelper *s, char channel){
+	PGM_P p = reinterpret_cast<PGM_P>(s);
+	
+	endSendWithNewline(false);
+	while (1)
+	{
+		unsigned char c = pgm_read_byte(p++);
+		//Serial.print((char)c);
+		if(c == 0)
+		{
+			msgOut[posw] = c;
+			//Serial.print(msgOut);
+			return;
+		}
+		msgOut[posw++] = c;
+		if(posw >= MSG_BUFFER_MAX) 
+		{ 
+			char app=msgOut[127];
+			msgOut[127]=0;
+			Serial.print(msgOut);
+			msgOut[127]=app;
 			endUDPPacket(channel);
 		}
 	}	
@@ -1132,6 +1198,14 @@ char ESP8266wifi::getCurrLinkId(){
 }
 
 int ESP8266wifi::available(int timeoutMillis, char *from, char channel){
+	if(posw>0){
+		char app=msgOut[127];
+		msgOut[127]=0;
+		Serial.print(msgOut);
+		msgOut[127]=app;
+		endUDPPacket(channel);
+	}
+	   
 	if(msg.hasData && msg.channel == channel && msg.length > pos){
 		//Serial.print("hasData: ");
 		//Serial.println(msg.hasData);

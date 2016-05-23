@@ -174,6 +174,11 @@ public:
 	void println(char channel=SERVER);
     void print(const __FlashStringHelper *s, char channel=SERVER);
 	void println(const __FlashStringHelper *s, char channel=SERVER);
+	void printD(char *s, char channel=SERVER);
+	void printlnD(char *s, char channel=SERVER);
+	void printlnD(char channel=SERVER);
+    void printD(const __FlashStringHelper *s, char channel=SERVER);
+	void printlnD(const __FlashStringHelper *s, char channel=SERVER);
     char readTCP(char *from=NULL);  //legge un carattere  ue eventualmente ricarica da una qualunque cannessione
     int readLine(char* buf, size_t bufmax); //legge dal buffer di ingresso una linea senza ricaricare
     //metodo di classe singleton da invocare alla prima chiamata

@@ -7,8 +7,8 @@
 #define sw_serial_tx_pin 3 //  Connect this pin to RX on the esp8266
 #define esp8266_reset_pin 4 // Connect this pin to CH_PD on the esp8266, not reset. (let reset be unconnected)
 
-#define SSID "xxxxx"
-#define PASSWORD "yyyyyy"
+#define SSID "xxxx"
+#define PASSWORD "yyyyy"
 
 //ESP8266wifi wifi(swSerial, swSerial, esp8266_reset_pin, Serial);
 SoftwareSerial swSerial(sw_serial_rx_pin, sw_serial_tx_pin);
