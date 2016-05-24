@@ -130,7 +130,7 @@ void commandInterfaceTick() {
     ESP8266wifi::getWifi().write((unsigned char*) udpPacketBuffer,sizeof(udpPacketBuffer));
     //ESP8266wifi::getWifi().write((unsigned char*) "pippo",sizeof("pippo"));
     Serial.println(F("write"));
-    ESP8266wifi::getWifi().endUDPPacket(LOCALSERVER);
+    ESP8266wifi::getWifi().endUDPPacket(false,LOCALSERVER);
 
     /*if(reboot) {
       soft_restart();

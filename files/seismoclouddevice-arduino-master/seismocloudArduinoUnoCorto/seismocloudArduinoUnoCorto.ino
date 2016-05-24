@@ -78,8 +78,8 @@ void setup() {
     lastAliveMs = millis();
 	
 	//finchè non funziona la comunicazione con telefono....
-	setLatitude(42.091522);
-    setLongitude(11.799870);
+	//setLatitude(42.091522);
+    //setLongitude(11.799870);
 
     if(getLatitude() == 0 && getLongitude() == 0) {
       LED::green(false);

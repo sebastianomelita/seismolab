@@ -84,10 +84,12 @@ void seismometerTick() {
 	db.accel = stat.xyztomod(accelero.getAccelerationX(),accelero.getAccelerationY(),accelero.getAccelerationZ());
 	db.overThreshold = stat.getModuleEMA(0.6) > stat.getQuakeThreshold();
     stat.addValueToAvgVar(db.accel);
-    Serial.print(F("\ndb.accel: "));
-    Serial.println(db.accel);
-    Serial.println(stat.getQuakeThreshold());
-    //Serial.println(accelero.getAccelerationX(),DEC);
+    
+    //Serial.print(F("\ndb.accel: "));
+    //Serial.println(db.accel);
+    //Serial.println(stat.getQuakeThreshold());
+    
+	//Serial.println(accelero.getAccelerationX(),DEC);
 	//Serial.println(accelero.getAccelerationY(),DEC);
 	//Serial.println(accelero.getAccelerationZ(),DEC);
 	/*
