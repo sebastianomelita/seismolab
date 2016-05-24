@@ -17,7 +17,7 @@
 
 unsigned long lastNTPTime = 0;
 unsigned long lastNTPMillis = 0;
-byte packetBuffer[NTP_PACKET_SIZE]; //buffer to hold incoming and outgoing packets
+byte packetBuffer[4]; //buffer to hold incoming and outgoing packets
 char *timeServer = "";
 
 unsigned long getUNIXTime() {
@@ -28,7 +28,7 @@ unsigned long getUNIXTime() {
   return lastNTPTime + (diffms/1000);
 }
 
-unsigned long ntpUnixTime ()
+unsigned long ntpUnixTimeOld()
 { 
  char utp[50];
 
@@ -45,14 +45,14 @@ bool HttpRequest(char* host, char* port, char* path, char * buf, char * offset) 
   // if there's a successful connection:
   int cresult = client.beginTCPConnection(host, port);
   if (cresult) {
-  	client.print(F("GET "));
-  	client.print(path);
-    client.println(F(" HTTP/1.1"));
-    client.print(F("Host: "));
-    client.println(host);
-    client.println(F("User-Agent: arduino-wifi"));
-    client.println(F("Connection: close"));
-    client.println("\n");  
+  	client.printD(F("GET "));
+  	client.printD(path);
+    client.printlnD(F(" HTTP/1.1"));
+    client.printD(F("Host: "));
+    client.printlnD(host);
+    client.printlnD(F("User-Agent: arduino-wifi"));
+    client.printlnD(F("Connection: close"));
+    client.printlnD("\n");  
  
     if(client.available(10*1000,offset)) { //legge la risposta a partire da valore memorizzato in offset:
         client.readLine(buf,50);
@@ -75,65 +75,49 @@ bool HttpRequest(char* host, char* port, char* path, char * buf, char * offset) 
   return false;
 }
 
-unsigned long ntpUnixTimeOld ()
+unsigned long ntpUnixTime()
 {  
   char *timeServer = "pool.ntp.org";  // NTP server
  // set all bytes in the buffer to 0
-  memset(packetBuffer, 0, NTP_PACKET_SIZE); 
+   // Only the first four bytes of an outgoing NTP packet need to be set
+  // appropriately, the rest can be whatever.
+  //const long ntpFirstFourBytes = 0xEC0600E3; // NTP request header 236 6 0 227
+  //memset(packetBuffer, 0, NTP_PACKET_SIZE); 
   // Initialize values needed to form NTP request
-  // (see URL above for details on the packets)  
-  packetBuffer[0] = 0b11100011;   // LI, Version, Mode
+  // (see URL above for details on the packets)    
+  packetBuffer[0] = 227;   // LI, Version, Mode
   packetBuffer[1] = 0;     // Stratum, or type of clock
   packetBuffer[2] = 6;     // Polling Interval
-  packetBuffer[3] = 0xEC;  // Peer Clock Precision
-  // 8 bytes of zero for Root Delay & Root Dispersion
-  packetBuffer[12]  = 49; 
-  packetBuffer[13]  = 0x4E;
-  packetBuffer[14]  = 49;
-  packetBuffer[15]  = 52;
+  packetBuffer[3] = 236;  // Peer Clock Precision
   // Send an NTP request
   ESP8266wifi::getWifi().beginUDPPacket((const char*)timeServer, "123"); // 123 is the NTP port
-  ESP8266wifi::getWifi().write((const unsigned char*)packetBuffer,NTP_PACKET_SIZE);
-  ESP8266wifi::getWifi().endUDPPacket();
-  Serial.println(F("NTP:45"));
+  ESP8266wifi::getWifi().write((const unsigned char*)packetBuffer,4,NTP_PACKET_SIZE);
+  ESP8266wifi::getWifi().endUDPPacket(false);
   // Wait for response; check every pollIntv ms up to maxPoll times
   const int pollIntv = 50;   // poll every this many ms
   const byte maxPoll = 100;    // poll up to this many times
   int pktLen;       // received packet length
-
+  
   for (byte i=0; i<maxPoll; i++) {
-    if ((pktLen = ESP8266wifi::getWifi().parseUDPPacket(1000) == NTP_PACKET_SIZE))
+    if ((pktLen = ESP8266wifi::getWifi().parseUDPPacket(1000)) == NTP_PACKET_SIZE)
       break;
-    //Serial.println(F("len"));
-    byte buf[48];
-    //Serial.println(itoa(pktLen,buf,10));
-    ESP8266wifi::getWifi().write((const unsigned char*)packetBuffer,NTP_PACKET_SIZE);
-    ESP8266wifi::getWifi().endUDPPacket();
-    ESP8266wifi::getWifi().read((char*)buf,NTP_PACKET_SIZE);
-    //Serial.println(buf);
-    //ESP8266wifi::getWifi().print("strunz");
     delay(pollIntv);
   }
-  //ESP8266wifi::getWifi().stopTransparentMode();
-  //ESP8266wifi::getWifi().stopTransparentMode();
-  Serial.println(F("NTP:56"));
-  if (pktLen != 48) {
+  
+  if (pktLen != NTP_PACKET_SIZE) {
     return 0;       // no correct packet received
   }
   //ESP8266wifi::getWifi().stopTransparentMode();
   // Read and discard the first useless bytes
   // Set useless to 32 for speed; set to 40 for accuracy.
   const byte useless = 40;
-  for (byte i = 0; i < useless; ++i)
+  for (byte i = 0; i < useless; i++)
     ESP8266wifi::getWifi().read();
 
   // Read the integer part of sending time
-  unsigned long time = ESP8266wifi::getWifi().read();  // NTP time
+  unsigned long time = (unsigned long) ESP8266wifi::getWifi().read();  // NTP time
   for (char i = 1; i < 4; i++)
-    time = time << 8 | ESP8266wifi::getWifi().read();
-  char buf[10];
-  Serial.println(itoa(time,buf,10));
-
+  	time = (time << 8) |  (ESP8266wifi::getWifi().read() & 0xff);
   // Round to the nearest second if we want accuracy
   // The fractionary part is the next byte divided by 256: if it is
   // greater than 500ms we round to the next second; we also account
@@ -145,7 +129,7 @@ unsigned long ntpUnixTimeOld ()
   // Discard the rest of the packet
   //udp.flush();
    
-  return time - 2208988800ul;   // convert NTP time to Unix time
+  return time - 2208988800ul+7200;   // convert NTP time to Unix time
 }
 
 unsigned long updateNTP() {

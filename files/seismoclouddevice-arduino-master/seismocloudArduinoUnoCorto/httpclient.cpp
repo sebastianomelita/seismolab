@@ -39,7 +39,7 @@ void httpAliveRequest() {
   postVars += "&avg=" + String(getCurrentAVG());
   postVars += "&stddev=" + String(getCurrentSTDDEV());
   postVars += "&sensor=MPU6050";
-  postVars += "&memfree="  + String(freeMemory()); //121 byte
+  //postVars += "&memfree="  + String(freeMemory()); //121 byte
   //postVars += "&jsonoutput=1"; //134 Bytes! attualmente il buffer MSG_BUFFER_MAX su ESP8266wifi.h è di 128 byte
   httpRequest(DEFAULTHOST, "80", "/seismocloud/alive.php", postVars, buf, "server:"); 
   Serial.print(F("\nResponse: "));
@@ -54,8 +54,9 @@ void httpRequest(char* host, char* port, char* path, String postVars, char * buf
  
   if (cresult) {
     if(postVars == NULL) {
+    	client.printD(F("GET "));
     } else {
-      client.printD(F("POST "));
+        client.printD(F("POST "));
     }
     client.printD(path);
     client.printlnD(F(" HTTP/1.1"));

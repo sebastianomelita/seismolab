@@ -158,10 +158,11 @@ public:
     bool beginUDPPacket();
 	bool beginTCPConnection(const char* host, const char* port); //connette ad un server TCP imposta writeChannel=SERVER
     //bool beginLocalServer(const char* port); //fa partire un server in attesa su tutte le connessioni (channel)
-    bool endUDPPacket(char channel=SERVER);
+    bool endUDPPacket(bool endLine=false, char channel=SERVER);
+    bool endUDPPacket2(char channel=SERVER);
     int parseUDPPacket(int timeout=10, char *from=NULL);
     unsigned char write(const unsigned char buf);
-    int write(const unsigned char* buf, size_t size);
+    int write(const unsigned char* buf, size_t inSize, size_t outSize=0, char pad='0');
     char read();
     size_t read(char* buf, size_t size);
     char getCurrLinkId();
@@ -241,7 +242,8 @@ private:
     //----------aggiunte-----------------------
     uint16_t getFrom(char *from);
     void rxEmpty();
-
+    void printOutBuffer();
+    void printInBuffer(uint16_t len);
 
     //Stream* _dbgSerial;
    
