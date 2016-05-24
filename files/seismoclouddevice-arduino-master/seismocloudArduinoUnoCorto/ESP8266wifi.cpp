@@ -1074,8 +1074,8 @@ int ESP8266wifi::parseUDPPacket(int timeout, char *from){
 	disconnectFromServer();
 	//if(msg.hasData && msg.channel==channel || msg.hasData && channel == ANYCLIENT){
 	if(msg.hasData){
-		Serial.print("UDPParselen: ");
-		Serial.println(msg.length);
+		//Serial.print("UDPParselen: ");
+		//Serial.println(msg.length);
         return msg.length;
     }
     return 0;

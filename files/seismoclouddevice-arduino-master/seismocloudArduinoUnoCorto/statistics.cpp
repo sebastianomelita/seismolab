@@ -1,21 +1,23 @@
 #include "statistics.h"
 
-statistics::statistics() {
-	//MCUx=0;
-	//MCUy=0;
-	//MCUz=0;
+statistics::statistics(double scaleMultiplier,int sumxx,int sumyy,int sumzz){
+	scalef=scaleMultiplier;
+	sumx=sumxx;
+	sumy=sumyy;
+	sumz=sumzz;
+	ex=ey=ez=0;
 }
 
 // getModule returns the magnitude of the total acceleration vector as an integer
 double statistics::xyztomod(int xx, int yy, int zz)
 {
-  return sqrt(square(xx) + square(yy) + square(zz));
+  return sqrt(square(xx*scalef+sumx) + square(yy*scalef+sumy) + square(zz*scalef+sumz));
 }
 
 void statistics::setXYZ(int cx, int cy, int cz){
-	x=cx;
-	y=cy;
-	z=cz;
+	x=cx*scalef+sumx;
+	y=cy*scalef+sumy;
+	z=cz*scalef+sumz;
 }
 /*
 void statistics::setFactor(double f){
@@ -66,7 +68,16 @@ int statistics::getCalibratedModuleMCUEMA(float a)
   ez=z*a+(1-a)*ez;
   return sqrt(square(ex*factor-iX) + square(ey*factor-iY) + square(ez*factor-iZ));
 }
+*/
+double statistics::getModuleEMA(double a)
+{
+  ex=(double) x*a+(1.0-a)*ex;
+  ey=(double) y*a+(1.0-a)*ey;
+  ez=(double) z*a+(1.0-a)*ez;
+  return sqrt(square(ex) + square(ey) + square(ez));
+}
 
+/*
 int statistics::getCalibratedModuleMCUEMA(float a, int x, int y, int z)
 {
   setXYZ(x,y,z);
@@ -122,6 +133,7 @@ void statistics::resetLastPeriod() {
 	partialAvg = 0;
 	partialStdDev = 0;
 	elements = 0;
+	ex=ey=ez=0;
 }
 
 double statistics::getSigmaIter() {

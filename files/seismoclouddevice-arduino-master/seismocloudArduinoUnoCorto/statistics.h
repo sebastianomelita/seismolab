@@ -2,9 +2,13 @@
 #define __statistics_h
 
 #include "Arduino.h"
+
+#define EARTH_GRAVITY   9.80665
+//#define SCALE_MULTIPLIER    0.004
+
 class statistics {
     public:
-        statistics();
+        statistics(double scaleMultiplier=1,int sumx=0,int sumy=0,int sumz=0);
 		double xyztomod(int,int,int);
 		double getModule();
 		double getModule(int,int,int);
@@ -21,6 +25,7 @@ class statistics {
 		double getQuakeThreshold();
 		double getCurrentAVG();
 		double getCurrentSTDDEV();
+		double getModuleEMA(double a);
 		void setSigmaIter(double);
 		double getSigmaIter();
 		void resetLastPeriod();
@@ -30,15 +35,18 @@ class statistics {
      private:
         uint8_t devAddr;
 		//int16_t IX,IY,IZ,AcX,AcY,AcZ,Tmp, x, y, z;
-		int16_t x, y, z;
+		double x, y, z;
 		//double iX, iY, iZ, X, Y, Z;
-		//int16_t ex,ey,ez;
+		double ex,ey,ez;
 		//int MCUx,MCUy,MCUz;
 		double partialAvg = 0;
 	    double partialStdDev = 0;
 	    unsigned int elements = 0;
 	    double quakeThreshold = 1;
 	    double sigmaIter = 3;
+	    double scalef; // 0.20 / 32768.0; // Assuming +/- 16G.
+	    int sumx,sumy,sumz;
+	    //double EARTH_GRAVITY_MS2 = 
 	    //double factor;
 };
 #endif

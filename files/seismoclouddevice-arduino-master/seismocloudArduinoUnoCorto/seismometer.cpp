@@ -26,7 +26,8 @@
 //#include <SoftwareSerial.h>
 
 MPU6050 accelero;
-statistics stat;
+//statistics stat(0.20 / 32768.0); //scale factor
+statistics stat((double)16.0/ 32768.0); //scale factor
 
 double getCurrentAVG(){
 	return stat.getCurrentAVG();
@@ -47,14 +48,28 @@ void seismometerInit() {
   // initialize device
   Serial.println(F("Initializing I2C devices..."));
   accelero.initialize();
-  
   // verify connection
   Serial.println(F("Testing device connections..."));
   Serial.println(accelero.testConnection() ? F("MPU6050 connection successful") : F("MPU6050 connection failed"));
- 
+  
+  accelero.setFullScaleAccelRange(3); //+-16G
+  Serial.print(F("Scale range: "));
+  Serial.println(accelero.getFullScaleAccelRange());
   //accelero.calibration();
   //accelero.MCUCalibration();
   //accelero.setAveraging(10);
+    Serial.print(accelero.getXAccelOffset()); Serial.print("\t"); // -76
+    Serial.print(accelero.getYAccelOffset()); Serial.print("\t"); // -2359
+    Serial.print(accelero.getZAccelOffset()); Serial.print("\t"); // 1688
+    Serial.print("\n");
+    //accelero.setXAccelOffset(-2380);
+    //accelero.setYAccelOffset(500);
+    //accelero.setZAccelOffset(1810);
+    //Serial.print(accelero.getXAccelOffset()); Serial.print("\t"); // -76
+    //Serial.print(accelero.getYAccelOffset()); Serial.print("\t"); // -2359
+    //Serial.print(accelero.getZAccelOffset()); Serial.print("\t"); // 1688
+
+    Serial.print("\n");
 
   Serial.println();
 }
@@ -65,10 +80,16 @@ void seismometerTick() {
 	double detectionStdDev = stat.getCurrentSTDDEV();
   
 	//db.ts = getUNIXTime();
+	stat.setXYZ(accelero.getAccelerationX(),accelero.getAccelerationY(),accelero.getAccelerationZ());
 	db.accel = stat.xyztomod(accelero.getAccelerationX(),accelero.getAccelerationY(),accelero.getAccelerationZ());
-	db.overThreshold = db.accel > stat.getQuakeThreshold();
+	db.overThreshold = stat.getModuleEMA(0.6) > stat.getQuakeThreshold();
     stat.addValueToAvgVar(db.accel);
-	
+    Serial.print(F("\ndb.accel: "));
+    Serial.println(db.accel);
+    Serial.println(stat.getQuakeThreshold());
+    //Serial.println(accelero.getAccelerationX(),DEC);
+	//Serial.println(accelero.getAccelerationY(),DEC);
+	//Serial.println(accelero.getAccelerationZ(),DEC);
 	/*
 	if (inEvent && (millis() - lastEventWas >= 5000)) {
 		// Out of event
@@ -97,16 +118,20 @@ void seismometerTick() {
 		Serial.println(db.accel);
 		httpQuakeRequest();
 	}*/
-
+    
+    //Serial.println(F("QUAKE: "));
+    //Serial.println(db.overThreshold);
+	
 	// TODO: better checking
 	//if(db.overThreshold) {
-	if(0) {
+	if(db.overThreshold) {
 		LED::red(true);
 		// QUAKE
 		Serial.print(F("QUAKE: "));
 		Serial.println(db.accel);
 		httpQuakeRequest();
-		delay(5000);  
+		delay(5000);
+		stat.resetLastPeriod();  
 		Serial.println(F("QUAKE Timeout END"));
 		LED::red(false);
 	}
