@@ -115,7 +115,7 @@ void statistics::addValueToAvgVar(double val) {
 	elements++;
 	// https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance
 	double delta = val - partialAvg;
-	partialAvg += delta / elements;
+	partialAvg += delta / (double)elements;
 	partialStdDev += delta * (val - partialAvg);
 	if (elements > 1) {
 		quakeThreshold = partialAvg + (getCurrentSTDDEV() * getSigmaIter());

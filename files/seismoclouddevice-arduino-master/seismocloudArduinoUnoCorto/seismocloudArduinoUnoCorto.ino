@@ -126,7 +126,7 @@ void loop() {
   LED::tick();
 
   // Calling alive every 14 minutes
-  if((millis() - lastAliveMs) >= 20000) {
+  if((millis() - lastAliveMs) >= 840000) {
     Serial.print(F("------------Keepalive sent at-------------- "));
     printUNIXTime();
     Serial.println();
