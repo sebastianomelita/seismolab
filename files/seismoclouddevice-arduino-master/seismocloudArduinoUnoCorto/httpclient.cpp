@@ -22,32 +22,36 @@ void httpQuakeRequest() {
 }
 
 void httpAliveRequest() {
-  //String macaddress;
   Serial.println(F("\nBegin HttpAliveRequest"));
   
-  char buf[80];
+  char buf[100], sigma[10];
   char * s, *d, *mac;
   for(mac=s=d=ESP8266wifi::getWifi().getMAC();*d=*s;d+=(*s++!=':')); //rimuove i :
     // TODO: parametrized version and model
   String postVars = String("deviceid=");
   postVars += String(mac);
-  //postVars += "00000000c1a0";
   postVars += "&model=uno";
   postVars += "&version=" + getVersionAsString();
   postVars += "&lat=" + getLatitudeAsString();
   postVars += "&lon=" + getLongitudeAsString();
-  postVars += "&avg=" + String(getCurrentAVG());
-  postVars += "&stddev=" + String(getCurrentSTDDEV());
   postVars += "&sensor=MPU6050";
-  //postVars += "&memfree="  + String(freeMemory()); //121 byte
+  postVars += "&memfree="  + String(freeMemory()); 
+  postVars += "&avg=" + getDoubleAsString(getCurrentAVG());
+  postVars += "&stddev=" + getDoubleAsString(getCurrentSTDDEV());
+  
   //postVars += "&jsonoutput=1"; //134 Bytes! attualmente il buffer MSG_BUFFER_MAX su ESP8266wifi.h è di 128 byte
   httpRequest(DEFAULTHOST, "80", "/seismocloud/alive.php", postVars, buf, "server:"); 
   Serial.print(F("\nResponse: "));
   Serial.println(buf);
+  readParameter(buf,"sigma",sigma,10);
+  if(atof(sigma)>0)
+     setSigma(atof(sigma)); 
+  else
+     setSigma(11.33);
   Serial.println(F("\nEnd HttpAliveRequest"));
 }
 
-void httpRequest(char* host, char* port, char* path, String postVars, char * buf, char * offset){
+void httpRequest(char* host, char* port, char* path, String &postVars, char * buf, char * offset){
   ESP8266wifi &client=ESP8266wifi::getWifi();
   // if there's a successful connection:
   int cresult = client.beginTCPConnection(host, port);

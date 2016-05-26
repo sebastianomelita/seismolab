@@ -8,7 +8,7 @@
 
 class statistics {
     public:
-        statistics(double scaleMultiplier=1,int sumx=0,int sumy=0,int sumz=0);
+        statistics(double scaleMultiplier=1.0,double sigmaIter=1.0,int sumx=0,int sumy=0,int sumz=0);
 		double xyztomod(int,int,int);
 		double getModule();
 		double getModule(int,int,int);

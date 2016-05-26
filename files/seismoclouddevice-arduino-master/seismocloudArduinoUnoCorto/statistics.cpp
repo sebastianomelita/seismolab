@@ -1,11 +1,12 @@
 #include "statistics.h"
 
-statistics::statistics(double scaleMultiplier,int sumxx,int sumyy,int sumzz){
+statistics::statistics(double scaleMultiplier,double sigmaIter,int sumxx,int sumyy,int sumzz){
 	scalef=scaleMultiplier;
 	sumx=sumxx;
 	sumy=sumyy;
 	sumz=sumzz;
-	ex=ey=ez=0;
+	resetLastPeriod();
+	setSigmaIter(sigmaIter);
 }
 
 // getModule returns the magnitude of the total acceleration vector as an integer
@@ -115,7 +116,7 @@ void statistics::addValueToAvgVar(double val) {
 	elements++;
 	// https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance
 	double delta = val - partialAvg;
-	partialAvg += delta / (double)elements;
+	partialAvg += delta / (double) elements;
 	partialStdDev += delta * (val - partialAvg);
 	if (elements > 1) {
 		quakeThreshold = partialAvg + (getCurrentSTDDEV() * getSigmaIter());
@@ -145,6 +146,6 @@ double statistics::getCurrentAVG() {
 }
 
 double statistics::getCurrentSTDDEV() {
-	return sqrt(partialStdDev / (elements - 1));
+	return sqrt(partialStdDev /(double) (elements - 1));
 }
 

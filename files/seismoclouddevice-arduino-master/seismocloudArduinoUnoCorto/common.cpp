@@ -4,6 +4,7 @@ byte ethernetMac[6] = { 0 };
 
 float latitude = 0;
 float longitude = 0;
+float sigma=10;
 unsigned long bootTime = 0;
 uint32_t probeSpeedStat = 0;
 
@@ -122,13 +123,20 @@ void setBootTime(unsigned long bootTimeMs) {
   bootTime = bootTimeMs;
 }
 
-
 void setProbeSpeedStatistic(uint32_t v) {
   probeSpeedStat = v;
 }
 
 uint32_t getProbeSpeedStatistic() {
   return probeSpeedStat;
+}
+
+void setSigma(float s) {
+  sigma = s;
+}
+
+float getSigma() {
+  return sigma;
 }
 /*
 void generateMACAddress() {
@@ -183,6 +191,13 @@ String getLatitudeAsString() {
   return String(v);
 }
 
+String getDoubleAsString(double d) {
+  char v[11];
+  memset(v, 0, 11);
+  ftoa(v, 10, d);
+  return String(v);
+}
+
 String getLongitudeAsString() {
   char v[10+1];
   memset(v, 0, 10+1);
@@ -202,13 +217,14 @@ bool readParameter(char* cfg, char* tag, char* into, int maxn) {
     if(strlen(sep) == 0) {
       break;
     }
+
     if(strncmp(tag, sep, strlen(tag)) == 0) {
       ret = true;
       int valuesize = 0;
       char* value = strchr(sep, ':') + 1;
       char* next = strchr(sep, '|');
       if(next != NULL) {
-        valuesize = (next - value) - 1;
+        valuesize = next - value;
       } else {
         valuesize = strlen(value);
       }

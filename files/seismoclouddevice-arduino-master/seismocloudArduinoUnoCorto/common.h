@@ -25,6 +25,7 @@ void checkEEPROM();
 float getLatitude();
 String getLatitudeAsString();
 String getLongitudeAsString();
+String getDoubleAsString(double d);
 float getLongitude();
 unsigned long getBootTime();
 void setBootTime(unsigned long);
@@ -36,6 +37,8 @@ uint32_t getProbeSpeedStatistic();
 String getVersionAsString();
 byte* HEXStrToByte(byte* , char*);
 byte getNumVal(char);
-
+void setSigma(float s);
+float getSigma();
+bool readParameter(char* cfg, char* tag, char* into, int maxn); 
 #endif
 

@@ -27,7 +27,7 @@
 
 MPU6050 accelero;
 //statistics stat(0.20 / 32768.0); //scale factor
-statistics stat((double)16.0/ 32768.0); //scale factor
+statistics stat((double)16.0/ 32768.0,10.0); //scale factor
 
 double getCurrentAVG(){
 	return stat.getCurrentAVG();
@@ -78,7 +78,8 @@ void seismometerTick() {
 	RECORD db = {0, 0, false};
 	double detectionAVG = stat.getCurrentAVG();
 	double detectionStdDev = stat.getCurrentSTDDEV();
-  
+    stat.setSigmaIter(getSigma());
+    
 	//db.ts = getUNIXTime();
 	stat.setXYZ(accelero.getAccelerationX(),accelero.getAccelerationY(),accelero.getAccelerationZ());
 	db.accel = stat.xyztomod(accelero.getAccelerationX(),accelero.getAccelerationY(),accelero.getAccelerationZ());
@@ -92,34 +93,7 @@ void seismometerTick() {
 	//Serial.println(accelero.getAccelerationX(),DEC);
 	//Serial.println(accelero.getAccelerationY(),DEC);
 	//Serial.println(accelero.getAccelerationZ(),DEC);
-	/*
-	if (inEvent && (millis() - lastEventWas >= 5000)) {
-		// Out of event
-		LED::red(false);
-		inEvent = false;
-		Serial.println("QUAKE Timeout END");
-	} else if (inEvent && (millis() - lastEventWas) < 5000) {
-		// In event, skipping detections for 5 seconds
-		return;
-	}
 
-	// if the values of the accelerometer have passed the threshold
-	//  or if an "event" is currently running
-	//if (db.overThreshold && !inEvent) {
-	if (db.overThreshold && !inEvent) {
-		//Log::i("New Event: v:%lf - thr:%f - iter:%f - avg:%f - stddev:%f", db.accel, quakeThreshold,
-			   //stat.getSigmaIter(), stat.detectionAVG, stat.detectionStdDev);
-
-		LED::red(true);
-
-		inEvent = true;
-		lastEventWas = millis();
-
-		//HTTPClient::httpSendAlert(&db);
-		Serial.print("QUAKE: ");
-		Serial.println(db.accel);
-		httpQuakeRequest();
-	}*/
     
     //Serial.println(F("QUAKE: "));
     //Serial.println(db.overThreshold);
