@@ -8,6 +8,7 @@ void seismometerTick();
 statistics& getStat();
 double getCurrentAVG();
 double getCurrentSTDDEV();
+void resetStat();
 
 typedef struct {
 	unsigned long ts;

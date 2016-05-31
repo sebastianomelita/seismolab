@@ -9,6 +9,8 @@
 
 //#define SSID "panizzi"
 //#define PASSWORD "salaria113"
+//#define SSID "pippo"
+//#define PASSWORD "topolino"
 #define SSID "OpenWrt"
 #define PASSWORD "dorabino.7468!"
 
@@ -126,12 +128,13 @@ void loop() {
   LED::tick();
 
   // Calling alive every 14 minutes
-  if((millis() - lastAliveMs) >= 20000) {
+  if((millis() - lastAliveMs) >= 740000) {
     Serial.print(F("------------Keepalive sent at-------------- "));
     printUNIXTime();
     Serial.println();
     
     httpAliveRequest();
+	//resetStat();
     lastAliveMs = millis();
     Serial.print(F("Sigma: "));
     Serial.println(getSigma());
@@ -145,8 +148,11 @@ void loop() {
   if(millis() - lastProbeMs >= 1000) {
     lastProbeMs = millis();
     setProbeSpeedStatistic(probeCount);
+	//Serial.print(F("ProbeCount: "));
+	//Serial.println(probeCount);
     probeCount = 0;
   }
-  probeCount++;}
+  probeCount++;
+}
 
 

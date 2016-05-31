@@ -27,7 +27,7 @@
 
 MPU6050 accelero;
 //statistics stat(0.20 / 32768.0); //scale factor
-statistics stat((double)16.0/ 32768.0,10.0); //scale factor
+statistics stat((double)2.0/ 32768.0,5.0); //scale factor
 
 double getCurrentAVG(){
 	return stat.getCurrentAVG();
@@ -35,6 +35,10 @@ double getCurrentAVG(){
 
 double getCurrentSTDDEV(){
 	return stat.getCurrentSTDDEV();
+}
+
+void resetStat(){
+stat.resetLastPeriod();  	
 }
 
 void seismometerInit() {
@@ -52,19 +56,19 @@ void seismometerInit() {
   Serial.println(F("Testing device connections..."));
   Serial.println(accelero.testConnection() ? F("MPU6050 connection successful") : F("MPU6050 connection failed"));
   
-  accelero.setFullScaleAccelRange(3); //+-16G
+  accelero.setFullScaleAccelRange(0); //+-2G
   Serial.print(F("Scale range: "));
   Serial.println(accelero.getFullScaleAccelRange());
   //accelero.calibration();
   //accelero.MCUCalibration();
   //accelero.setAveraging(10);
-    Serial.print(accelero.getXAccelOffset()); Serial.print("\t"); // -76
-    Serial.print(accelero.getYAccelOffset()); Serial.print("\t"); // -2359
-    Serial.print(accelero.getZAccelOffset()); Serial.print("\t"); // 1688
-    Serial.print("\n");
-    //accelero.setXAccelOffset(-2380);
-    //accelero.setYAccelOffset(500);
-    //accelero.setZAccelOffset(1810);
+    //Serial.print(accelero.getXAccelOffset()); Serial.print("\t"); // -76
+    //Serial.print(accelero.getYAccelOffset()); Serial.print("\t"); // -2359
+    //Serial.print(accelero.getZAccelOffset()); Serial.print("\t"); // 1688
+    //Serial.print("\n");
+    accelero.setXAccelOffset(-2380);
+    accelero.setYAccelOffset(500);
+    accelero.setZAccelOffset(1810);
     //Serial.print(accelero.getXAccelOffset()); Serial.print("\t"); // -76
     //Serial.print(accelero.getYAccelOffset()); Serial.print("\t"); // -2359
     //Serial.print(accelero.getZAccelOffset()); Serial.print("\t"); // 1688
@@ -82,15 +86,17 @@ void seismometerTick() {
     
 	//db.ts = getUNIXTime();
 	stat.setXYZ(accelero.getAccelerationX(),accelero.getAccelerationY(),accelero.getAccelerationZ());
-	db.accel = stat.xyztomod(accelero.getAccelerationX(),accelero.getAccelerationY(),accelero.getAccelerationZ());
+	db.accel = stat.getModule();
 	db.overThreshold = stat.getModuleEMA(0.6) > stat.getQuakeThreshold();
     stat.addValueToAvgVar(db.accel);
     
     //Serial.print(F("\ndb.accel: "));
-    //Serial.println(db.accel);
+     //Serial.print(db.accel);
     //Serial.println(stat.getQuakeThreshold());
-    
-	//Serial.println(accelero.getAccelerationX(),DEC);
+    //Serial.print(F("-"));
+    //Serial.print(stat.getModuleEMA(0.9));
+    //Serial.print(F("-"));
+	//Serial.println(stat.getQuakeThreshold());
 	//Serial.println(accelero.getAccelerationY(),DEC);
 	//Serial.println(accelero.getAccelerationZ(),DEC);
 
@@ -104,10 +110,14 @@ void seismometerTick() {
 		LED::red(true);
 		// QUAKE
 		Serial.print(F("QUAKE: "));
-		Serial.println(db.accel);
 		httpQuakeRequest();
-		delay(5000);
+		Serial.print(db.accel);
 		stat.resetLastPeriod();  
+		Serial.print(F("-"));
+		stat.getModuleEMA(0.6);
+		Serial.print(F("-"));
+		Serial.println(stat.getQuakeThreshold());
+		delay(5000);
 		Serial.println(F("QUAKE Timeout END"));
 		LED::red(false);
 	}

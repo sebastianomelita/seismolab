@@ -39,11 +39,11 @@ class statistics {
 		//double iX, iY, iZ, X, Y, Z;
 		double ex,ey,ez;
 		//int MCUx,MCUy,MCUz;
-		double partialAvg = 0;
-	    double partialStdDev = 0;
-	    unsigned int elements = 0;
-	    double quakeThreshold = 1;
-	    double sigmaIter = 3;
+		double partialAvg;
+	    double partialStdDev;
+	    unsigned int elements;
+	    double quakeThreshold;
+	    double sigmaIter;
 	    double scalef; // 0.20 / 32768.0; // Assuming +/- 16G.
 	    int sumx,sumy,sumz;
 	    //double EARTH_GRAVITY_MS2 = 

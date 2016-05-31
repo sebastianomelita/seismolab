@@ -25,11 +25,6 @@ void statistics::setFactor(double f){
 	factor=f;
 }
 */
-// getModule returns the magnitude of the total acceleration vector as an integer
-double statistics::getModule(int x, int y, int z)
-{
-  return sqrt(square(x) + square(y) + square(z));
-}
 
 /*int statistics::getCalibratedModule()
 {
@@ -70,6 +65,12 @@ int statistics::getCalibratedModuleMCUEMA(float a)
   return sqrt(square(ex*factor-iX) + square(ey*factor-iY) + square(ez*factor-iZ));
 }
 */
+// getModule returns the magnitude of the total acceleration vector as an integer
+double statistics::getModule()
+{
+  return sqrt(square(x) + square(y) + square(z));
+}
+
 double statistics::getModuleEMA(double a)
 {
   ex=(double) x*a+(1.0-a)*ex;
@@ -114,6 +115,8 @@ void statistics::setSigmaIter(double i) {
 
 void statistics::addValueToAvgVar(double val) {
 	elements++;
+	if(elements==0)
+	   resetLastPeriod();
 	// https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance
 	double delta = val - partialAvg;
 	partialAvg += delta / (double) elements;
@@ -121,6 +124,23 @@ void statistics::addValueToAvgVar(double val) {
 	if (elements > 1) {
 		quakeThreshold = partialAvg + (getCurrentSTDDEV() * getSigmaIter());
 	}
+	
+	Serial.print(F("\ndb.accel: "));
+    Serial.print(val);
+    //Serial.println(stat.getQuakeThreshold());
+    Serial.print(F("-"));
+    Serial.print(quakeThreshold,6);
+    Serial.print(F("-"));
+    Serial.print(getSigmaIter());
+    Serial.print(F("-"));
+    Serial.print(partialAvg,6);
+    Serial.print(F("-"));
+    Serial.print(partialStdDev,6);
+    Serial.print(F("-"));
+    Serial.print(elements);
+    Serial.print(F("-"));
+	Serial.println(getCurrentSTDDEV(),6);
+	
 	//Log::d("AddValueToAvgVar: EL:%f D:%f AVG:%f VAR:%f THR:%f I:%i", val, delta, getCurrentAVG(), getCurrentSTDDEV(),
 	//	   quakeThreshold, elements);
 }
@@ -134,7 +154,9 @@ void statistics::resetLastPeriod() {
 	partialAvg = 0;
 	partialStdDev = 0;
 	elements = 0;
+	quakeThreshold=1;
 	ex=ey=ez=0;
+	Serial.print(F("ResetPeriod: "));
 }
 
 double statistics::getSigmaIter() {
