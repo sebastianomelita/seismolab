@@ -771,7 +771,6 @@ void ESP8266wifi::writeCommand(const char* text1 = NULL, const char* text2) {
         _serialOut->print(buf);
     }
     _serialOut->flush();
-    
 }
 
 // Reads from serial input until a expected string is found (or until timeout)
@@ -1254,9 +1253,9 @@ char ESP8266wifi::getCurrLinkId(){
 int ESP8266wifi::available(int timeoutMillis, char *from, char channel){
 	if(posw>0){
 		char app=msgOut[127];
-		msgOut[127]=0;
+		msgOut[MSG_BUFFER_MAX-1]=0;
 		Serial.print(msgOut);
-		msgOut[127]=app;
+		msgOut[MSG_BUFFER_MAX-1]=app;
 		endUDPPacket2(channel);
 	}
 	   
