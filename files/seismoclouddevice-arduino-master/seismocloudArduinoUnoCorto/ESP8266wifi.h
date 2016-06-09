@@ -10,7 +10,7 @@
 #ifndef ESP8266wifi_h
 #define ESP8266wifi_h
 
-#define HW_RESET_RETRIES 3
+#define HW_RESET_RETRIES 5
 #define SERVER_CONNECT_RETRIES_BEFORE_HW_RESET 3
 
 #if defined(ARDUINO) && ARDUINO >= 100

@@ -176,7 +176,7 @@ bool ESP8266wifi::begin() {
         delay(500);
         digitalWrite(_resetPin, HIGH); // select the radio
         // Look for ready string from wifi module
-        statusOk = readCommand(3000, READY) == 1;
+        statusOk = (readCommand(3000, READY) == 1);
         if(statusOk)
             break;
     }
@@ -198,7 +198,7 @@ bool ESP8266wifi::begin() {
     
     // Set mux to enable multiple connections
     writeCommand(CIPMUX_1, EOL);
-    flags.started = readCommand(3000, OK, NO_CHANGE) > 0;
+    flags.started = readCommand(4000, OK, NO_CHANGE) > 0;
     return flags.started;
 }
 
@@ -244,61 +244,72 @@ bool ESP8266wifi::isConnectedToAP(){
 }
 
 char* ESP8266wifi::getIP(){
-    msgIn[0] = '\0';
+	flags.debug=false;
+    msgIn[0] = 0;
     writeCommand(CIFSR, EOL);
     byte code = readCommand(1000, STAIP, ERROR);
     if (code == 1) {
         // found staip
-        readBuffer(&msgIn[0], sizeof(msgIn) - 1, '"');
-        readCommand(10, OK, ERROR);
-        return &msgIn[0];
+        readBuffer(msgIn, MSG_BUFFER_MAX - 1, '"');
+        readCommand(1000, OK, ERROR);
+        flags.debug=true;
+        return msgIn;
     }
     readCommand(1000, OK, ERROR);
-    return &msgIn[0];
+    flags.debug=true;
+    return msgIn;
 }
 
 char* ESP8266wifi::getMAC(){
-    msgIn[0] = '\0';
+	flags.debug=false;
+    msgIn[0] = 0;
     writeCommand(CIFSR, EOL);
     byte code = readCommand(1000, STAMAC, ERROR);
     if (code == 1) {
         // found stamac
-        readBuffer(&msgIn[0], sizeof(msgIn) - 1, '"');
-        readCommand(10, OK, ERROR);
-        return &msgIn[0];
+        readBuffer(msgIn, MSG_BUFFER_MAX - 1, '"');
+        readCommand(1000, OK, ERROR);
+        flags.debug=true;
+        return msgIn;
     }
     readCommand(1000, OK, ERROR);
-    return &msgIn[0];
+    flags.debug=true;
+    return msgIn;
 }
 
 char* ESP8266wifi::getVersion(){
-msgIn[0] = '\0';
+flags.debug=false;	
+msgIn[0] = 0;
     writeCommand(GMR, EOL);
     byte code = readCommand(1000,"", ERROR);
     if (code == 1) {
         // found stamac
-        readBuffer(&msgIn[0], sizeof(msgIn) - 1, '"');
+        readBuffer(msgIn, MSG_BUFFER_MAX - 1, '"');
         readCommand(10, OK, ERROR);
-        return &msgIn[0];
-    }
+        flags.debug=true;
+        return msgIn;  
+    }                  
     readCommand(1000, OK, ERROR);
-    return &msgIn[0];
+    flags.debug=true;
+    return msgIn;
 }
 
 char* ESP8266wifi::getNTP(){
-msgIn[0] = '\0';
+flags.debug=false;
+msgIn[0] = 0;
     writeCommand(NTPTIME, EOL);
     byte code = readCommand(1000,"", ERROR);
     if (code == 1) {
         // found stamac
-        readBuffer(&msgIn[0], sizeof(msgIn) - 1, '"');
+        readBuffer(msgIn, MSG_BUFFER_MAX - 1, '"');
         readCommand(10, OK, ERROR);
-        return &msgIn[0];
+        flags.debug=true;
+        return msgIn;
     }
     readCommand(1000, OK, ERROR);
-    return &msgIn[0];
+    flags.debug=true;
+    return msgIn;
 }
-
 bool ESP8266wifi::startNTPClient(){
     writeCommand(CIPNTPSTART, EOL);
     boolean stopped = (readCommand(2000, OK, NO_CHANGE) > 0);
@@ -759,6 +770,7 @@ void ESP8266wifi::writeCommand(const char* text1 = NULL, const char* text2) {
         strcpy_P(buf, (char *) text2);
         _serialOut->print(buf);
     }
+    _serialOut->flush();
     
 }
 
@@ -774,18 +786,18 @@ byte ESP8266wifi::readCommand(int timeout, const char* text1, const char* text2)
         strcpy_P(buf2, (char *) text2);
     byte len1 = strlen(buf1);
     byte len2 = strlen(buf2);
-    byte pos1 = 0;
-    byte pos2 = 0;
-
+    uint16_t pos1 = 0;
+    uint16_t pos2 = 0;
+    
     // read chars until first match or timeout
     unsigned long stop = millis() + timeout;
     do {
         while (_serialIn->available()) {
             char c = readChar();
-
+        
             if(pos1<len1)
-                if(c == buf1[pos1])
-                    pos1++;
+            	if(c == buf1[pos1])
+                	pos1++;                  
                 else if(c == buf1[0])
                     pos1=1;
                 else 
@@ -804,69 +816,41 @@ byte ESP8266wifi::readCommand(int timeout, const char* text1, const char* text2)
             else if (len2 > 0 && pos2 == len2)
         		return 2;
         }
-        delay(10);
+        delay(5);
     } while (millis() < stop);
     //Serial.println(pos1);
     //Serial.println(pos2);
     return 0;
 }
 
-// Unload buffer without delay
-/*byte ESP8266wifi::readCommand(const char* text1, const char* text2) {
-    // setup buffers on stack & copy data from PROGMEM pointers
-    char buf1[16] = {'\0'};
-    char buf2[16] = {'\0'};
-    if (text1 != NULL)
-        strcpy_P(buf1, (char *) text1);
-    if (text2 != NULL)
-        strcpy_P(buf2, (char *) text2);
-    byte len1 = strlen(buf1);
-    byte len2 = strlen(buf2);
-    byte pos1 = 0;
-    byte pos2 = 0;
-
-    // read chars until first match or timeout
-    while (_serialIn->available()) {
-        char c = readChar();
-        pos1 = (c == buf1[pos1]) ? pos1 + 1 : 0;
-        pos2 = (c == buf2[pos2]) ? pos2 + 1 : 0;
-        if (len1 > 0 && pos1 == len1)
-            return 1;
-        if (len2 > 0 && pos2 == len2)
-            return 2;
-    }
-    return 0;
-}*/
-
 // Reads count chars to a buffer, or until delim char is found then add a null char
 uint16_t ESP8266wifi::readBuffer(char* buf, uint16_t count, char delim) {
     uint16_t pos1 = 0;
   
-    //unsigned long start;     
-	//Serial.print("\ndaqua leggo: "); 
-	//Serial.println(count);   
-	//start = millis();
-	
 	//count conta a meno del \0
-	//while (millis() - start < 3000 && pos < count) {
-    while (_serialIn->available() && pos1 < count) {
-        if (_serialIn->peek() == delim)
-            break;
-        buf[pos1++] = readChar();
-    }
-    buf[pos1] = '\0';
-    //	}
-    //Serial.print("buf: ");
-	//Serial.print(buf);
+	unsigned long stop = millis() + 300;
+    do {
+    	while (_serialIn->available() && pos1 < count) {
+        	if (_serialIn->peek() == delim)
+            	break;
+        	buf[pos1++] = readChar();
+    	}
+        delayMicroseconds(5);
+    } while (millis() < stop);
+    buf[pos1] = 0;
 	return pos1; //conta anche il \0
 }
 
 uint16_t ESP8266wifi::readBuffer2(char* buf, uint16_t count) {
     uint16_t pos1 = 0;
   
-    while (_serialIn->available() && pos1 < count) {
-        buf[pos1++] = readChar();
-    }
+    unsigned long stop = millis() + 300;
+    do {
+		while (_serialIn->available() && pos1 < count) {
+        	buf[pos1++] = readChar();
+    	}
+    	delayMicroseconds(5);
+    } while (millis() < stop);	
 	return pos1; //conta anche il \0
 }
 
@@ -875,8 +859,8 @@ char ESP8266wifi::readChar() {
     char c = _serialIn->read();
     if (flags.debug)
         _dbgSerial->print(c);
-    else
-        delayMicroseconds(50); // don't know why
+    //else
+        //delayMicroseconds(5); // don't know why
     return c;
 }
 
