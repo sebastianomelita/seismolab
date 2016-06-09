@@ -1167,10 +1167,10 @@ void ESP8266wifi::printD(char* str, char channel){
 		msgOut[posw++] = c;
 		if(posw >= MSG_BUFFER_MAX) 
 		{ 
-			char app=msgOut[127];
-			msgOut[127]=0;
+			char app=msgOut[MSG_BUFFER_MAX-1];
+			msgOut[MSG_BUFFER_MAX-1]=0;
 			Serial.print(msgOut);
-			msgOut[127]=app;
+			msgOut[MSG_BUFFER_MAX-1]=app;
 			endUDPPacket2(channel);
 		}
 	}	
@@ -1206,10 +1206,10 @@ void ESP8266wifi::printD(const __FlashStringHelper *s, char channel){
 		msgOut[posw++] = c;
 		if(posw >= MSG_BUFFER_MAX) 
 		{ 
-			char app=msgOut[127];
-			msgOut[127]=0;
+			char app=msgOut[MSG_BUFFER_MAX-1];
+			msgOut[MSG_BUFFER_MAX-1]=0;
 			Serial.print(msgOut);
-			msgOut[127]=app;
+			msgOut[MSG_BUFFER_MAX-1]=app;
 			endUDPPacket2(channel);
 		}
 	}	
