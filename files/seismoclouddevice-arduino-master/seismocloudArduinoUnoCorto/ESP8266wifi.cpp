@@ -105,7 +105,7 @@ ESP8266wifi::ESP8266wifi(Stream &serialIn, Stream &serialOut, byte resetPin, uin
     _resetPin = resetPin;
     _rate = rate;
     
-    avlblDelay = 60*1000000 /_rate;
+    avlblDelay = 65*1000000 /_rate;
 	pinMode(_resetPin, OUTPUT);
     digitalWrite(_resetPin, LOW);//Start with radio off
     
@@ -134,7 +134,7 @@ ESP8266wifi::ESP8266wifi(Stream &serialIn, Stream &serialOut, byte resetPin, Str
     _dbgSerial = &dbgSerial;
     _rate = rate;
     
-    avlblDelay = 60*1000000 /_rate;
+    avlblDelay = 65*1000000 /_rate;
     pinMode(_resetPin, OUTPUT);
     digitalWrite(_resetPin, LOW);//Start with radio off
     
@@ -978,7 +978,6 @@ bool ESP8266wifi::endUDPPacket2(char channel){
 	byte sendStatus;
 	byte prompt;
 
-	Serial.println(F("length44"));
     //Serial.println(posw);
     if(flags.endSendWithNewline)
         posw += 2;
@@ -1061,7 +1060,7 @@ void ESP8266wifi::printInBuffer(uint16_t len){
 }		
 
 int ESP8266wifi::write(const unsigned char* buf, size_t inSize, size_t outSize, char pad){
-		Serial.print(F("write len: "));
+		//Serial.print(F("write len: "));
 		Serial.println(inSize);
 	if(inSize>=outSize){
 		memcpy((char *)msgOut+posw, (const char *)buf, inSize);
@@ -1302,22 +1301,22 @@ int ESP8266wifi::available(int timeoutMillis, char *from, char channel){
 	   
 	if(msg.hasData && msg.channel == channel && msg.length > pos){
 		//legge la rimanenza del buffer di lettura non ancora letta prima di ricevere
-		Serial.print(F("vecchi pacchetti: "));
-		Serial.println(msg.hasData);
-		Serial.print(F("-length: "));
-		Serial.println(msg.length);
-		Serial.print(F("-pos: "));
-		Serial.println(pos);
+		//Serial.print(F("vecchi pacchetti: "));
+		//Serial.println(msg.hasData);
+		//Serial.print(F("-length: "));
+		//Serial.println(msg.length);
+		//Serial.print(F("-pos: "));
+		//Serial.println(pos);
 		return msg.length-pos;	
 	}else if(listenForIncomingMessage(timeoutMillis,from).hasData){
 		//finalmente ha letto tutto il buffer di lettura e può ricevere nuovi pacchetti
-		Serial.println(F("\nnuovi pacchetti: "));
-	    Serial.println(msg.hasData);
-		Serial.println(F("Ricaricato"));
-		Serial.print(F("pos2: "));
-	    Serial.print(pos);
-		Serial.print(F("-length2: "));
-		Serial.println(msg.length);
+		//Serial.println(F("\nnuovi pacchetti: "));
+	    //Serial.println(msg.hasData);
+		//Serial.println(F("Ricaricato"));
+		//Serial.print(F("pos2: "));
+	    //Serial.print(pos);
+		//Serial.print(F("-length2: "));
+		//Serial.println(msg.length);
 		return msg.length;
 	}  
 	return 0;   
