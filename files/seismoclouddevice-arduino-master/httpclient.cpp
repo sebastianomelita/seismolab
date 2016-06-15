@@ -31,7 +31,7 @@
   //postVars += "&tsstart=";
   //postVars += getUNIXTime();
   //postVars += "&lat=" + getLatitudeAsString() + "&lon=" + getLongitudeAsString();
-  httpRequest(DEFAULTHOST2, "80", "/vladicms/operazioni/api.php?rquest=random",postVars, buf, "Random:");
+  httpRequest(DEFAULTHOST2, "80", "/my%20portable%20files/operazioni/random",postVars, buf, "Random:");
   Serial.print(F("\nPark response: "));
   Serial.println(buf);
   Serial.println(F("\nEnd httpParkRequest")); 
@@ -74,9 +74,9 @@ void httpRequest(char* host, char* port, char* path, String &postVars, char * bu
  
   if (cresult) {
     if(postVars == "") {
-    	client.printD(F("\nGET "));
+    	client.printD(F("GET "));
     } else {
-        client.printD(F("\nPOST "));
+        client.printD(F("POST "));
     }
     client.printD(path);
     client.printlnD(F(" HTTP/1.1"));
@@ -96,17 +96,13 @@ void httpRequest(char* host, char* port, char* path, String &postVars, char * bu
     	client.printlnD(F("Content-Length: 0"));
 		client.printlnD(F(""));
 	} 
-    
-    Serial.print(F("\n\nSto per leggere:\n"));
-    Serial.println(offset);
-    if(client.available(10000,offset)) {  //legge la risposta a partire dall stringa in offset 
-        Serial.print(F("\n\Sono disponibile\n"));
-		client.readLine(buf,80);
-		Serial.print(F("\n\HO LETTO!!!\n"));
+
+   if(client.available(100*1000,offset)) {  //legge la risposta a partire dall stringa in offset 
+        Serial.println("Attendo risposta"); 
+        client.readLine(buf,80);
     } else {
         Serial.println(F("Socket read error"));
     }
-    
   } else {
     // if you couldn't make a connection:
     Serial.print(F("connection failed to: "));
@@ -122,7 +118,7 @@ void httpRequest(char* host, char* port, char* path, String &postVars, char * bu
   	Serial.print(F(":"));
   	Serial.print(port);
   	Serial.println(F(""));
-  	//client.disconnectFromServer();
+  	client.disconnectFromServer();
   }
 }
 

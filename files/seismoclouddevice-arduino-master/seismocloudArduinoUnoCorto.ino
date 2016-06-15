@@ -1,22 +1,29 @@
+#include <EEPROM.h>
+
+#include <I2Cdev.h>
+
+
+#include <Wire.h>
+
 #include <Arduino.h>
 #include <SoftwareSerial.h>
 #include "common.h"
 #include "ESP8266wifi.h"
 
-#define sw_serial_rx_pin 2 //  Connect this pin to TX on the esp8266
-#define sw_serial_tx_pin 3 //  Connect this pin to RX on the esp8266
+//#define sw_serial_rx_pin 2 //  Connect this pin to TX on the esp8266
+//#define sw_serial_tx_pin 3 //  Connect this pin to RX on the esp8266
 #define esp8266_reset_pin 4 // Connect this pin to CH_PD on the esp8266, not reset. (let reset be unconnected)
 
 //#define SSID "panizzi"
 //#define PASSWORD "salaria113"
-//#define SSID "pippo"
-//#define PASSWORD "topolino"
-#define SSID "OpenWrt"
-#define PASSWORD "dorabino.7468!"
+#define SSID "pippo"
+#define PASSWORD "topolino"
+//#define SSID "TP-LINK_7AC7CE"
+//#define PASSWORD "marekdar"
 
-//ESP8266wifi wifi(swSerial, swSerial, esp8266_reset_pin, Serial);
-SoftwareSerial swSerial(sw_serial_rx_pin, sw_serial_tx_pin);
-ESP8266wifi &wifi=ESP8266wifi::getWifi(swSerial, swSerial, esp8266_reset_pin, Serial, 19200);
+//ESP8266wifi wifi(Serial1, Serial1, esp8266_reset_pin, Serial);
+//SoftwareSerial swSerial(sw_serial_rx_pin, sw_serial_tx_pin);
+ESP8266wifi &wifi=ESP8266wifi::getWifi(Serial1,Serial1, esp8266_reset_pin, Serial);
 
 unsigned long lastAliveMs = 0;
 unsigned long lastProbeMs = 0;
@@ -24,9 +31,9 @@ uint32_t probeCount = 0;
 
 void setup() { 
     // start debug serial
-    swSerial.begin(19200);
+    Serial1.begin(115200);
     // start HW serial for ESP8266 (change baud depending on firmware)
-    Serial.begin(19200);
+    Serial.begin(115200);
     while (!Serial)
       ;
     bool wifi_started = wifi.begin();
@@ -74,17 +81,22 @@ void setup() {
 
     Serial.println(F("Init command interface"));
     commandInterfaceInit();
- 
-    Serial.println(F("Send first keep-alive to server..."));
     httpAliveRequest();
-    lastAliveMs = millis();
-
-    
-  
+    httpAliveRequest();
+    httpAliveRequest();
+    httpParkRequest();
+    httpParkRequest();
+    httpParkRequest();
+    httpParkRequest();
+    Serial.println(F("Send first keep-alive to server..."));
+   // httpAliveRequest();
+    //astAliveMs = millis();
+	
 	//finchè non funziona la comunicazione con telefono....
-	setLatitude(42.091522);
-    setLongitude(11.799870);
-   
+	//setLatitude(42.091522);
+    //setLongitude(11.799870);
+    
+    
     if(getLatitude() == 0 && getLongitude() == 0) {
       LED::green(false);
       LED::red(false);
@@ -100,7 +112,7 @@ void setup() {
       LED::red(true);
       LED::yellow(true);
     }
-  
+    
     Serial.print(F("GPS Latitude: "));
     Serial.print(getLatitudeAsString());
     Serial.print(F(" - Longitude: "));
@@ -116,12 +128,6 @@ void setup() {
     LED::green(true);
 	
 	lastAliveMs=0; 
-
-  while(1){
-      //httpAliveRequest();
-      httpParkRequest();
-      delay(500);
-    }
 }
 
 void loop() {
@@ -134,7 +140,7 @@ void loop() {
 
   commandInterfaceTick();
   LED::tick();
-
+  httpQuakeRequest();
   // Calling alive every 14 minutes
   if((millis() - lastAliveMs) >= 740000) {
     Serial.print(F("------------Keepalive sent at-------------- "));

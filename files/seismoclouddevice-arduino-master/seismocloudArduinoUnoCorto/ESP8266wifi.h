@@ -26,7 +26,8 @@
 #define SERVER '4'
 #define LOCALSERVER '0'
 #define MAX_CONNECTIONS 3
-
+//#define AVAILABLE_DELAY 100
+#define AVAILABLE_DELAY_STOP 500
 #define MSG_BUFFER_MAX 128
 /*
 struct WifiMessage{
@@ -75,13 +76,13 @@ public:
     /*
      * Will pull resetPin low then high to reset esp8266, connect this pin to CHPD pin
      */
-    ESP8266wifi(Stream &serialIn, Stream &serialOut, byte resetPin);
+    ESP8266wifi(Stream &serialIn, Stream &serialOut, byte resetPin, uint32_t rate);
     
     
     /*
      * Will pull resetPin low then high to reset esp8266, connect this pin to CHPD pin
      */
-    ESP8266wifi(Stream &serialIn, Stream &serialOut, byte resetPin, Stream &dbgSerial);
+    ESP8266wifi(Stream &serialIn, Stream &serialOut, byte resetPin, Stream &dbgSerial, uint32_t rate);
     
     /*
      * Will do hw reset and set inital configuration, will try this HW_RESET_RETRIES times.
@@ -183,10 +184,10 @@ public:
     char readTCP(char *from=NULL);  //legge un carattere  ue eventualmente ricarica da una qualunque cannessione
     int readLine(char* buf, size_t bufmax); //legge dal buffer di ingresso una linea senza ricaricare
     //metodo di classe singleton da invocare alla prima chiamata
-    static ESP8266wifi &getWifi(Stream &serialIn, Stream &serialOut, byte resetPin, Stream &dbgSerial){
+    static ESP8266wifi &getWifi(Stream &serialIn, Stream &serialOut, byte resetPin, Stream &dbgSerial,uint32_t rate=115200){
     	// l'unica istanza della classe viene creata alla prima chiamata di getWifi()
         // e verrà distrutta solo all'uscita dal programma
-		static ESP8266wifi wifi(serialIn,serialOut,resetPin,dbgSerial); 
+		static ESP8266wifi wifi(serialIn,serialOut,resetPin,dbgSerial,rate); 
 		return wifi;
 	}
 
@@ -199,13 +200,15 @@ private:
     static Stream* _serialOut;
     static byte _resetPin;
     static Stream* _dbgSerial;
+    static uint32_t _rate;
     //-----fine proprietà di classe-------------
     //in più rispetto all'originale-------------
     static WifiMessage msg;
     uint16_t  pos;  //segnaposto
     uint16_t  posw;  //segnaposto
     uint16_t  offset; //spiazzamento dal punto di inizio di copia del messaggio 
-    //fine varianti-------------------
+    uint16_t  avlblDelay;
+	//fine varianti-------------------
     
     Flags flags;
     
@@ -236,11 +239,11 @@ private:
     void writeCommand(const char* text1, const char* text2 = NULL);
     byte readCommand(int timeout, const char* text1 = NULL, const char* text2 = NULL);
     //byte readCommand(const char* text1, const char* text2);
-    uint16_t readBuffer(char* buf, uint16_t count, char delim = '\0');
-    uint16_t readBuffer2(char* buf, uint16_t count);
+    uint16_t readBufferUntil(char* buf, uint16_t count, char delim = '\0');
+    uint16_t readBufferAndFlush(char* buf, uint16_t count);
     char readChar();
     //----------aggiunte-----------------------
-    uint16_t getFrom(char *from);
+    uint16_t moveTo(char *from, uint16_t count);
     void rxEmpty();
     void printOutBuffer();
     void printInBuffer(uint16_t len);
