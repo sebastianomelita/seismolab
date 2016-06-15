@@ -878,9 +878,9 @@ uint16_t ESP8266wifi::moveTo(char *buf, uint16_t count){
 byte pos1;
 uint16_t p;
     
-	Serial.print(F("\nbuf: "));  
-	Serial.print(buf); 
-	Serial.print(F("\n\n"));      
+	//Serial.print(F("\nbuf: "));  
+	//Serial.print(buf); 
+	//Serial.print(F("\n\n"));      
     byte len = strlen(buf);
     unsigned long stop = millis() + 10000;
     do {
