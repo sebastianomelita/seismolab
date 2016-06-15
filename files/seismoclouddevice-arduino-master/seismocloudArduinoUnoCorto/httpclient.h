@@ -6,7 +6,7 @@
 #define DEFAULTHOST2 "ismarconicivitavecchia.tk"
 //#define DEFAULTHOST "10.4.0.195"
 
-void httpRequest(char* host, char* port, char* path, String &postVars , char * buf, char * offset);
+void httpRequest(char* host, char* port, char* path, String &postVars , char * buf, char * offset, bool keepAlive=false);
 void httpAliveRequest();
 void httpParkRequest();
 void httpQuakeRequest();

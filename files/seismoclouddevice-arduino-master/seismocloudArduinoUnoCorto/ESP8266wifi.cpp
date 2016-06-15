@@ -998,13 +998,16 @@ bool ESP8266wifi::endUDPPacket2(char channel){
     }
 
 	if (prompt != 2) {
-        if(flags.endSendWithNewline)
-            _serialOut -> println(msgOut);
+        if(flags.endSendWithNewline){
+        	//_serialOut -> println(msgOut);
+            msgOut[posw-1]='\n';
+            msgOut[posw]=0;
+            _serialOut -> write(msgOut,posw);
+		}    
         else
 		   	_serialOut -> write(msgOut,posw);
 		
 		_serialOut ->flush();
-		//rxEmpty();
 			
 		if(!flags.transparentMode)
 		    byte sendStatus = readCommand(5000, SEND_OK, BUSY);
@@ -1209,6 +1212,7 @@ void ESP8266wifi::printD(char* str, char channel){
 			char app=msgOut[MSG_BUFFER_MAX-1];
 			msgOut[MSG_BUFFER_MAX-1]=0;
 			Serial.print(msgOut);
+			Serial.print(app);
 			msgOut[MSG_BUFFER_MAX-1]=app;
 			endUDPPacket2(channel);
 		}
@@ -1248,6 +1252,7 @@ void ESP8266wifi::printD(const __FlashStringHelper *s, char channel){
 			char app=msgOut[MSG_BUFFER_MAX-1];
 			msgOut[MSG_BUFFER_MAX-1]=0;
 			Serial.print(msgOut);
+			Serial.print(app);
 			msgOut[MSG_BUFFER_MAX-1]=app;
 			endUDPPacket2(channel);
 		}
@@ -1266,8 +1271,8 @@ int ESP8266wifi::readLine(char* buf, size_t bufmax) {
     //busmax must be <= MSG_BUFFER_MAX
     for(i=0; msg.hasData && i < bufmax ; i++) {
         buf[i] = readTCP();
-        Serial.print(buf[i]);
-        Serial.print(',');
+        //Serial.print(buf[i]);
+        //Serial.print(',');
           
 		if(buf[i] == 10 || buf[i] == 0){ //(LF e NULL char) ritorna
 		    buf[i] = 0;
@@ -1292,10 +1297,16 @@ char ESP8266wifi::getCurrLinkId(){
 int ESP8266wifi::available(int timeoutMillis, char *from, char channel){
 	if(posw>0){
 		//invia i pacchetti parzialmente riempiti e on ancora iviati prima di ricevere
-		char app=msgOut[MSG_BUFFER_MAX-1];
-		msgOut[MSG_BUFFER_MAX-1]=0;
-		Serial.print(msgOut);
-		msgOut[MSG_BUFFER_MAX-1]=app;
+		if(posw >= MSG_BUFFER_MAX){
+			char app=msgOut[MSG_BUFFER_MAX-1];
+			msgOut[MSG_BUFFER_MAX-1]=0;
+			Serial.print(msgOut);
+			Serial.print(app);
+			msgOut[MSG_BUFFER_MAX-1]=app;
+		}else{
+		    Serial.print(msgOut);	
+		}
+		endSendWithNewline(false);
 		endUDPPacket2(channel);
 	}
 	   

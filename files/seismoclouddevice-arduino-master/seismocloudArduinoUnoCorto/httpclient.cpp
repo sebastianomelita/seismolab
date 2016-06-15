@@ -31,7 +31,7 @@
   //postVars += "&tsstart=";
   //postVars += getUNIXTime();
   //postVars += "&lat=" + getLatitudeAsString() + "&lon=" + getLongitudeAsString();
-  httpRequest(DEFAULTHOST2, "80", "/vladicms/operazioni/api.php?rquest=random",postVars, buf, "Random:");
+  httpRequest(DEFAULTHOST2, "80", "/vladicms/operazioni/api.php?rquest=random",postVars, buf, "Random:",true);
   Serial.print(F("\nPark response: "));
   Serial.println(buf);
   Serial.println(F("\nEnd httpParkRequest")); 
@@ -67,7 +67,7 @@ void httpAliveRequest() {
   Serial.println(F("\nEnd HttpAliveRequest"));
 }
 
-void httpRequest(char* host, char* port, char* path, String &postVars, char * buf, char * offset){
+void httpRequest(char* host, char* port, char* path, String &postVars, char * buf, char * offset, bool keepAlive){
   ESP8266wifi &client=ESP8266wifi::getWifi();
   // if there's a successful connection:
   int cresult = client.beginTCPConnection(host, port);
@@ -83,7 +83,12 @@ void httpRequest(char* host, char* port, char* path, String &postVars, char * bu
     client.printD(F("Host: "));
     client.printlnD(host);
     client.printlnD(F("User-Agent: arduino-esp8266"));
-    client.printlnD(F("Connection: close"));
+    client.printD(F("Connection: "));
+    if(keepAlive) {
+    	client.printlnD(F("keep-alive"));
+    } else {
+        client.printlnD(F("closed"));
+    }
     //client.println(F("User-Agent: arduino-ethernet"));
     if(postVars != "") {
       client.printlnD(F("Content-Type: application/x-www-form-urlencoded"));
@@ -112,7 +117,7 @@ void httpRequest(char* host, char* port, char* path, String &postVars, char * bu
     Serial.print(F(" "));
     Serial.println(cresult);
   }
-  if(client.isConnectedToServer()) {
+  if(client.isConnectedToServer() && keepAlive) {
   	Serial.print(F("\nDisconnect HTTP From: "));
   	Serial.print(host);
   	Serial.print(F(":"));
