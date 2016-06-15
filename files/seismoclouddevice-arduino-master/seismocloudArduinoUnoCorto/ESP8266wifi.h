@@ -243,7 +243,7 @@ private:
     uint16_t readBufferAndFlush(char* buf, uint16_t count);
     char readChar();
     //----------aggiunte-----------------------
-    uint16_t moveTo(char *from, uint16_t count);
+    uint16_t moveTo(char *from, uint16_t count, int timeout=2000);
     void rxEmpty();
     void printOutBuffer();
     void printInBuffer(uint16_t len);

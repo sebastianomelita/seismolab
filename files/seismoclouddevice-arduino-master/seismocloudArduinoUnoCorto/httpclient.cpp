@@ -102,7 +102,7 @@ void httpRequest(char* host, char* port, char* path, String &postVars, char * bu
 		client.printlnD(F(""));
 	} 
     
-    if(client.available(10000,offset)) {  //legge la risposta a partire dall stringa in offset 
+    if(client.available(2000,offset)) {  //legge la risposta a partire dall stringa in offset 
 		client.readLine(buf,80);
     } else {
         Serial.println(F("Socket read error"));
@@ -117,7 +117,7 @@ void httpRequest(char* host, char* port, char* path, String &postVars, char * bu
     Serial.print(F(" "));
     Serial.println(cresult);
   }
-  if(client.isConnectedToServer() && keepAlive) {
+  if(keepAlive) {
   	Serial.print(F("\nDisconnect HTTP From: "));
   	Serial.print(host);
   	Serial.print(F(":"));

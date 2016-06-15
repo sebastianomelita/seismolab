@@ -105,7 +105,7 @@ ESP8266wifi::ESP8266wifi(Stream &serialIn, Stream &serialOut, byte resetPin, uin
     _resetPin = resetPin;
     _rate = rate;
     
-    avlblDelay = 65*1000000 /_rate;
+    avlblDelay = 1000000 /_rate;
 	pinMode(_resetPin, OUTPUT);
     digitalWrite(_resetPin, LOW);//Start with radio off
     
@@ -134,7 +134,7 @@ ESP8266wifi::ESP8266wifi(Stream &serialIn, Stream &serialOut, byte resetPin, Str
     _dbgSerial = &dbgSerial;
     _rate = rate;
     
-    avlblDelay = 65*1000000 /_rate;
+    avlblDelay = 1000000 /_rate;
     pinMode(_resetPin, OUTPUT);
     digitalWrite(_resetPin, LOW);//Start with radio off
     
@@ -409,6 +409,7 @@ bool ESP8266wifi::connectToServer(bool peerChange) {
     
     if(flags.connectedToServer)
         serverRetries = 0;
+    rxEmpty();
     return flags.connectedToServer;
 }
 
@@ -667,10 +668,11 @@ bool ESP8266wifi::checkConnections(WifiConnection **pConnections) {
 WifiMessage ESP8266wifi::listenForIncomingMessage(int timeout, char *from){
     //watchdog();
     flags.debug=true;
-    char buf[16] = {'\0'};
+    char buf[5] = {'\0'};
     msgIn[0] = '\0';
     pos=0;
     offset=0;
+    char channel;
     //static WifiMessage msg;
     
     msg.hasData = false;
@@ -687,20 +689,21 @@ WifiMessage ESP8266wifi::listenForIncomingMessage(int timeout, char *from){
     }
     //Message received..
     else if (msgOrRestart == 1) {
-        char channel = readChar();
-        if (channel == SERVER)
-            flags.connectedToServer = true;
-        readChar(); // removing comma
-        readBufferUntil(buf, 15, ':'); // read char count
+        readBufferUntil(buf, 2, ','); 
+        readChar(); // removing ',' delim
+        channel=buf[0];
+        readBufferUntil(buf, 4, ':'); // read char count
         readChar(); // removing ':' delim
-		uint16_t length = atoi(buf);
+        uint16_t length = atoi(buf);
+		//uint16_t length = Serial.parseInt();
 		//Serial.print("From channel: "); 
 		//Serial.println(channel); 
 		//Serial.print("length: "); 
 		//Serial.println(length); 
         if(from!=NULL){
-        	offset = moveTo(from, length); 
+        	offset = moveTo(from, length, timeout); 
 		} 
+		Serial.print(F("->"));
         //if(readBufferUntilUntil(&msgIn[0], min(length-offset, MSG_BUFFER_MAX - 1),'\0')<length-offset)
         	//rxEmpty(); //se non entra tutto il messaggio leggi la rimanenza fino alla fine senza memorizzarla     
         readBufferAndFlush(msgIn, min(length-offset, MSG_BUFFER_MAX - 1));
@@ -709,6 +712,8 @@ WifiMessage ESP8266wifi::listenForIncomingMessage(int timeout, char *from){
         msg.channel = channel;
         msg.message = msgIn;
         msg.length=min(length-offset, MSG_BUFFER_MAX - 1);
+        if (channel == SERVER)
+            flags.connectedToServer = true;
         //Serial.print("hasData: ");
 	    //Serial.println(msg.hasData);
         //readCommand(100, OK); // cleanup after rx
@@ -721,10 +726,11 @@ WifiMessage ESP8266wifi::listenForIncomingMessage(int timeout, char *from){
 WifiMessage ESP8266wifi::getIncomingMessage(char *from) {
     //watchdog();
     flags.debug=true;
-    char buf[16] = {'\0'};
+    char buf[5] = {'\0'};
     msgIn[0] = '\0';
     pos=0;
     offset=0;
+    char channel;
     //static WifiMessage msg;  variante all'originale
     msg.hasData = false;
     msg.channel = '-';
@@ -740,19 +746,19 @@ WifiMessage ESP8266wifi::getIncomingMessage(char *from) {
     }
     //Message received..
     else if (msgOrRestart == 1) {
-        char channel = readChar();
-        if (channel == SERVER)
-            flags.connectedToServer = true;
-        readChar(); // removing comma
-        readBufferUntil(buf, 15, ':'); // read char count
+        readBufferUntil(buf, 2, ','); 
+        readChar(); // removing ',' delim
+        channel=buf[0];
+        readBufferUntil(buf, 4, ':'); // read char count
         readChar(); // removing ':' delim
         uint16_t length = atoi(buf);
+        //uint16_t length = Serial.parseInt();
         //Serial.print("length2: "); 
 		//Serial.println(length);
         if(from!=NULL){
         	offset = moveTo(from, length);  
 		} 
-        //Serial.println(offset);
+        Serial.print(F("->"));
         //if(readBufferUntil(&msgIn[0], min(length-offset, MSG_BUFFER_MAX - 1),'\0')<length-offset)
         	//rxEmpty(); //se non entra tutto il messaggio leggi la la rimanenza fino alla fine senza memorizzarla     
         readBufferAndFlush(msgIn, min(length-offset, MSG_BUFFER_MAX - 1));
@@ -761,6 +767,8 @@ WifiMessage ESP8266wifi::getIncomingMessage(char *from) {
         msg.channel = channel;
         msg.message = msgIn;
         msg.length=min(length-offset, MSG_BUFFER_MAX - 1);
+        if (channel == SERVER)
+            flags.connectedToServer = true;
         //readCommand(100, OK); // cleanup after rx
         //rxEmpty();
     }
@@ -826,7 +834,7 @@ byte ESP8266wifi::readCommand(int timeout, const char* text1, const char* text2)
             else if (len2 > 0 && pos2 == len2)
         		return 2;
         }
-        delayMicroseconds(avlblDelay);
+        delayMicroseconds(55*avlblDelay);
         //Serial.println(avlblDelay);
     } while (millis() < stop);
     //Serial.println(pos1);
@@ -851,7 +859,7 @@ uint16_t ESP8266wifi::readBufferUntil(char* buf, uint16_t count, char delim) {
 			   
         	buf[pos1++] = readChar();
     	}
-        //delay(AVAILABLE_DELAY);
+        //delayMicroseconds(100);
     } while (millis() < stop);
 	return pos1; 
 }
@@ -868,13 +876,12 @@ uint16_t ESP8266wifi::readBufferAndFlush(char* buf, uint16_t count) {
                 rxEmpty();
                 return count;
             }
-    	//c
-    	//delay(AVAILABLE_DELAY);
+    	//delayMicroseconds(100);
     } while (millis() < stop);	
 	return pos1; //conta anche il \0
 }
 
-uint16_t ESP8266wifi::moveTo(char *buf, uint16_t count){
+uint16_t ESP8266wifi::moveTo(char *buf, uint16_t count, int timeout){
 byte pos1;
 uint16_t p;
     
@@ -882,24 +889,26 @@ uint16_t p;
 	//Serial.print(buf); 
 	//Serial.print(F("\n\n"));      
     byte len = strlen(buf);
-    unsigned long stop = millis() + 10000;
+    unsigned long stop = millis() + timeout;
+    p=0;
+    pos1=0;
     do {
-    	for(p=0, pos1=0; _serialIn->available() && p < count; p++) {
+    	for(; _serialIn->available() && p < count; p++) {
         	char c = readChar();
         
-			if(pos<len)
+			if(pos1<len)
         		if(c == buf[pos1])
             		pos1++;
         		else if(c == buf[0])
             		pos1=1;
         		else 
             		pos1=0;      
-    		if (len > 0 && pos1 == len)
+    		if (len > 0 && pos1 == len || p == count)
             	return p;
     	}
-    	//delayMicroseconds(AVAILABLE_DELAY);
+    	delayMicroseconds(300*avlblDelay);
     	//delay(AVAILABLE_DELAY);
-    } while (millis() < stop && p < count);	
+    } while (millis() < stop);	
     return p;
 }
 
@@ -917,6 +926,7 @@ void ESP8266wifi::rxEmpty(){
 	while(_serialIn->available() > 0) {
       char t =  _serialIn->read();
     }
+    Serial.println(F("\nInput buffer cleared"));
 }
 
 //AGGIUNTE ALLA LIBRERIA ORIGINALE (METODI ANLOGHI ALLA LIBRERIA EthernetClient() di Arduino) --------------
