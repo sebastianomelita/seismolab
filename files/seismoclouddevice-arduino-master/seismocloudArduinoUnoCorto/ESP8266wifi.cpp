@@ -877,7 +877,7 @@ uint16_t ESP8266wifi::readBufferAndFlush(char* buf, uint16_t count) {
                 return count;
             }
         //delayMicroseconds(count*avlblDelay);    
-    	delayMicroseconds(2*avlblDelay);
+    	delayMicroseconds(20*avlblDelay);
     } while (millis() < stop);	
 	return pos1; //conta anche il \0
 }
