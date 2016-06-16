@@ -854,7 +854,7 @@ uint16_t ESP8266wifi::readBufferUntil(char* buf, uint16_t count, char delim) {
         	if (_serialIn->peek() == delim){
         	   buf[pos1] = 0;
 			   return pos1;	
-			}else if(pos == count)
+			}else if(pos == count-1)
 			   return pos1;
 			   
         	buf[pos1++] = readChar();
@@ -871,12 +871,12 @@ uint16_t ESP8266wifi::readBufferAndFlush(char* buf, uint16_t count) {
     do {
 		while (_serialIn->available() && pos1 < count) {
         	buf[pos1++] = readChar();
-    	}
-    	if (pos1 == count) {
+    	}	
+    	if (pos1 == count-1) {
                 rxEmpty();
                 return count;
             }
-    	//delayMicroseconds(100);
+    	delayMicroseconds(count*avlblDelay);
     } while (millis() < stop);	
 	return pos1; //conta anche il \0
 }
@@ -884,6 +884,7 @@ uint16_t ESP8266wifi::readBufferAndFlush(char* buf, uint16_t count) {
 uint16_t ESP8266wifi::moveTo(char *buf, uint16_t count, int timeout){
 byte pos1;
 uint16_t p;
+uint16_t c=min(count,512)/4;
     
 	//Serial.print(F("\nbuf: "));  
 	//Serial.print(buf); 
@@ -906,8 +907,7 @@ uint16_t p;
     		if (len > 0 && pos1 == len || p == count)
             	return p;
     	}
-    	delayMicroseconds(300*avlblDelay);
-    	//delay(AVAILABLE_DELAY);
+    	delayMicroseconds(c*avlblDelay);
     } while (millis() < stop);	
     return p;
 }
