@@ -217,7 +217,7 @@ private:
     char _port[6];
     
     bool connectToAP();
-    char _ssid[16];
+    char _ssid[19];
     char _password[20];
     
     bool startLocalAp();
