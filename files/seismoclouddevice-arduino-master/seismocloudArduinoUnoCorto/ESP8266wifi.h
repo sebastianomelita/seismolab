@@ -26,7 +26,6 @@
 #define SERVER '4'
 #define LOCALSERVER '0'
 #define MAX_CONNECTIONS 3
-//#define AVAILABLE_DELAY 100
 #define AVAILABLE_DELAY_STOP 500
 #define MSG_BUFFER_MAX 128
 /*
@@ -100,6 +99,7 @@ public:
     bool isConnectedToAP();
     char* getIP();
     char* getMAC();
+    char* getMACDot();
     char* getVersion();
     
     /*
@@ -217,7 +217,7 @@ private:
     char _port[6];
     
     bool connectToAP();
-    char _ssid[19];
+    char _ssid[16];
     char _password[20];
     
     bool startLocalAp();

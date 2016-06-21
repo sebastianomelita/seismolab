@@ -37,9 +37,7 @@ void commandInterfaceTick() {
     unsigned long unixTimeM = getUNIXTime();
     unsigned long uptime = getUNIXTime() - getBootTime();
     byte macaddress[6] = { 0 };
-    char * s, *d, *mac;
-    for(mac=s=d=ESP8266wifi::getWifi().getMAC();*d=*s;d+=(*s++!=':')); //rimuove i :
-    HEXStrToByte(macaddress, mac);
+    HEXStrToByte(macaddress, ESP8266wifi::getWifi().getMAC());
     uint32_t probeSpeed = getProbeSpeedStatistic();
     uint32_t freeramkb = freeMemory();
     float latency = 0;
@@ -124,7 +122,6 @@ void commandInterfaceTick() {
       setLongitude(longitude);
       setLatitude(latitude);
     }
-
 
     ESP8266wifi::getWifi().beginUDPPacket();
     ESP8266wifi::getWifi().write((unsigned char*) udpPacketBuffer,sizeof(udpPacketBuffer));

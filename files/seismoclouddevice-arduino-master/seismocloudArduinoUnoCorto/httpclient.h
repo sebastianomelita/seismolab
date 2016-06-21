@@ -8,7 +8,6 @@
 
 void httpRequest(char* host, char* port, char* path, String &postVars , char * buf, char * offset, bool keepAlive=false);
 void httpAliveRequest();
-void httpParkRequest();
 void httpQuakeRequest();
 void ShowSockStatus();
 #endif

@@ -105,7 +105,7 @@ ESP8266wifi::ESP8266wifi(Stream &serialIn, Stream &serialOut, byte resetPin, uin
     _resetPin = resetPin;
     _rate = rate;
     
-    avlblDelay = 1000000 /_rate;
+    _rate = 1000000 /_rate;
 	pinMode(_resetPin, OUTPUT);
     digitalWrite(_resetPin, LOW);//Start with radio off
     
@@ -134,7 +134,7 @@ ESP8266wifi::ESP8266wifi(Stream &serialIn, Stream &serialOut, byte resetPin, Str
     _dbgSerial = &dbgSerial;
     _rate = rate;
     
-    avlblDelay = 1000000 /_rate;
+    _rate = 1000000 /_rate;
     pinMode(_resetPin, OUTPUT);
     digitalWrite(_resetPin, LOW);//Start with radio off
     
@@ -265,7 +265,7 @@ char* ESP8266wifi::getIP(){
     return msgIn;
 }
 
-char* ESP8266wifi::getMAC(){
+char* ESP8266wifi::getMACDot(){
 	flags.debug=false;
     msgIn[0] = 0;
     writeCommand(CIFSR, EOL);
@@ -280,6 +280,12 @@ char* ESP8266wifi::getMAC(){
     readCommand(1000, OK, ERROR);
     flags.debug=true;
     return msgIn;
+}
+
+char* ESP8266wifi::getMAC(){
+	char * s, *d, *mac;
+	for(mac=s=d=getMACDot();*d=*s;d+=(*s++!=':'));
+    return mac;
 }
 
 char* ESP8266wifi::getVersion(){
@@ -834,8 +840,8 @@ byte ESP8266wifi::readCommand(int timeout, const char* text1, const char* text2)
             else if (len2 > 0 && pos2 == len2)
         		return 2;
         }
-        delayMicroseconds(10*avlblDelay);
-        //Serial.println(avlblDelay);
+        delayMicroseconds(10*_rate);
+        //Serial.println(_rate);
     } while (millis() < stop);
     //Serial.println(pos1);
     //Serial.println(pos2);
@@ -859,7 +865,7 @@ uint16_t ESP8266wifi::readBufferUntil(char* buf, uint16_t count, char delim) {
 			   
         	buf[pos1++] = readChar();
     	}
-        delayMicroseconds(avlblDelay);
+        delayMicroseconds(_rate);
     } while (millis() < stop);
 	return pos1; 
 }
@@ -876,8 +882,8 @@ uint16_t ESP8266wifi::readBufferAndFlush(char* buf, uint16_t count) {
                 rxEmpty();
                 return count;
             }
-        //delayMicroseconds(count*avlblDelay);    
-    	delayMicroseconds(20*avlblDelay);
+        //delayMicroseconds(count*_rate);    
+    	delayMicroseconds(20*_rate);
     } while (millis() < stop);	
 	return pos1; //conta anche il \0
 }
@@ -908,7 +914,7 @@ uint16_t c=min(count,512)/4; //pipelineing
     		if (len > 0 && pos1 == len || p == count)
             	return p;
     	}
-    	delayMicroseconds(c*avlblDelay);
+    	delayMicroseconds(c*_rate);
     } while (millis() < stop);	
     return p;
 }
@@ -917,7 +923,7 @@ uint16_t c=min(count,512)/4; //pipelineing
 char ESP8266wifi::readChar() {
     char c = _serialIn->read();
     if (flags.debug)
-        _dbgSerial->print(c);
+    	_dbgSerial->print(c);
     //else
         //delayMicroseconds(5); // don't know why
     return c;

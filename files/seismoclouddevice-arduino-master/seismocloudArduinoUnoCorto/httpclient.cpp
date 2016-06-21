@@ -7,45 +7,26 @@
   String postVars = String("deviceid=");
   
   char buf[80];
-  char * s, *d, *mac;
-  for(mac=s=d=ESP8266wifi::getWifi().getMAC();*d=*s;d+=(*s++!=':')); //rimuove i :
-  postVars += String(mac);
+
+  postVars += String(ESP8266wifi::getWifi().getMAC());
               
   postVars += "&tsstart=";
   postVars += getUNIXTime();
   postVars += "&lat=" + getLatitudeAsString() + "&lon=" + getLongitudeAsString();
-  httpRequest(DEFAULTHOST, "80", "/seismocloud/terremoto.php", postVars, buf, NULL);
+  httpRequest(DEFAULTHOST, "80", "/seismocloud/terremoto.php", postVars, buf, "\r\n\r\n");
   Serial.print(F("\nQuake response: "));
+  buf[1]=0;
   Serial.println(buf);
   Serial.println(F("\nEnd httpQuakeRequest")); 
-}
-
- void httpParkRequest() {
-  String postVars = String("");
-  
-  char buf[80];
-  char * s, *d, *mac;
-  for(mac=s=d=ESP8266wifi::getWifi().getMAC();*d=*s;d+=(*s++!=':')); //rimuove i :
-  //postVars += String(mac);
-              
-  //postVars += "&tsstart=";
-  //postVars += getUNIXTime();
-  //postVars += "&lat=" + getLatitudeAsString() + "&lon=" + getLongitudeAsString();
-  httpRequest(DEFAULTHOST2, "80", "/vladicms/operazioni/api.php?rquest=random",postVars, buf, "Random:",true);
-  Serial.print(F("\nPark response: "));
-  Serial.println(buf);
-  Serial.println(F("\nEnd httpParkRequest")); 
 }
 
 void httpAliveRequest() {
   Serial.println(F("\nBegin HttpAliveRequest"));
   
   char buf[100], sigma[10];
-  char * s, *d, *mac;
-  for(mac=s=d=ESP8266wifi::getWifi().getMAC();*d=*s;d+=(*s++!=':')); //rimuove i :
-    // TODO: parametrized version and model
+
   String postVars = String("deviceid=");
-  postVars += String(mac);
+  postVars += String(ESP8266wifi::getWifi().getMAC());
   postVars += "&model=uno";
   postVars += "&version=" + getVersionAsString();
   postVars += "&lat=" + getLatitudeAsString();

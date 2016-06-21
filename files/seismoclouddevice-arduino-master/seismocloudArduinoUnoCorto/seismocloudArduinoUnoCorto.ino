@@ -117,11 +117,6 @@ void setup() {
 	
 	lastAliveMs=0; 
 
-  while(1){
-      //httpAliveRequest();
-      httpParkRequest();
-      delay(500);
-    }
 }
 
 void loop() {
