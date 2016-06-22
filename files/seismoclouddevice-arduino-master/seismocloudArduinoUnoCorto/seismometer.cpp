@@ -109,15 +109,21 @@ void seismometerTick() {
 	if(db.overThreshold) {
 		LED::red(true);
 		// QUAKE
+		Serial.println(F(""));
 		Serial.print(F("QUAKE: "));
 		httpQuakeRequest();
 		Serial.print(db.accel);
 		stat.resetLastPeriod();  
+		accelero.resetSensors();
+		accelero.resetFIFO();
 		Serial.print(F("-"));
-		stat.getModuleEMA(0.6);
+		//stat.getModuleEMA(0.6);
 		Serial.print(F("-"));
-		Serial.println(stat.getQuakeThreshold());
+		Serial.println(stat.getModuleEMA(0.6));
 		delay(5000);
+		//accelero.setStandbyXAccelEnabled(false);
+		//accelero.setStandbyYAccelEnabled(false);
+		//accelero.setStandbyZAccelEnabled(false);
 		Serial.println(F("QUAKE Timeout END"));
 		LED::red(false);
 	}

@@ -84,7 +84,8 @@ const char DATAEND[] PROGMEM = "+++";
 const char TWO[] PROGMEM = ":";
 //const char UDPNULL[] PROGMEM =  ",\"UDP\","\"0.0.0.0\",0,";
 //--------------MODIFICHE ALLA LIBRERIA ORIGINALE-----------------------------
-const char PEERIP[] PROGMEM = "AT+CIPSTATUS,\"";
+//const char STATUS[] PROGMEM = "AT+CIPSTATUS";
+const char STATUSR[] PROGMEM = "STATUS:";
 //proprietà di classe
 Stream* ESP8266wifi::_serialIn;
 Stream* ESP8266wifi::_serialOut;
@@ -247,6 +248,23 @@ bool ESP8266wifi::isConnectedToAP(){
     readCommand(10, OK); //cleanup
     return (code == 0);
 }
+/*
+bool ESP8266wifi::isConnected(){
+    //flags.debug=false;
+    msgIn[0] = 0;
+    writeCommand(STATUS, EOL);
+    byte code = readCommand(1000, STAIP, ERROR);
+    if (code == 1) {
+        // found staip
+        readBufferUntil(msgIn, MSG_BUFFER_MAX - 1, '\n');
+        readCommand(1000, OK, ERROR);
+        flags.debug=true;
+        return msgIn;
+    }
+    readCommand(1000, OK, ERROR);
+    flags.debug=true;
+    return msgIn;
+}*/
 
 char* ESP8266wifi::getIP(){
 	flags.debug=false;

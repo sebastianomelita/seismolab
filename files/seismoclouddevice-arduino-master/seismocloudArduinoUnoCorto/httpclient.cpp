@@ -5,15 +5,13 @@
 
   void httpQuakeRequest() {
   String postVars = String("deviceid=");
-  
   char buf[80];
 
-  postVars += String(ESP8266wifi::getWifi().getMAC());
-              
+  postVars += String(ESP8266wifi::getWifi().getMAC());    
   postVars += "&tsstart=";
   postVars += getUNIXTime();
   postVars += "&lat=" + getLatitudeAsString() + "&lon=" + getLongitudeAsString();
-  httpRequest(DEFAULTHOST, "80", "/seismocloud/terremoto.php", postVars, buf, "\r\n\r\n");
+  httpRequest(DEFAULTHOST, "80", "/seismocloud/terremoto.php", postVars, buf, "\r\n\r\n",true);
   Serial.print(F("\nQuake response: "));
   buf[1]=0;
   Serial.println(buf);
@@ -22,7 +20,6 @@
 
 void httpAliveRequest() {
   Serial.println(F("\nBegin HttpAliveRequest"));
-  
   char buf[100], sigma[10];
 
   String postVars = String("deviceid=");
@@ -37,7 +34,7 @@ void httpAliveRequest() {
   postVars += "&stddev=" + getDoubleAsString(getCurrentSTDDEV());
   
   //postVars += "&jsonoutput=1"; //134 Bytes! attualmente il buffer MSG_BUFFER_MAX su ESP8266wifi.h � di 128 byte
-  httpRequest(DEFAULTHOST, "80", "/seismocloud/alive.php", postVars, buf, "server:"); 
+  httpRequest(DEFAULTHOST, "80", "/seismocloud/alive.php", postVars, buf, "server:",true); 
   Serial.print(F("\nAliveResponse: "));
   Serial.println(buf);
   readParameter(buf,"sigma",sigma,10);
