@@ -177,7 +177,8 @@ bool ESP8266wifi::begin() {
     bool statusOk = false;
     byte i;
     for(i =0; i<HW_RESET_RETRIES; i++){
-        readCommand(10, NO_IP); //Cleanup
+        //readCommand(10, NO_IP); //Cleanup
+        rxEmpty();
         digitalWrite(_resetPin, LOW);
         delay(500);
         digitalWrite(_resetPin, HIGH); // select the radio
@@ -239,13 +240,15 @@ bool ESP8266wifi::connectToAP(){
     writeCommand(DOUBLE_QUOTE, EOL);
 
     readCommand(15000, OK, FAIL);
+    rxEmpty();
     return isConnectedToAP();
 }
 
 bool ESP8266wifi::isConnectedToAP(){
     writeCommand(CIFSR, EOL);
     byte code = readCommand(350, NO_IP, ERROR);
-    readCommand(10, OK); //cleanup
+    //readCommand(10, OK); //cleanup
+    rxEmpty();
     return (code == 0);
 }
 /*
@@ -275,10 +278,12 @@ char* ESP8266wifi::getIP(){
         // found staip
         readBufferUntil(msgIn, MSG_BUFFER_MAX - 1, '"');
         readCommand(1000, OK, ERROR);
+        rxEmpty();
         flags.debug=true;
         return msgIn;
     }
     readCommand(1000, OK, ERROR);
+    rxEmpty();
     flags.debug=true;
     return msgIn;
 }
@@ -292,10 +297,12 @@ char* ESP8266wifi::getMACDot(){
         // found stamac
         readBufferUntil(msgIn, MSG_BUFFER_MAX - 1, '"');
         readCommand(1000, OK, ERROR);
+        rxEmpty();
         flags.debug=true;
         return msgIn;
     }
     readCommand(1000, OK, ERROR);
+    rxEmpty();
     flags.debug=true;
     return msgIn;
 }
@@ -315,10 +322,12 @@ msgIn[0] = 0;
         // found stamac
         readBufferUntil(msgIn, MSG_BUFFER_MAX - 1, '"');
         readCommand(10, OK, ERROR);
+        rxEmpty();
         flags.debug=true;
         return msgIn;  
     }                  
     readCommand(1000, OK, ERROR);
+    rxEmpty();
     flags.debug=true;
     return msgIn;
 }
@@ -331,23 +340,27 @@ msgIn[0] = 0;
     if (code == 1) {
         // found stamac
         readBufferUntil(msgIn, MSG_BUFFER_MAX - 1, '"');
+        rxEmpty();
         readCommand(10, OK, ERROR);
         flags.debug=true;
         return msgIn;
     }
     readCommand(1000, OK, ERROR);
+    rxEmpty();
     flags.debug=true;
     return msgIn;
 }
 bool ESP8266wifi::startNTPClient(){
     writeCommand(CIPNTPSTART, EOL);
     boolean stopped = (readCommand(2000, OK, NO_CHANGE) > 0);
+    rxEmpty();
     return stopped;
 }
 
 bool ESP8266wifi::stopNTPClient(){
     writeCommand(CIPNTPSTART, EOL);
     boolean stopped = (readCommand(2000, OK, NO_CHANGE) > 0);
+    rxEmpty();
     return stopped;
 }
 
@@ -443,6 +456,7 @@ void ESP8266wifi::disconnectFromServer(){
     flags.serverConfigured = false;//disable reconnect
     writeCommand(CIPCLOSE, EOL);
     readCommand(5000, OK, ERROR);
+    rxEmpty();
 }
 
 
@@ -484,7 +498,8 @@ bool ESP8266wifi::startLocalServer(){
     _serialOut -> println(_localServerPort);
     
     flags.localServerRunning = (readCommand(2000, OK, NO_CHANGE) > 0);
-    return flags.localServerRunning;
+    rxEmpty();
+	return flags.localServerRunning;
 }
 
 bool ESP8266wifi::startLocalAp(){
@@ -503,6 +518,7 @@ bool ESP8266wifi::startLocalAp(){
     writeCommand(THREE_COMMA, EOL);
     
     flags.localApRunning = (readCommand(5000, OK, ERROR) == 1);
+    rxEmpty();
     return flags.localApRunning;
 }
 
@@ -511,6 +527,7 @@ bool ESP8266wifi::stopLocalServer(){
     boolean stopped = (readCommand(2000, OK, NO_CHANGE) > 0);
     flags.localServerRunning = !stopped;
     flags.localServerConfigured = false; //to prevent autostart
+    rxEmpty();
     return stopped;
 }
 
@@ -518,6 +535,7 @@ bool ESP8266wifi::stopLocalAP(){
     writeCommand(CWMODE_1, EOL);
 
     boolean stopped = (readCommand(2000, OK, NO_CHANGE) > 0);
+    rxEmpty();
     flags.localApRunning = !stopped;
     flags.localApConfigured = false; //to prevent autostart
     return stopped;
