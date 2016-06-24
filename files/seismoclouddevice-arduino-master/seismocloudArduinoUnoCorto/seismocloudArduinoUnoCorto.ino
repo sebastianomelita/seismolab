@@ -36,8 +36,6 @@ void setup() {
        Serial.println(F("ESP8266 isn't working.."));
     }
 
-    Serial.print(F("setup end\r\n"));
-
     LED::init(LED_GREEN, LED_YELLOW, LED_RED);
     LED::green(true);
     LED::red(true);
@@ -74,12 +72,9 @@ void setup() {
 
     Serial.println(F("Init command interface"));
     commandInterfaceInit();
- 
-    Serial.println(F("Send first keep-alive to server..."));
+    Serial.println(F("Send first keep-alive to server"));
     httpAliveRequest();
     lastAliveMs = millis();
-
-    
   
 	//finchè non funziona la comunicazione con telefono....
 	setLatitude(42.091522);
@@ -105,10 +100,7 @@ void setup() {
     Serial.print(getLatitudeAsString());
     Serial.print(F(" - Longitude: "));
     Serial.println(getLongitudeAsString());
-
-    Serial.println(F("Init seismometer and calibrate"));
     seismometerInit();
-
     Serial.print(F("Boot completed at "));
     printUNIXTime();
     Serial.println();
@@ -116,32 +108,24 @@ void setup() {
     LED::green(true);
 	
 	lastAliveMs=0; 
-
 }
 
-void loop() {
-  //Make sure the esp8266 is started..
-  //if (!wifi.isStarted())
-   // wifi.begin();
-	
+void loop() {	
   // Update NTP (if necessary)
   updateNTP();
-
   commandInterfaceTick();
   LED::tick();
-
   // Calling alive every 14 minutes
   if((millis() - lastAliveMs) >= 740000) {
-    Serial.print(F("------------Keepalive sent at-------------- "));
+    Serial.print(F("Keepalive sent at "));
     printUNIXTime();
     Serial.println();
-    
     httpAliveRequest();
-	//resetStat();
+	resetStat();
     lastAliveMs = millis();
-    Serial.print(F("Sigma: "));
-    Serial.println(getSigma());
-    Serial.print(F("--------------Keepalive ACK at--------------- "));
+    //Serial.print(F("Sigma: "));
+    //Serial.println(getSigma());
+    Serial.print(F("Keepalive ACK at "));
     printUNIXTime();
     Serial.println();
   }

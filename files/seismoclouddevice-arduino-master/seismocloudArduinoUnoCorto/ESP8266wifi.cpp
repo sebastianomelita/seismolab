@@ -86,7 +86,7 @@ const char TWO[] PROGMEM = ":";
 //--------------MODIFICHE ALLA LIBRERIA ORIGINALE-----------------------------
 //const char STATUS[] PROGMEM = "AT+CIPSTATUS";
 const char STATUSR[] PROGMEM = "STATUS:";
-//proprietà di classe
+//proprietï¿½ di classe
 Stream* ESP8266wifi::_serialIn;
 Stream* ESP8266wifi::_serialOut;
 byte ESP8266wifi::_resetPin;
@@ -331,7 +331,7 @@ msgIn[0] = 0;
     flags.debug=true;
     return msgIn;
 }
-
+/*
 char* ESP8266wifi::getNTP(){
 flags.debug=false;
 msgIn[0] = 0;
@@ -405,7 +405,7 @@ bool ESP8266wifi::stopTransparentMode(){
 	}	
     return 0;
 }
-
+*/
 void ESP8266wifi::setTransportToUDP(){
     flags.connectToServerUsingTCP = false;
 }
@@ -983,7 +983,7 @@ bool ESP8266wifi::beginUDPPacket(const char* host,const char* port, bool transpa
     msg.first=true;
     if(!isConnectedToServer()){
         if(transparent){
-        	startTransparentMode();
+        	//startTransparentMode();
         	//writeCommand(CIPMODEON, EOL);
 	        //readCommand(2000, OK, NO_CHANGE);
             app = connectToServer(host,port,false);
@@ -993,7 +993,7 @@ bool ESP8266wifi::beginUDPPacket(const char* host,const char* port, bool transpa
         return app;  
     }else 
         if(transparent)
-            startTransparentMode();
+            //startTransparentMode();
             //writeCommand(CIPMODEON, EOL);
 	        //readCommand(2000, OK, NO_CHANGE);
         return 0;
@@ -1042,6 +1042,7 @@ bool ESP8266wifi::endUDPPacket2(char channel){
     	_serialOut -> print(channel);
         writeCommand(COMMA);
         _serialOut -> println(posw);
+
         prompt = readCommand(1000, PROMPT, LINK_IS_NOT);
 	}else if(msg.first){
 	    writeCommand(CIPSEND_1); //vale per il primo pacchetto e non invia canale e lunghezza
@@ -1373,7 +1374,7 @@ int ESP8266wifi::available(int timeoutMillis, char *from, char channel){
 		//Serial.println(pos);
 		return msg.length-pos;	
 	}else if(listenForIncomingMessage(timeoutMillis,from).hasData){
-		//finalmente ha letto tutto il buffer di lettura e può ricevere nuovi pacchetti
+		//finalmente ha letto tutto il buffer di lettura e puï¿½ ricevere nuovi pacchetti
 		//Serial.println(F("\nnuovi pacchetti: "));
 	    //Serial.println(msg.hasData);
 		//Serial.println(F("Ricaricato"));

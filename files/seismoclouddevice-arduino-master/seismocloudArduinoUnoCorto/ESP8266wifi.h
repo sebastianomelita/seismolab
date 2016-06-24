@@ -149,11 +149,11 @@ public:
     bool checkConnections(WifiConnection **pConnections);
     
     //--------------MODIFICHE ALLA LIBRERIA ORIGINALE--------------------------------------
-    bool startNTPClient();
-    bool stopNTPClient();
-    char* getNTP();
-    bool startTransparentMode();
-    bool stopTransparentMode();
+    //bool startNTPClient();
+    //bool stopNTPClient();
+    //char* getNTP();
+    //bool startTransparentMode();
+    //bool stopTransparentMode();
 	//Per connessioni UDP------------------------------------------------------------------
 	bool registerUDP(char* addr, char* port, char channel='0');
     bool beginUDPPacket(const char* host, const char* port, bool transparent=false); //connette ad un server UDP imposta writeChannel=SERVER
@@ -219,7 +219,7 @@ private:
     
     bool connectToAP();
     char _ssid[16];
-    char _password[20];
+    char _password[16];
     
     bool startLocalAp();
     bool startLocalServer();

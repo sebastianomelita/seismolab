@@ -9,6 +9,7 @@ statistics& getStat();
 double getCurrentAVG();
 double getCurrentSTDDEV();
 void resetStat();
+void calibrate(float iter);
 
 typedef struct {
 	unsigned long ts;

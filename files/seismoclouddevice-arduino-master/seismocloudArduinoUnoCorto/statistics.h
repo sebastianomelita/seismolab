@@ -31,6 +31,9 @@ class statistics {
 		void resetLastPeriod();
 		void addValueToAvgVar(double);
 		void addValueToAvgVar(int, int, int );
+		void calcMCU(int cx, int cy, int cz);
+		float* getMCU( float *m);
+		//void resetMCU();
 		//void setFactor(double f);
      private:
         uint8_t devAddr;
@@ -38,10 +41,10 @@ class statistics {
 		double x, y, z;
 		//double iX, iY, iZ, X, Y, Z;
 		double ex,ey,ez;
-		//int MCUx,MCUy,MCUz;
+		float MCUx,MCUy,MCUz;
 		double partialAvg;
 	    double partialStdDev;
-	    unsigned int elements;
+	    unsigned int elements, n;
 	    double quakeThreshold;
 	    double sigmaIter;
 	    double scalef; // 0.20 / 32768.0; // Assuming +/- 16G.

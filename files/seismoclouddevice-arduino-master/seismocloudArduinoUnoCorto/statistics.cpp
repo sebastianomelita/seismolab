@@ -21,6 +21,27 @@ void statistics::setXYZ(int cx, int cy, int cz){
 	z=cz*scalef+sumz;
 }
 /*
+void statistics::resetMCU()
+{
+  MCUx=MCUy=MCUz=n=0;
+}
+*/
+void statistics::calcMCU(int cx, int cy, int cz)
+{
+  n++;
+  MCUx = MCUx - (float)MCUx/n + (float) cx/n;
+  MCUy = MCUy - (float)MCUy/n + (float) cy/n;
+  MCUz = MCUz - (float)MCUz/n + (float) cz/n;
+}
+
+ float * statistics::getMCU(float *m){
+	m[0]=MCUx;
+	m[1]=MCUy;
+	m[2]=MCUz;
+	return m;
+}
+
+/*
 void statistics::setFactor(double f){
 	factor=f;
 }
@@ -125,20 +146,20 @@ void statistics::addValueToAvgVar(double val) {
 		quakeThreshold = partialAvg + (getCurrentSTDDEV() * getSigmaIter());
 	}
 	
-	Serial.print(F("\ndb.accel: "));
+	Serial.print("\ndb.accel: ");
     Serial.print(val);
     //Serial.println(stat.getQuakeThreshold());
-    Serial.print(F("-"));
+    Serial.print("-");
     Serial.print(quakeThreshold,6);
-    Serial.print(F("-"));
+    Serial.print("-");
     Serial.print(getSigmaIter());
-    Serial.print(F("-"));
+    Serial.print("-");
     Serial.print(partialAvg,6);
-    Serial.print(F("-"));
+    Serial.print("-");
     Serial.print(partialStdDev,6);
-    Serial.print(F("-"));
+    Serial.print("-");
     Serial.print(elements);
-    Serial.print(F("-"));
+    Serial.print("-");
 	Serial.println(getCurrentSTDDEV(),6);
 	
 	//Log::d("AddValueToAvgVar: EL:%f D:%f AVG:%f VAR:%f THR:%f I:%i", val, delta, getCurrentAVG(), getCurrentSTDDEV(),
@@ -151,12 +172,8 @@ void statistics::addValueToAvgVar(int x, int y, int z)
 }
 
 void statistics::resetLastPeriod() {
-	partialAvg = 0;
-	partialStdDev = 0;
-	elements = 0;
 	quakeThreshold=1;
-	ex=ey=ez=0;
-	Serial.print(F("ResetPeriod: "));
+	x=y=z=elements=partialStdDev=partialAvg=ex=ey=ez=n=0;
 }
 
 double statistics::getSigmaIter() {
