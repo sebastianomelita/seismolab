@@ -5,11 +5,9 @@ byte udpPacketBuffer[PACKET_SIZE];
 void commandInterfaceInit() {
 	Serial.println(F("beginUDPServer"));
     ESP8266wifi::getWifi().beginUDPServer("62001");
-    //ESP8266wifi::getWifi().registerUDP( char* addr, char* port, char channel)
 }
 
 void commandInterfaceTick() {
-  //Serial.println("commandInterfaceTick");	
   //int packetSize = ESP8266wifi::getWifi().parseUDPPacket(); //ci vorrebbe ma, se si legge tutto il buffer con una read, 
   //l'available è sufficiente per richiamare un nuovo paccchetto
   if(ESP8266wifi::getWifi().available(10, NULL, LOCALSERVER)) {
@@ -21,17 +19,6 @@ void commandInterfaceTick() {
     if(memcmp("INGV\0", udpPacketBuffer, 5) != 0) {
       return;
     }
-    
-    /*
-    Serial.println((char)udpPacketBuffer[0],HEX);
-    Serial.println((char)udpPacketBuffer[1],HEX);
-    Serial.println((char)udpPacketBuffer[2],HEX);
-    Serial.println((char)udpPacketBuffer[3],HEX);
-    Serial.println((char)udpPacketBuffer[4],HEX);
-    Serial.println((char)udpPacketBuffer[5],HEX);
-    Serial.println((char)udpPacketBuffer[6],HEX);
-    Serial.println((char)udpPacketBuffer[7],HEX);
-    Serial.println((char*)udpPacketBuffer); */
     
     bool reboot = false;
     unsigned long unixTimeM = getUNIXTime();
@@ -47,16 +34,7 @@ void commandInterfaceTick() {
 
     float longitude = 0;
     float latitude = 0;
-    /*
-    Serial.println(F("Buffer[5]"));
-    Serial.print((char)udpPacketBuffer[0]);
-    Serial.print((char)udpPacketBuffer[1]);
-    Serial.print((char)udpPacketBuffer[2]);
-    Serial.print((char)udpPacketBuffer[2]);
-    Serial.print((char)udpPacketBuffer[4]);
-    Serial.print((char)udpPacketBuffer[5]);
-    Serial.print((char)udpPacketBuffer[6]);
-    Serial.println((char)udpPacketBuffer[7]);*/
+ 
     switch(udpPacketBuffer[5]) {
       case PKTTYPE_DISCOVERY:
       	
@@ -125,8 +103,6 @@ void commandInterfaceTick() {
 
     ESP8266wifi::getWifi().beginUDPPacket();
     ESP8266wifi::getWifi().write((unsigned char*) udpPacketBuffer,sizeof(udpPacketBuffer));
-    //ESP8266wifi::getWifi().write((unsigned char*) "pippo",sizeof("pippo"));
-    Serial.println(F("write"));
     ESP8266wifi::getWifi().endUDPPacket(false,LOCALSERVER);
 
     /*if(reboot) {
