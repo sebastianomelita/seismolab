@@ -136,8 +136,11 @@ void statistics::setSigmaIter(double i) {
 
 void statistics::addValueToAvgVar(double val) {
 	elements++;
-	if(elements==0)
-	   resetLastPeriod();
+	if(elements==0){
+	  resetLastPeriod();
+	  elements=1;	
+	}
+
 	// https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance
 	double delta = val - partialAvg;
 	partialAvg += delta / (double) elements;
@@ -145,11 +148,11 @@ void statistics::addValueToAvgVar(double val) {
 	if (elements > 1) {
 		quakeThreshold = partialAvg + (getCurrentSTDDEV() * getSigmaIter());
 	}
-	
+	/*
 	Serial.print("\ndb.accel: ");
     Serial.print(val);
     //Serial.println(stat.getQuakeThreshold());
-    Serial.print("-");
+	Serial.print("-");
     Serial.print(quakeThreshold,6);
     Serial.print("-");
     Serial.print(getSigmaIter());
@@ -161,7 +164,7 @@ void statistics::addValueToAvgVar(double val) {
     Serial.print(elements);
     Serial.print("-");
 	Serial.println(getCurrentSTDDEV(),6);
-	
+	*/
 	//Log::d("AddValueToAvgVar: EL:%f D:%f AVG:%f VAR:%f THR:%f I:%i", val, delta, getCurrentAVG(), getCurrentSTDDEV(),
 	//	   quakeThreshold, elements);
 }
