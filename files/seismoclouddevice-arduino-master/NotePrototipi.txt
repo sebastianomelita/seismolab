@@ -18,7 +18,6 @@ MPU6050 I2C device classBased on InvenSense MPU-6050 register map document rev. 
 10/3/2011 by Jeff Rowberg <jeff@rowberg.net>
 Updates should (hopefully) always be available at
 Contiene una libreria molto colpleta per la gestione delmodulo accelerometro MPU6050.
-Nei prototipi è stata drasticamente privata di molte funzioni non ritenute essenziali per chiarezza e per risparmiare spazio.
 https://github.com/jrowberg/i2cdevlib
 
 
@@ -31,15 +30,15 @@ http://fishino.it/en/download/
 -----Prototipi realizzati:
 Particolarità: utilizzano l'accelerometro digitale MPU6050, si collegano ad internet tramite il modulo wifi ESP8266, implementano l'algoritmo rilevatore di soglia del prototipo seismocloud basato su raspberry/Galileo.
 Le librerie (ampiamente integrate e rimaneggiate rispetto alle originali) di cui abbisognano sono già incluse nelle cartelle dei prototipi.
-Mancanze: attualmente non comunica al server la magnitudo dei terremoti ma si limita a mostrarla in locale.
-
+Le funzioni di rete appaiono grossomodo analoghe a quelle in uso sullo shield ethernet.
 
 --seismocloudArduinoUno utilizza le librerie WeeESP8266
 Attualmente è incompleto perchè il suo sviluppo è stato momentaneamente abbandonato poichè la libreria occupa relativamente eccessivo spazio in RAM (andrebbe più che bene per l'Arduino Mega basato su ATMEL 2560).
 
 --seismocloudArduinoUnoCorto utilizza le librerie ESP8266wifi
 Scelto perchè consuma minori risorse in RAM (più adatto per il meno costoso Arduino Uno).
-Attualmente completo. Il tutto compila ma il prototipo al momento non è ancora collaudato. Serve qualche giorno per il testing.
+Attualmente completo. Compila ed esegue (apparentemente in maniera corretta) tutte le funzioni pertanto è in fase di collaudo. 
+E' dotato di tutte le funzioni dell'originale ma in più ha la funzione di calibrazione automatica dell'accelerometro in corrispondenza di alcune situazioni (evento terremotro in seguito ad uno spostamento o riposizionamento, evento di http alive presso il server) e la soglia di rilevazione terremoti basata sul calcolo della deviazione standard del modello raspberry pi (il valore di scatto è però mediato con un filtro esponenziale). Il parametro sigma viene adesso caricato dal server. Il MAC del dispositivo è adesso quello del modulo ESP8266.
 
 
 
