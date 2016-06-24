@@ -11,8 +11,7 @@
 //#define PASSWORD "salaria113"
 //#define SSID "pippo"
 //#define PASSWORD "topolino"
-#define SSID "OpenWrt"
-#define PASSWORD "dorabino.7468!"
+
 
 //ESP8266wifi wifi(swSerial, swSerial, esp8266_reset_pin, Serial);
 SoftwareSerial swSerial(sw_serial_rx_pin, sw_serial_tx_pin);
