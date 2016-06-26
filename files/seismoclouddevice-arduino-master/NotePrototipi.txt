@@ -38,7 +38,7 @@ Attualmente è incompleto perchè il suo sviluppo è stato momentaneamente abbandon
 --seismocloudArduinoUnoCorto utilizza le librerie ESP8266wifi
 Scelto perchè consuma minori risorse in RAM (più adatto per il meno costoso Arduino Uno).
 Attualmente completo. Compila ed esegue (apparentemente in maniera corretta) tutte le funzioni pertanto è in fase di collaudo. 
-E' dotato di tutte le funzioni dell'originale ma in più ha la funzione di calibrazione automatica dell'accelerometro in corrispondenza di alcune situazioni (evento terremotro in seguito ad uno spostamento o riposizionamento, evento di http alive presso il server) e la soglia di rilevazione terremoti basata sul calcolo della deviazione standard del modello raspberry pi (il valore di scatto è però mediato con un filtro esponenziale). Il parametro sigma viene adesso caricato dal server. Il MAC del dispositivo è adesso quello del modulo ESP8266.
+E' dotato di tutte le funzioni dell'originale seismocloud basato su Arduino Uno ma in più ha: la funzione di calibrazione automatica dell'accelerometro in corrispondenza di alcune situazioni (evento terremotro in seguito ad uno spostamento o riposizionamento, evento di http alive presso il server), la soglia di rilevazione terremoti basata sul calcolo della deviazione standard del modello raspberry pi (il valore di scatto è però mediato con un filtro esponenziale), il parametro sigma viene adesso caricato dal server, il MAC del dispositivo è adesso quello del modulo ESP8266, infine si connette al server syslog (stesso indirizzo keep alive) alla porta 514 per la registrazione dei dati dell'allerta (quake).
 
 
 
