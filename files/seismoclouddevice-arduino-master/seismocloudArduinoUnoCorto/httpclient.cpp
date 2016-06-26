@@ -54,7 +54,7 @@ void logRequest(char* msg) {
   Serial.println(msg2);
   // Send a syslog request
   ESP8266wifi::getWifi().beginUDPPacket((const char*)server, "514"); // 514 is the syslog port
-  ESP8266wifi::getWifi().write((const unsigned char*)msg2,strlen(msg2),128);
+  ESP8266wifi::getWifi().write((const unsigned char*)msg2,strlen(msg2));
   ESP8266wifi::getWifi().endUDPPacket(false);
   ESP8266wifi::getWifi().disconnectFromServer();
   Serial.println(F("\nEnd logRequest")); 
