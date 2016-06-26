@@ -1126,11 +1126,7 @@ bool ESP8266wifi::endUDPPacket2(char channel){
 		
 		_serialOut ->flush();	
 	    byte sendStatus = readCommand(5000, SEND_OK, BUSY); 
-		//if(sendStatus == 1 || flags.transparentMode) {
-        //Serial.print("posw: ");
-		//Serial.println(posw);
-		//Serial.print("msgOut: ");
-		//Serial.println(msgOut);
+		
 		msgOut[0] = '\0';
         if(channel == SERVER)
                 flags.connectedToServer = true;

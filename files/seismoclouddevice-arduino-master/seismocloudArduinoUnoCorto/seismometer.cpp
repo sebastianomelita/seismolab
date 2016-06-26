@@ -104,8 +104,7 @@ void seismometerTick() {
 	if(db.overThreshold) {
 		LED::red(true);
 		// QUAKE
-		Serial.println(F(""));
-		Serial.print(F("QUAKE: "));
+		Serial.print(F("\nQUAKE: "));
 		//create log message
 		char msg[BUFLEN];
 		char out[8];
@@ -121,13 +120,9 @@ void seismometerTick() {
 		snprintf(msg,BUFLEN, "%s - stddev:%s", msg, out);
 		httpQuakeRequest();
 	    logRequest(msg);
-	    //Serial.println(strlen(msg));
-		Serial.print(db.accel);
 		accelero.resetSensors();
 		accelero.resetFIFO();
 		stat.resetLastPeriod();  
-		Serial.print(F("-"));
-		Serial.println(stat.getModuleEMA(0.6));
 		delay(5000);
 		//la calibrazione permette la riconfigurazione se si cambia la posizione di ancoraggio del dispositivo (rotazione)
 		calibrate(0.01); //chiamate successive alla prima convergono più rapidamente se non si azzera l'offset
