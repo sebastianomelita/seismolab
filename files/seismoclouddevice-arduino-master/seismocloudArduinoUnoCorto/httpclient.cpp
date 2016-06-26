@@ -48,7 +48,7 @@ void httpAliveRequest() {
 }
 
 void logRequest(char* msg) {	
-  char *server = "10.4.0.195";  // log server
+  char *server = "www.sapienzaapps.it";  // log server
   char msg2[115];	
   snprintf(msg2,115, "<134>[%lu] [I] [%s] %s", getUNIXTime(), ESP8266wifi::getWifi().getMAC(), msg);
   Serial.println(msg2);
@@ -56,7 +56,7 @@ void logRequest(char* msg) {
   ESP8266wifi::getWifi().beginUDPPacket((const char*)server, "514"); // 514 is the syslog port
   ESP8266wifi::getWifi().write((const unsigned char*)msg2,strlen(msg2));
   ESP8266wifi::getWifi().endUDPPacket(false);
-  ESP8266wifi::getWifi().disconnectFromServer();
+  ESP8266wifi::getWifi().disconnectFromServer();//non aspetto risposta
   Serial.println(F("\nEnd logRequest")); 
 }
 

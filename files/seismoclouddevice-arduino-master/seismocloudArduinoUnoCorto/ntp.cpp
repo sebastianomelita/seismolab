@@ -45,7 +45,7 @@ unsigned long ntpUnixTime()
   // Send an NTP request
   ESP8266wifi::getWifi().beginUDPPacket((const char*)timeServer, "123"); // 123 is the NTP port
   ESP8266wifi::getWifi().write((const unsigned char*)packetBuffer,4,NTP_PACKET_SIZE);
-  ESP8266wifi::getWifi().endUDPPacket(false);
+  ESP8266wifi::getWifi().endUDPPacket(false);//non devo disconnettere perhè aspetto una risposta
   // Wait for response; check every pollIntv ms up to maxPoll times
   const int pollIntv = 50;   // poll every this many ms
   const byte maxPoll = 100;    // poll up to this many times
