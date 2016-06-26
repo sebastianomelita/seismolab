@@ -11,7 +11,8 @@
 //#define PASSWORD "salaria113"
 //#define SSID "pippo"
 //#define PASSWORD "topolino"
-
+#define SSID "OpenWrt"
+#define PASSWORD "dorabino.7468!"
 
 //ESP8266wifi wifi(swSerial, swSerial, esp8266_reset_pin, Serial);
 SoftwareSerial swSerial(sw_serial_rx_pin, sw_serial_tx_pin);
@@ -75,7 +76,7 @@ void setup() {
     httpAliveRequest();
     lastAliveMs = millis();
   
-	//finchè non funziona la comunicazione con telefono....
+	//finchè non funziona la comunicazione con il telefono....
 	//setLatitude(42.091522);
     //setLongitude(11.799870);
    

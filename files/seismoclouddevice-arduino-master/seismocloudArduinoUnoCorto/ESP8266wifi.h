@@ -64,8 +64,8 @@ struct Flags   // 1 byte value (on a system where 8 bits is a byte
          localApRunning:1, 
          localServerRunning:1, 
          endSendWithNewline:1, 
-         connectToServerUsingTCP:1,
-         transparentMode:1;
+         connectToServerUsingTCP:1;
+         //transparentMode:1;
 };
 
 class ESP8266wifi
@@ -156,8 +156,9 @@ public:
     //bool stopTransparentMode();
 	//Per connessioni UDP------------------------------------------------------------------
 	bool registerUDP(char* addr, char* port, char channel='0');
-    bool beginUDPPacket(const char* host, const char* port, bool transparent=false); //connette ad un server UDP imposta writeChannel=SERVER
-    bool beginUDPPacket();
+    //bool beginUDPPacket(const char* host, const char* port, bool transparent=false); //connette ad un server UDP imposta writeChannel=SERVER
+    bool beginUDPPacket(const char* host, const char* port); //connette ad un server UDP imposta writeChannel=SERVER
+	bool beginUDPPacket();
 	bool beginTCPConnection(const char* host, const char* port); //connette ad un server TCP imposta writeChannel=SERVER
     //bool beginLocalServer(const char* port); //fa partire un server in attesa su tutte le connessioni (channel)
     bool endUDPPacket(bool endLine=false, char channel=SERVER);

@@ -28,53 +28,6 @@ unsigned long getUNIXTime() {
   return lastNTPTime + (diffms/1000);
 }
 
-unsigned long ntpUnixTimeOld()
-{ 
- char utp[50];
-
- HttpRequest("www.ismarconicivitavecchia.tk","80","/vladicms/index.php",utp,"UTC:");
- //HttpRequest("10.4.0.195","80","/vladicms/index.php",utp,"UTC:");
- //Serial.print(F("\nUTP: "));
- //Serial.println(utp);
-//return atol(utp)- 2208988800ul;
-return atol(utp);
-}
-
-bool HttpRequest(char* host, char* port, char* path, char * buf, char * offset) {
-  ESP8266wifi &client=ESP8266wifi::getWifi();
-  // if there's a successful connection:
-  int cresult = client.beginTCPConnection(host, port);
-  if (cresult) {
-  	client.printD(F("GET "));
-  	client.printD(path);
-    client.printlnD(F(" HTTP/1.1"));
-    client.printD(F("Host: "));
-    client.printlnD(host);
-    client.printlnD(F("User-Agent: arduino-wifi"));
-    client.printlnD(F("Connection: close"));
-    client.printlnD("\n");  
- 
-    if(client.available(10*1000,offset)) { //legge la risposta a partire da valore memorizzato in offset:
-        client.readLine(buf,50);
-		//client.disconnectFromServer();
-		return true;
-    } else {
-      	Serial.println(F("Socket read error"));
-    }
-  } else {
-    // if you couldn't make a connection:
-    Serial.print(F("connection failed to: "));
-    Serial.print(host);
-    Serial.print(":");
-    Serial.print(port);
-    Serial.print(" ");
-    Serial.println(cresult);
-  }
-  client.println(F("Disconnect NTP"));
-  client.disconnectFromServer();
-  return false;
-}
-
 unsigned long ntpUnixTime()
 {  
   char *timeServer = "pool.ntp.org";  // NTP server
@@ -88,7 +41,7 @@ unsigned long ntpUnixTime()
   packetBuffer[0] = 227;   // LI, Version, Mode
   packetBuffer[1] = 0;     // Stratum, or type of clock
   packetBuffer[2] = 6;     // Polling Interval
-  packetBuffer[3] = 236;  // Peer Clock Precision
+  packetBuffer[3] = 236;   // Peer Clock Precision
   // Send an NTP request
   ESP8266wifi::getWifi().beginUDPPacket((const char*)timeServer, "123"); // 123 is the NTP port
   ESP8266wifi::getWifi().write((const unsigned char*)packetBuffer,4,NTP_PACKET_SIZE);

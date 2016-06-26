@@ -40,5 +40,6 @@ byte getNumVal(char);
 void setSigma(float s);
 float getSigma();
 bool readParameter(char* cfg, char* tag, char* into, int maxn); 
+void ftoa(char* buf, int m, float fnum);
 #endif
 

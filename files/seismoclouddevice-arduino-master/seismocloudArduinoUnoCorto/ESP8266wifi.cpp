@@ -65,8 +65,8 @@ const char EOL[] PROGMEM = "\n";
 const char STAIP[] PROGMEM = "STAIP,\"";
 const char STAMAC[] PROGMEM = "STAMAC,\"";
 const char GMR[] PROGMEM = "AT+GMR";
-const char dataModeOn[] PROGMEM = "Data mode Started";
-const char dataModeOff[] PROGMEM = "Data mode Stopped";
+//const char dataModeOn[] PROGMEM = "Data mode Started";
+//const char dataModeOff[] PROGMEM = "Data mode Stopped";
 //modifiche_____________________________________
 const char CIPNTPSTART[] PROGMEM = "AT+CIPNTP=0";
 const char CIPNTPSTOP[] PROGMEM = "AT+CIPNTP=1";
@@ -117,7 +117,7 @@ ESP8266wifi::ESP8266wifi(Stream &serialIn, Stream &serialOut, byte resetPin, uin
     flags.localApConfigured = false;
     flags.apConfigured = false;
     flags.serverConfigured = false;
-    flags.transparentMode= false;
+    //flags.transparentMode= false;
     
     flags.debug = false;
     flags.echoOnOff = false;
@@ -146,7 +146,7 @@ ESP8266wifi::ESP8266wifi(Stream &serialIn, Stream &serialOut, byte resetPin, Str
     flags.localApConfigured = false;
     flags.apConfigured = false;
     flags.serverConfigured = false;
-    flags.transparentMode= false;
+    //flags.transparentMode= false;
     
     _dbgSerial = &dbgSerial;
     flags.debug = true;
@@ -425,7 +425,6 @@ bool ESP8266wifi::connectToServer(const char* ip, const char* port, bool peerCha
     return connectToServer(peerChange);
 }
 
-
 bool ESP8266wifi::connectToServer(bool peerChange) {
     if(peerChange)
 	    writeCommand(CIPSTART);
@@ -450,7 +449,6 @@ bool ESP8266wifi::connectToServer(bool peerChange) {
     return flags.connectedToServer;
 }
 
-
 void ESP8266wifi::disconnectFromServer(){
     flags.connectedToServer = false;
     flags.serverConfigured = false;//disable reconnect
@@ -458,7 +456,6 @@ void ESP8266wifi::disconnectFromServer(){
     readCommand(5000, OK, ERROR);
     rxEmpty();
 }
-
 
 bool ESP8266wifi::isConnectedToServer(){
     if(flags.connectedToServer)
@@ -973,7 +970,7 @@ void ESP8266wifi::rxEmpty(){
 }
 
 //AGGIUNTE ALLA LIBRERIA ORIGINALE (METODI ANLOGHI ALLA LIBRERIA EthernetClient() di Arduino) --------------
-
+/*
 bool ESP8266wifi::beginUDPPacket(const char* host,const char* port, bool transparent){ 
     bool app;
     setTransportToUDP(); 
@@ -996,6 +993,20 @@ bool ESP8266wifi::beginUDPPacket(const char* host,const char* port, bool transpa
             //startTransparentMode();
             //writeCommand(CIPMODEON, EOL);
 	        //readCommand(2000, OK, NO_CHANGE);
+        return 0;
+}
+*/
+bool ESP8266wifi::beginUDPPacket(const char* host,const char* port){ 
+    bool app;
+    setTransportToUDP(); 
+    endSendWithNewline(false);
+    posw=0;
+    pos=0;
+    msg.first=true;
+    if(!isConnectedToServer()){
+        app = connectToServer(host,port,true);
+        return app;  
+    }else 
         return 0;
 }
 
@@ -1026,7 +1037,8 @@ bool ESP8266wifi::endUDPPacket(bool endLine, char channel){
 	endSendWithNewline(endLine);
 	endUDPPacket2(channel);
 	endSendWithNewline(false);
-}	
+}
+/*	
 bool ESP8266wifi::endUDPPacket2(char channel){
 	byte sendStatus;
 	byte prompt;
@@ -1068,6 +1080,52 @@ bool ESP8266wifi::endUDPPacket2(char channel){
 		else
 		    byte sendStatus = readCommand(30, SEND_OK, BUSY);    
         
+		//if(sendStatus == 1 || flags.transparentMode) {
+        //Serial.print("posw: ");
+		//Serial.println(posw);
+		//Serial.print("msgOut: ");
+		//Serial.println(msgOut);
+		msgOut[0] = '\0';
+        if(channel == SERVER)
+                flags.connectedToServer = true;
+        //return true;
+        //}
+    }
+    posw=0; //azzero il segnaposto (indica la prima posizione da accedere)
+    //setTransportToTCP();
+    return true;
+}*/
+
+bool ESP8266wifi::endUDPPacket2(char channel){
+	byte sendStatus;
+	byte prompt;
+
+    //Serial.println(posw);
+    if(flags.endSendWithNewline)
+        posw += 2;
+    
+    //printOutBuffer();
+    //invia il canale e la lunghezza
+    writeCommand(CIPSEND);
+    _serialOut -> print(channel);
+    writeCommand(COMMA);
+    _serialOut -> println(posw);
+
+    prompt = readCommand(1000, PROMPT, LINK_IS_NOT);
+
+
+	if (prompt != 2) {
+        if(flags.endSendWithNewline){
+        	//_serialOut -> println(msgOut);
+            msgOut[posw-1]='\n';
+            msgOut[posw]=0;
+            _serialOut -> write(msgOut,posw);
+		}    
+        else
+		   	_serialOut -> write(msgOut,posw);
+		
+		_serialOut ->flush();	
+	    byte sendStatus = readCommand(5000, SEND_OK, BUSY); 
 		//if(sendStatus == 1 || flags.transparentMode) {
         //Serial.print("posw: ");
 		//Serial.println(posw);

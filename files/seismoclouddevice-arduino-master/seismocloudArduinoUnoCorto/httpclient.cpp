@@ -2,11 +2,11 @@
 //#include <utility/w5100.h>
 //#include <utility/socket.h>
 #include <avr/pgmspace.h>
+#define SYSLOG_PKT_SIZE 128
 
   void httpQuakeRequest() {
   String postVars = String("deviceid=");
   char buf[80];
-
   postVars += String(ESP8266wifi::getWifi().getMAC());    
   postVars += "&tsstart=";
   postVars += getUNIXTime();
@@ -16,6 +16,17 @@
   buf[1]=0;
   Serial.println(buf);
   Serial.println(F("\nEnd httpQuakeRequest")); 
+}
+
+void logRequest(char* msg) {
+  char msg2[115];	
+  snprintf(msg2,115, "<134>[%lu] [I] [%s] %s", getUNIXTime(), ESP8266wifi::getWifi().getMAC(), msg);
+  Serial.println(msg2);
+  // Send a syslog request
+  ESP8266wifi::getWifi().beginUDPPacket((const char*)LOGSERVER, "514"); // 514 is the syslog port
+  ESP8266wifi::getWifi().write((const unsigned char*)msg2,strlen(msg2),SYSLOG_PKT_SIZE);
+  ESP8266wifi::getWifi().endUDPPacket(false);
+  Serial.println(F("\nEnd logRequest")); 
 }
 
 void httpAliveRequest() {
@@ -30,8 +41,8 @@ void httpAliveRequest() {
   postVars += "&lon=" + getLongitudeAsString();
   postVars += "&sensor=MPU6050";
   postVars += "&memfree="  + String(freeMemory()); 
-  postVars += "&avg=" + getDoubleAsString(getCurrentAVG());
-  postVars += "&stddev=" + getDoubleAsString(getCurrentSTDDEV());
+  //postVars += "&avg=" + getDoubleAsString(getCurrentAVG());
+  //postVars += "&stddev=" + getDoubleAsString(getCurrentSTDDEV());
   
   //postVars += "&jsonoutput=1"; //134 Bytes! attualmente il buffer MSG_BUFFER_MAX su ESP8266wifi.h � di 128 byte
   httpRequest(DEFAULTHOST, "80", "/seismocloud/alive.php", postVars, buf, "server:",true); 

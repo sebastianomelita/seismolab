@@ -74,6 +74,7 @@ void commandInterfaceTick() {
         udpPacketBuffer[5] = PKTTYPE_GETINFO_REPLY;
 
         memcpy(udpPacketBuffer + 6,  macaddress, 6);
+        //memcpy(udpPacketBuffer + 12, ip, 4);
         memcpy(udpPacketBuffer + 28, &uptime, 4);
         memcpy(udpPacketBuffer + 32, &unixTimeM, 4);
         memcpy(udpPacketBuffer + 36, VERSION, 4);
@@ -84,6 +85,15 @@ void commandInterfaceTick() {
         memcpy(udpPacketBuffer + 65, &probeSpeed, 4);
 
         break;
+        /*case PKTTYPE_SETSYSLOG: {
+				uint32_t ip = 0;
+				memcpy(&ip, pktBuffer + 6, 4);
+				pkt->syslogServer = IPaddr(ip);
+			Log::setSyslogServer(pkt.syslogServer);
+
+			pkt.type = PKTTYPE_OK;
+			sendPacket(pkt);
+		}*/
 #ifdef RESET_ENABLED
       case PKTTYPE_RESET:
         initEEPROM();

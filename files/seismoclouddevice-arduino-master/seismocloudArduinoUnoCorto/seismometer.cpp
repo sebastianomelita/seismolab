@@ -24,7 +24,7 @@
 // AD0 low = 0x68 (default for InvenSense evaluation board)
 // AD0 high = 0x69
 //#include <SoftwareSerial.h>
-
+#define BUFLEN 78
 MPU6050 accelero;
 //float a[3];
 //statistics stat(0.20 / 32768.0); //scale factor
@@ -59,14 +59,6 @@ void seismometerInit() {
   Serial.println(accelero.testConnection() ? F("MPU6050 connection successful") : F("MPU6050 connection failed"));
   
   accelero.setFullScaleAccelRange(0); //+-2G
-  //Serial.print("Scale range: ");
-  //Serial.println(accelero.getFullScaleAccelRange());
-  //accelero.calibration();
-  //accelero.MCUCalibration();
-  //accelero.setAveraging(10);
-    //Serial.print(accelero.getXAccelOffset()); Serial.print("\t"); // -76
-    //Serial.print(accelero.getYAccelOffset()); Serial.print("\t"); // -2359
-    //Serial.print(accelero.getZAccelOffset()); Serial.print("\t"); // 1688
     //Serial.print("\n");
     //accelero.setXAccelOffset(-2380);
     //accelero.setYAccelOffset(500);
@@ -98,23 +90,15 @@ void seismometerInit() {
 
 void seismometerTick() {
 	RECORD db = {0, 0, false};
-	double detectionAVG = stat.getCurrentAVG();
-	double detectionStdDev = stat.getCurrentSTDDEV();
+	
     stat.setSigmaIter(getSigma());
-    
 	//db.ts = getUNIXTime();
+	
 	stat.setXYZ(accelero.getAccelerationX(),accelero.getAccelerationY(),accelero.getAccelerationZ());
 	db.accel = stat.getModule();
 	db.overThreshold = stat.getModuleEMA(0.6) > stat.getQuakeThreshold();
     stat.addValueToAvgVar(db.accel);
-    
-    //Serial.print(F("\ndb.accel: "));
-    //Serial.print(db.accel);
-    //Serial.println(stat.getQuakeThreshold());
-    //Serial.print(F("-"));
-    //Serial.print(stat.getModuleEMA(0.9));
-    //Serial.print(F("-"));
-	//Serial.println(stat.getQuakeThreshold());
+    //logRequest("New Event: v:%lf - thr:%f - iter:%f - avg:%f - stddev:%f", db.accel, stat.quakeThreshold, stat.getSigmaIter(), stat.getCurrentAVG(), stat.getCurrentSTDDEV());
 	//Serial.println(accelero.getAccelerationY(),DEC);
 	//Serial.println(accelero.getAccelerationZ(),DEC);
 	if(db.overThreshold) {
@@ -122,18 +106,32 @@ void seismometerTick() {
 		// QUAKE
 		Serial.println(F(""));
 		Serial.print(F("QUAKE: "));
+		//create log message
+		char msg[BUFLEN];
+		char out[8];
+		ftoa(out,8,db.accel);
+		snprintf(msg,BUFLEN, "New Event: v:%s", out);
+		ftoa(out,8,stat.getQuakeThreshold());
+		snprintf(msg,BUFLEN, "%s - thr:%s", msg, out);
+		ftoa(out,8,stat.getSigmaIter());
+		snprintf(msg,BUFLEN, "%s - iter:%s", msg, out);
+		ftoa(out,8,stat.getCurrentAVG());
+		snprintf(msg,BUFLEN, "%s - avg:%s", msg, out);
+		ftoa(out,8,stat.getCurrentSTDDEV());
+		snprintf(msg,BUFLEN, "%s - stddev:%s", msg, out);
 		httpQuakeRequest();
+	    logRequest(msg);
+	    //Serial.println(strlen(msg));
 		Serial.print(db.accel);
 		accelero.resetSensors();
 		accelero.resetFIFO();
 		stat.resetLastPeriod();  
 		Serial.print(F("-"));
-		Serial.print(F("-"));
 		Serial.println(stat.getModuleEMA(0.6));
 		delay(5000);
 		//la calibrazione permette la riconfigurazione se si cambia la posizione di ancoraggio del dispositivo (rotazione)
 		calibrate(0.01); //chiamate successive alla prima convergono più rapidamente se non si azzera l'offset
-		Serial.println("QUAKE END");
+		Serial.println(F("QUAKE END"));
 		LED::red(false);
 	}
 }
