@@ -1,0 +1,4266 @@
+<!DOCTYPE html>
+<!-- saved from url=(0096)http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		
+		<title>Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer/gyroscope (InvenSense) - I2Cdevlib Forums</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<link rel="shortcut icon" href="http://www.i2cdevlib.com/forums/favicon.ico">
+		<link rel="image_src" href="http://www.i2cdevlib.com/forums/public/style_images/master/meta_image.png">
+		<script src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/cb=gapi.loaded_1" async=""></script><script src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/cb=gapi.loaded_0" async=""></script><script id="facebook-jssdk" src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/sdk.js"></script><script type="text/javascript">
+		//<![CDATA[
+			jsDebug			= 0; /* Must come before JS includes */
+			DISABLE_AJAX	= parseInt(0); /* Disables ajax requests where text is sent to the DB; helpful for charset issues */
+			inACP			= false;
+			var isRTL		= false;
+			var rtlIe		= '';
+			var rtlFull		= '';
+		//]]>
+		</script>
+		
+	
+				
+	
+
+				
+	
+
+				
+	
+
+				
+	
+	
+		<link rel="stylesheet" type="text/css" media="screen,print" href="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/index.php">
+	
+
+<!--[if lte IE 7]>
+	<link rel="stylesheet" type="text/css" title='Main' media="screen" href="http://www.i2cdevlib.com/forums/public/style_css/css_1/ipb_ie.css" />
+<![endif]-->
+<!--[if lte IE 8]>
+	<style type='text/css'>
+		.ipb_table { table-layout: fixed; }
+		.ipsLayout_content { width: 99.5%; }
+	</style>
+<![endif]-->
+
+	<style type="text/css">
+		img.bbc_img { max-width: 100% !important; }
+	</style>
+
+		<meta property="og:title" content="Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer/gyroscope (InvenSense)">
+		<meta property="og:site_name" content="I2Cdevlib Forums">
+		<meta property="og:type" content="article">
+		
+	
+		
+		
+			<meta property="og:updated_time" content="1464204219">
+		
+		
+		
+		
+	
+
+		
+		
+			<meta name="keywords" content="Understanding,raw,values,accelerometer,gyrometer,Respected,Sir,got,some,data,from,using,MPU,6050,arduino,But,able,interpret,numerical">
+		
+		
+		
+		
+	
+
+		
+		
+			<meta name="description" content="Understanding raw values of accelerometer and gyrometer - posted in MPU-6050 6-axis accelerometer/gyroscope (InvenSense): Respected Sir,
+                   I got some data from accelerometer and gyrometer using MPU 6050 with arduino. But  i am not able to interpret numerical values of it. Can you help me to figure out this information?
+here i am sending you some of data:
+    Accela...">
+		
+		
+		
+			<meta property="og:description" content="Understanding raw values of accelerometer and gyrometer - posted in MPU-6050 6-axis accelerometer/gyroscope (InvenSense): Respected Sir,
+                   I got some data from accelerometer and gyrometer using MPU 6050 with arduino. But  i am not able to interpret numerical values of it. Can you help me to figure out this information?
+here i am sending you some of data:
+    Accela...">
+		
+		
+	
+
+		
+		
+			<meta name="identifier-url" content="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/">
+		
+		
+			<meta property="og:url" content="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/">
+		
+		
+		
+	
+
+<meta property="og:image" content="http://www.i2cdevlib.com/forums/public/style_images/master/meta_image.png">
+		
+		
+		
+		<script type="text/javascript" src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/index(1).php"></script>
+	
+	<script type="text/javascript" src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/index(2).php" charset="UTF-8"></script>
+
+
+	
+		
+			
+			
+			
+			
+				<link id="ipsCanonical" rel="canonical" href="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/">
+			
+		
+
+			
+			
+			
+			
+				<link rel="stylesheet" type="text/css" title="Main" media="print" href="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/ipb_print.css">
+			
+		
+
+			
+			
+			
+			
+				<link rel="up" href="http://www.i2cdevlib.com/forums/forum/2-mpu-6050-6-axis-accelerometergyroscope-invensense/">
+			
+		
+
+			
+			
+			
+			
+				<link rel="author" href="http://www.i2cdevlib.com/forums/user/11-vrutangs/">
+			
+		
+	
+
+		
+			
+			
+				<link rel="alternate" type="application/rss+xml" title="I2C Device Discussion" href="http://www.i2cdevlib.com/forums/rss/forums/1-i2c-device-discussion/">
+			
+			
+			
+		
+	
+
+	
+
+
+
+<script type="text/javascript">
+	//<![CDATA[
+		/* ---- URLs ---- */
+		ipb.vars['base_url'] 			= 'http://www.i2cdevlib.com/forums/index.php?s=1a786946e748d00043afbba20fc74884&';
+		ipb.vars['board_url']			= 'http://www.i2cdevlib.com/forums';
+		ipb.vars['img_url'] 			= "http://www.i2cdevlib.com/forums/public/style_images/master";
+		ipb.vars['loading_img'] 		= 'http://www.i2cdevlib.com/forums/public/style_images/master/loading.gif';
+		ipb.vars['active_app']			= 'forums';
+		ipb.vars['upload_url']			= 'http://www.i2cdevlib.com/forums/uploads';
+		/* ---- Member ---- */
+		ipb.vars['member_id']			= parseInt( 0 );
+		ipb.vars['is_supmod']			= parseInt( 0 );
+		ipb.vars['is_admin']			= parseInt( 0 );
+		ipb.vars['secure_hash'] 		= '880ea6a14ea49e853634fbdc5015a024';
+		ipb.vars['session_id']			= '1a786946e748d00043afbba20fc74884';
+		ipb.vars['twitter_id']			= 0;
+		ipb.vars['fb_uid']				= 0;
+		ipb.vars['auto_dst']			= parseInt( 0 );
+		ipb.vars['dst_in_use']			= parseInt(  );
+		ipb.vars['is_touch']			= false;
+		ipb.vars['member_group']		= {"g_mem_info":"0"}
+		/* ---- cookies ----- */
+		ipb.vars['cookie_id'] 			= '';
+		ipb.vars['cookie_domain'] 		= '';
+		ipb.vars['cookie_path']			= '/';
+		/* ---- Rate imgs ---- */
+		ipb.vars['rate_img_on']			= 'http://www.i2cdevlib.com/forums/public/style_images/master/star.png';
+		ipb.vars['rate_img_off']		= 'http://www.i2cdevlib.com/forums/public/style_images/master/star_off.png';
+		ipb.vars['rate_img_rated']		= 'http://www.i2cdevlib.com/forums/public/style_images/master/star_rated.png';
+		/* ---- Uploads ---- */
+		ipb.vars['swfupload_swf']		= 'http://www.i2cdevlib.com/forums/public/js/3rd_party/swfupload/swfupload.swf';
+		ipb.vars['swfupload_enabled']	= true;
+		ipb.vars['use_swf_upload']		= ( '' == 'flash' ) ? true : false;
+		ipb.vars['swfupload_debug']		= false;
+		/* ---- other ---- */
+		ipb.vars['highlight_color']     = "#ade57a";
+		ipb.vars['charset']				= "UTF-8";
+		ipb.vars['time_offset']			= "0";
+		ipb.vars['hour_format']			= "12";
+		ipb.vars['seo_enabled']			= 1;
+		
+		ipb.vars['seo_params']			= {"start":"-","end":"\/","varBlock":"?","varPage":"page-","varSep":"&","varJoin":"="};
+		
+		/* Templates/Language */
+		ipb.templates['inlineMsg']		= "";
+		ipb.templates['ajax_loading'] 	= "<div id='ajax_loading'><img src='http://www.i2cdevlib.com/forums/public/style_images/master/ajax_loading.gif' alt='" + ipb.lang['loading'] + "' /></div>";
+		ipb.templates['close_popup']	= "<img src='http://www.i2cdevlib.com/forums/public/style_images/master/close_popup.png' alt='x' />";
+		ipb.templates['rss_shell']		= new Template("<ul id='rss_menu' class='ipbmenu_content'>#{items}</ul>");
+		ipb.templates['rss_item']		= new Template("<li><a href='#{url}' title='#{title}'>#{title}</a></li>");
+		
+		ipb.templates['autocomplete_wrap'] = new Template("<ul id='#{id}' class='ipb_autocomplete' style='width: 250px;'></ul>");
+		ipb.templates['autocomplete_item'] = new Template("<li id='#{id}' data-url='#{url}'><img src='#{img}' alt='' class='ipsUserPhoto ipsUserPhoto_mini' />&nbsp;&nbsp;#{itemvalue}</li>");
+		ipb.templates['page_jump']		= new Template("<div id='#{id}_wrap' class='ipbmenu_content'><h3 class='bar'>Jump to page</h3><p class='ipsPad'><input type='text' class='input_text' id='#{id}_input' size='8' /> <input type='submit' value='Go' class='input_submit add_folder' id='#{id}_submit' /></p></div>");
+		ipb.templates['global_notify'] 	= new Template("<div class='popupWrapper'><div class='popupInner'><div class='ipsPad'>#{message} #{close}</div></div></div>");
+		
+		
+		ipb.templates['header_menu'] 	= new Template("<div id='#{id}' class='ipsHeaderMenu boxShadow'></div>");
+		
+		Loader.boot();
+	//]]>
+	</script>
+	<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/ga.js" type="text/javascript"></script>
+<script type="text/javascript">
+try{ 
+var pageTracker = _gat._getTracker("UA-10986936-22");
+pageTracker._trackPageview();
+} catch(err) {} 
+</script><style type="text/css">.fb_hidden{position:absolute;top:-10000px;z-index:10001}.fb_reposition{overflow:hidden;position:relative}.fb_invisible{display:none}.fb_reset{background:none;border:0;border-spacing:0;color:#000;cursor:auto;direction:ltr;font-family:"lucida grande", tahoma, verdana, arial, sans-serif;font-size:11px;font-style:normal;font-variant:normal;font-weight:normal;letter-spacing:normal;line-height:1;margin:0;overflow:visible;padding:0;text-align:left;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;visibility:visible;white-space:normal;word-spacing:normal}.fb_reset>div{overflow:hidden}.fb_link img{border:none}@keyframes fb_transform{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}.fb_animate{animation:fb_transform .3s forwards}
+.fb_dialog{background:rgba(82, 82, 82, .7);position:absolute;top:-10000px;z-index:10001}.fb_reset .fb_dialog_legacy{overflow:visible}.fb_dialog_advanced{padding:10px;-moz-border-radius:8px;-webkit-border-radius:8px;border-radius:8px}.fb_dialog_content{background:#fff;color:#333}.fb_dialog_close_icon{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 0 transparent;_background-image:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/yL/r/s816eWC-2sl.gif);cursor:pointer;display:block;height:15px;position:absolute;right:18px;top:17px;width:15px}.fb_dialog_mobile .fb_dialog_close_icon{top:5px;left:5px;right:auto}.fb_dialog_padding{background-color:transparent;position:absolute;width:1px;z-index:-1}.fb_dialog_close_icon:hover{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -15px transparent;_background-image:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/yL/r/s816eWC-2sl.gif)}.fb_dialog_close_icon:active{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -30px transparent;_background-image:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/yL/r/s816eWC-2sl.gif)}.fb_dialog_loader{background-color:#f6f7f9;border:1px solid #606060;font-size:24px;padding:20px}.fb_dialog_top_left,.fb_dialog_top_right,.fb_dialog_bottom_left,.fb_dialog_bottom_right{height:10px;width:10px;overflow:hidden;position:absolute}.fb_dialog_top_left{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/ye/r/8YeTNIlTZjm.png) no-repeat 0 0;left:-10px;top:-10px}.fb_dialog_top_right{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/ye/r/8YeTNIlTZjm.png) no-repeat 0 -10px;right:-10px;top:-10px}.fb_dialog_bottom_left{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/ye/r/8YeTNIlTZjm.png) no-repeat 0 -20px;bottom:-10px;left:-10px}.fb_dialog_bottom_right{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/ye/r/8YeTNIlTZjm.png) no-repeat 0 -30px;right:-10px;bottom:-10px}.fb_dialog_vert_left,.fb_dialog_vert_right,.fb_dialog_horiz_top,.fb_dialog_horiz_bottom{position:absolute;background:#525252;filter:alpha(opacity=70);opacity:.7}.fb_dialog_vert_left,.fb_dialog_vert_right{width:10px;height:100%}.fb_dialog_vert_left{margin-left:-10px}.fb_dialog_vert_right{right:0;margin-right:-10px}.fb_dialog_horiz_top,.fb_dialog_horiz_bottom{width:100%;height:10px}.fb_dialog_horiz_top{margin-top:-10px}.fb_dialog_horiz_bottom{bottom:0;margin-bottom:-10px}.fb_dialog_iframe{line-height:0}.fb_dialog_content .dialog_title{background:#6d84b4;border:1px solid #365899;color:#fff;font-size:14px;font-weight:bold;margin:0}.fb_dialog_content .dialog_title>span{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/yd/r/Cou7n-nqK52.gif) no-repeat 5px 50%;float:left;padding:5px 0 7px 26px}body.fb_hidden{-webkit-transform:none;height:100%;margin:0;overflow:visible;position:absolute;top:-10000px;left:0;width:100%}.fb_dialog.fb_dialog_mobile.loading{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/ya/r/3rhSv5V8j3o.gif) white no-repeat 50% 50%;min-height:100%;min-width:100%;overflow:hidden;position:absolute;top:0;z-index:10001}.fb_dialog.fb_dialog_mobile.loading.centered{width:auto;height:auto;min-height:initial;min-width:initial;background:none}.fb_dialog.fb_dialog_mobile.loading.centered #fb_dialog_loader_spinner{width:100%}.fb_dialog.fb_dialog_mobile.loading.centered .fb_dialog_content{background:none}.loading.centered #fb_dialog_loader_close{color:#fff;display:block;padding-top:20px;clear:both;font-size:18px}#fb-root #fb_dialog_ipad_overlay{background:rgba(0, 0, 0, .45);position:absolute;bottom:0;left:0;right:0;top:0;width:100%;min-height:100%;z-index:10000}#fb-root #fb_dialog_ipad_overlay.hidden{display:none}.fb_dialog.fb_dialog_mobile.loading iframe{visibility:hidden}.fb_dialog_content .dialog_header{-webkit-box-shadow:white 0 1px 1px -1px inset;background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#738ABA), to(#2C4987));border-bottom:1px solid;border-color:#1d4088;color:#fff;font:14px Helvetica, sans-serif;font-weight:bold;text-overflow:ellipsis;text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0;vertical-align:middle;white-space:nowrap}.fb_dialog_content .dialog_header table{-webkit-font-smoothing:subpixel-antialiased;height:43px;width:100%}.fb_dialog_content .dialog_header td.header_left{font-size:12px;padding-left:5px;vertical-align:middle;width:60px}.fb_dialog_content .dialog_header td.header_right{font-size:12px;padding-right:5px;vertical-align:middle;width:60px}.fb_dialog_content .touchable_button{background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#4966A6), color-stop(.5, #355492), to(#2A4887));border:1px solid #29487d;-webkit-background-clip:padding-box;-webkit-border-radius:3px;-webkit-box-shadow:rgba(0, 0, 0, .117188) 0 1px 1px inset, rgba(255, 255, 255, .167969) 0 1px 0;display:inline-block;margin-top:3px;max-width:85px;line-height:18px;padding:4px 12px;position:relative}.fb_dialog_content .dialog_header .touchable_button input{border:none;background:none;color:#fff;font:12px Helvetica, sans-serif;font-weight:bold;margin:2px -12px;padding:2px 6px 3px 6px;text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0}.fb_dialog_content .dialog_header .header_center{color:#fff;font-size:16px;font-weight:bold;line-height:18px;text-align:center;vertical-align:middle}.fb_dialog_content .dialog_content{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/y9/r/jKEcVPZFk-2.gif) no-repeat 50% 50%;border:1px solid #555;border-bottom:0;border-top:0;height:150px}.fb_dialog_content .dialog_footer{background:#f6f7f9;border:1px solid #555;border-top-color:#ccc;height:40px}#fb_dialog_loader_close{float:left}.fb_dialog.fb_dialog_mobile .fb_dialog_close_button{text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0}.fb_dialog.fb_dialog_mobile .fb_dialog_close_icon{visibility:hidden}#fb_dialog_loader_spinner{animation:rotateSpinner 1.2s linear infinite;background-color:transparent;background-image:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/yD/r/t-wz8gw1xG1.png);background-repeat:no-repeat;background-position:50% 50%;height:24px;width:24px}@keyframes rotateSpinner{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+.fb_iframe_widget{display:inline-block;position:relative}.fb_iframe_widget span{display:inline-block;position:relative;text-align:justify}.fb_iframe_widget iframe{position:absolute}.fb_iframe_widget_fluid_desktop,.fb_iframe_widget_fluid_desktop span,.fb_iframe_widget_fluid_desktop iframe{max-width:100%}.fb_iframe_widget_fluid_desktop iframe{min-width:220px;position:relative}.fb_iframe_widget_lift{z-index:1}.fb_hide_iframes iframe{position:relative;left:-10000px}.fb_iframe_widget_loader{position:relative;display:inline-block}.fb_iframe_widget_fluid{display:inline}.fb_iframe_widget_fluid span{width:100%}.fb_iframe_widget_loader iframe{min-height:32px;z-index:2;zoom:1}.fb_iframe_widget_loader .FB_Loader{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/y9/r/jKEcVPZFk-2.gif) no-repeat;height:32px;width:32px;margin-left:-16px;position:absolute;left:50%;z-index:4}</style></head>
+	<body id="ipboard_body">
+		<p id="content_jump" class="hide"><a id="top"></a><a href="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/#j_content" title="Jump to content" accesskey="m">Jump to content</a></p>
+		<div id="ipbwrapper">
+			<!-- ::: TOP BAR: Sign in / register or user drop down and notification alerts ::: -->
+			<div id="header_bar" class="clearfix">
+				<div class="main_width">
+					
+					<div id="user_navigation" class="not_logged_in">
+							
+							<ul class="ipsList_inline right">
+								<li>
+									<span class="services">
+										
+										
+										
+									</span>
+									&nbsp;&nbsp;&nbsp;&nbsp;
+									<a href="http://www.i2cdevlib.com/forums/index.php?app=core&amp;module=global&amp;section=login" title="Sign In" id="sign_in">Sign In</a>&nbsp;&nbsp;&nbsp;
+								</li>
+								<li>
+									<a href="http://www.i2cdevlib.com/forums/index.php?app=core&amp;module=global&amp;section=register" title="Create Account" id="register_link">Create Account</a>
+								</li>
+							</ul>
+						</div>
+				</div>
+			</div>
+			<!-- ::: BRANDING STRIP: Logo and search box ::: -->
+			<div id="branding">
+				<div class="main_width">
+					<div id="logo">
+						
+							<a href="http://www.i2cdevlib.com/forums" title="Go to community index" rel="home" accesskey="1"><img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/1_logo-white-forum.png" alt="Logo"></a>
+						
+					</div>
+					
+						<div id="search" class="right">
+	<form action="http://www.i2cdevlib.com/forums/index.php?app=core&amp;module=search&amp;do=search&amp;fromMainBar=1" method="post" id="search-box">
+		<fieldset>
+			<label for="main_search" class="hide">Search</label>
+			<a href="http://www.i2cdevlib.com/forums/index.php?app=core&amp;module=search&amp;search_in=forums" title="Advanced Search" accesskey="4" rel="search" id="adv_search" class="right">Advanced</a>
+			<span id="search_wrap" class="right">
+				<input type="text" id="main_search" name="search_term" class="" size="17" tabindex="100" placeholder="Search...">
+				<span class="choice ipbmenu clickable" id="search_options">This topic</span>
+				<ul id="search_options_menucontent" class="ipbmenu_content ipsPad" style="display: none; position: absolute; z-index: 9999;">
+					<li class="title" style="z-index: 10000;"><strong style="z-index: 10000;">Search section:</strong></li>
+					<li class="special" style="z-index: 10000;">
+							<label for="s_topic" title="This topic" style="z-index: 10000;">
+								<input type="radio" name="search_app" value="forums:topic:4" class="input_radio" id="s_topic" checked="checked" style="z-index: 10000;"><strong style="z-index: 10000;">This topic</strong>
+							</label>
+						</li>
+					
+					
+					<li class="app" style="z-index: 10000;"><label for="s_forums" title="Forums" style="z-index: 10000;"><input type="radio" name="search_app" class="input_radio" id="s_forums" value="forums" style="z-index: 10000;">Forums</label></li>
+					<li class="app" style="z-index: 10000;"><label for="s_members" title="Members" style="z-index: 10000;"><input type="radio" name="search_app" class="input_radio" id="s_members" value="members" style="z-index: 10000;">Members</label></li>
+					<li class="app" style="z-index: 10000;"><label for="s_core" title="Help Files" style="z-index: 10000;"><input type="radio" name="search_app" class="input_radio" id="s_core" value="core" style="z-index: 10000;">Help Files</label></li>
+					
+						
+					
+
+						
+					
+
+						
+					
+				</ul>
+				<input type="submit" class="submit_input clickable" value="">
+			</span>
+			
+		</fieldset>
+	</form>
+</div>
+					
+				</div>
+			</div>
+			<!-- ::: APPLICATION TABS ::: -->
+			<div id="primary_nav" class="clearfix">
+				<div class="main_width">
+					<ul class="ipsList_inline" id="community_app_menu">
+						
+							<li class="right">
+								<a href="http://www.i2cdevlib.com/forums/index.php?app=core&amp;module=global&amp;section=navigation&amp;inapp=forums" rel="quickNavigation" accesskey="9" id="quickNavLaunch" title="Open Quick Navigation"><span>&nbsp;</span></a>
+							</li>
+						
+						<li id="nav_explore" class="right">
+							<a href="http://www.i2cdevlib.com/forums/index.php?app=core&amp;module=search&amp;do=viewNewContent&amp;search_app=forums" accesskey="2" title="View New Content">View New Content</a>
+						</li>
+						
+							<li id="nav_home" class="left"><a href="http://www.i2cdevlib.com/" title="Homepage" rel="home">I2Cdevlib</a></li>
+						
+						
+								
+									
+								
+
+									
+																				<li id="nav_app_forums" class="left active"><a href="http://www.i2cdevlib.com/forums/" title="Go to Forums">Forums</a></li>
+									
+								
+
+									
+																				<li id="nav_app_members" class="left "><a href="http://www.i2cdevlib.com/forums/members/" title="Go to Members">Members</a></li>
+									
+								
+							
+						<li id="nav_other_apps" style="display: none;">
+							<a href="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/#" class="ipbmenu" id="more_apps">More <img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/useropts_arrow.png"></a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			
+			<!-- ::: MAIN CONTENT AREA ::: -->
+			<div id="content" class="clearfix">
+				<!-- ::: NAVIGATION BREADCRUMBS ::: -->
+				<div id="secondary_navigation" class="clearfix">
+						<ol class="breadcrumb top ipsList_inline left">
+														<li itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+									<a href="http://www.i2cdevlib.com/forums/" itemprop="url">
+										<span itemprop="title">I2Cdevlib Forums</span>
+									</a>
+								</li>
+								
+							
+								<li itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+									<span class="nav_sep">→</span>
+									 <a href="http://www.i2cdevlib.com/forums/forum/1-i2c-device-discussion/" title="Return to I2C Device Discussion" itemprop="url"><span itemprop="title">I2C Device Discussion</span></a>
+								</li>
+								
+							
+
+								<li itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+									<span class="nav_sep">→</span>
+									 <a href="http://www.i2cdevlib.com/forums/forum/2-mpu-6050-6-axis-accelerometergyroscope-invensense/" title="Return to MPU-6050 6-axis accelerometer/gyroscope (InvenSense)" itemprop="url"><span itemprop="title">MPU-6050 6-axis accelerometer/gyroscope (InvenSense)</span></a>
+								</li>
+								
+							
+						</ol>
+					</div>
+					<br>
+				<noscript>
+					&lt;div class='message error'&gt;
+						&lt;strong&gt;Javascript Disabled Detected&lt;/strong&gt;
+						&lt;p&gt;You currently have javascript disabled. Several functions may not work. Please re-enable javascript to access full functionality.&lt;/p&gt;
+					&lt;/div&gt;
+					&lt;br /&gt;
+				</noscript>
+				<!-- ::: CONTENT ::: -->
+				
+				
+
+
+
+<script type="text/javascript">
+//<![CDATA[
+	ipb.topic.inSection    = 'topicview';
+	ipb.topic.topic_id     = 4;
+	ipb.topic.forum_id     = 2;
+	ipb.topic.redirectPost = 1;
+	ipb.topic.start_id     = 0;
+	ipb.topic.page_id      = 0;
+	ipb.topic.topPid       = 0;
+	ipb.topic.counts       = { postTotal: 19,
+							  curStart:  ipb.topic.start_id,
+							  perPage:   20 };
+	//Search Setup
+	ipb.vars['search_type']			= 'forum';
+	ipb.vars['search_type_id']		= 2;
+	ipb.vars['search_type_2']		= 'topic';
+	ipb.vars['search_type_id_2']	= 4;
+	
+	
+	// Delete stuff set up
+	ipb.topic.deleteUrls['hardDelete'] = new Template( ipb.vars['base_url'] + "app=forums&module=moderate&section=moderate&do=04&f=2&t=4&page=&auth_key=880ea6a14ea49e853634fbdc5015a024&p=#{pid}" );
+	ipb.topic.deleteUrls['softDelete'] = new Template( ipb.vars['base_url'] + "app=forums&module=moderate&section=moderate&do=postchoice&tact=sdelete&t=4&f=2&auth_key=880ea6a14ea49e853634fbdc5015a024&selectedpids[#{pid}]=#{pid}&pid=#{pid}" );
+	
+	
+	ipb.topic.modPerms	  = [];
+	
+	
+	ipb.templates['post_moderation'] = new Template("<div id='comment_moderate_box' class='ipsFloatingAction' style='display: none'><span class='desc'>With <span id='comment_count'>#{count}</span> checked posts: </span><select id='tactInPopup' class='input_select'><option value='approve'>Approve</option><option value='delete'>Hide</option><option value='sundelete'>Unhide</option><option value='deletedo'>Delete</option><option value='merge'>Merge</option><option value='split'>Split</option><option value='move'>Move</option></select>&nbsp;&nbsp;<input type='button' class='input_submit' id='submitModAction' value='Go' /></div>");
+	
+//]]>
+</script>
+
+
+
+
+
+	<div class="left">
+
+<img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/184a4c3d077eaa069e316a7273876e83" alt="Photo" class="ipsUserPhoto ipsUserPhoto_medium">
+
+	</div>
+
+<div itemscope="" itemtype="http://schema.org/Article" class="ipsBox_withphoto">
+	<span itemprop="aggregateRating" itemscope="" itemtype="http://schema.org/AggregateRating" class="rating ipsType_smaller">
+			
+			
+				<img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/star_off.png" alt="-" class="rate_img">
+			
+			
+			
+				<img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/star_off.png" alt="-" class="rate_img">
+			
+			
+			
+				<img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/star_off.png" alt="-" class="rate_img">
+			
+			
+			
+				<img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/star_off.png" alt="-" class="rate_img">
+			
+			
+			
+				<img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/star_off.png" alt="-" class="rate_img">
+			
+			
+			<span id="rating_text">
+				
+			</span>
+			
+		</span>
+	<h1 itemprop="name" class="ipsType_pagetitle">Understanding raw values of accelerometer and gyrometer</h1>
+	<div class="desc lighter blend_links">
+		 Started by <span itemprop="creator">
+	vrutangs
+</span>, <span itemprop="dateCreated" datetime="2013-05-26">May 26 2013 12:39 PM</span>
+	</div>
+	
+		<a class="ipsTag" href="http://www.i2cdevlib.com/forums/tags/forums/MPU%2B6050/" data-tooltip="Find more content tagged &#39;MPU 6050&#39;"><span>MPU 6050</span></a>
+		<br>
+	
+	<meta itemprop="interactionCount" content="UserComments:19">
+</div>
+<br>
+<div class="post post_block feature_box entry-content">
+	
+	<img itemprop="image" src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/a8e9b60d26c8b64f3b639961c76124ab" class="ipsUserPhoto ipsUserPhoto_medium left">
+	
+	<div class="ipsBox_withphoto">
+	<p class="ipsType_sectiontitle">
+		<span class="ipsBadge ipsBadge_green">Best Answer</span>
+		
+	Jeff Rowberg
+,
+		
+				<a href="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/#entry5">26 May 2013 - 07:24 PM</a>
+			
+	</p>
+	<p class="ipsPad_top desc">
+		<!--cached-Mon, 23 May 2016 03:49:57 +0000--></p><p>Hi&nbsp;<a hovercard-ref="member" hovercard-id="11" data-ipb="noparse" class="_hovertrigger url fn name  bbc_member" href="http://www.i2cdevlib.com/forums/user/11-vrutangs/" title="Member profile"><span itemprop="name">vrutangs</span></a>,</p>
+<p>&nbsp;</p>
+<p>The accelerometer and gyroscope measurements are explained in the <a href="http://invensense.com/mems/gyro/documents/RM-MPU-6000A.pdf" class="bbc_url" title="External link" rel="nofollow external">MPU-6050 datasheet</a>&nbsp;in the GYRO_CONFIG and ACCEL_CONFIG register descriptions (sections 4.4 and 4.5 on pages 14 and 15). The scale of each depends on the sensitivity settings chosen, which can be one of +/- 2, 4, 8, or 16g for the accelerometer and one of +/- 250, 500, 1000, or 2000 deg/sec for the gyroscope. The accelerometer produces data in units of acceleration (distance over time<sup>2</sup>), and the gyroscope produces data in units of rotational velocity (rotation distance over time).</p>
+<p>&nbsp;</p>
+<p>The output scale for any setting is [-32768, +32767] for each of the six axes. The default setting in the I2Cdevlib class is +/- 2g for the accel and +/- 250 deg/sec for the gyro. If the device is perfectly level and not moving, then:</p>
+<ul class="bbc"><li>X/Y accel axes should read 0</li>
+<li>Z accel axis should read 1g, which is +16384 at a sensitivity of 2g</li>
+<li>X/Y/Z gyro axes should read 0</li>
+</ul><p>In reality, the accel axes won't read exactly 0 since it is difficult to be perfectly level and there is some noise/error, and the gyros will also not read exactly 0 for the same reason (noise/error).</p>
+
+		
+				<a href="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/#entry5">
+			
+			<span class="ipsBadge has_icon ipsBadge_lightgrey">Go to the full post <img class="icon" src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/right_white_10px.png"></span></a>
+	<p></p>
+	</div>
+</div>
+
+
+<br>
+<div class="topic_controls">
+	
+	
+
+
+	<ul class="topic_buttons">
+			<li class="disabled"><span>Please log in to reply</span></li>
+			
+			
+		</ul>
+</div>
+
+<div class="maintitle clear clearfix">
+	<span class="ipsType_small">
+		18 replies to this topic
+	</span>
+	
+</div>
+
+<div class="topic hfeed clear clearfix">
+	
+	
+
+	<div class="ipsBox">
+		<div class="ipsBox_container" id="ips_Posts">
+			
+				<!--post:4-->
+
+<div class="post_block hentry clear clearfix  " id="post_id_4">
+		<a id="entry4"></a>
+		
+	
+		
+		<div class="post_wrap">
+			
+				<h3 class="row2">
+			
+				<span class="post_id right ipsType_small desc blend_links">
+					
+						<a itemprop="replyToUrl" data-entry-pid="4" href="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/#entry4" rel="bookmark" title="Understanding raw values of accelerometer and gyrometer: post #1">
+					
+					#1
+					<img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/icon_share.png" class="small" title="Understanding raw values of accelerometer and gyrometer: post #1">
+					</a>
+				</span>
+				
+				
+					<span itemprop="creator name" class="author vcard">
+	vrutangs
+</span>
+				
+			
+				
+			</h3>
+			<div class="author_info">
+				<div itemscope="" itemtype="http://schema.org/Person" class="user_details">
+	<span class="hide" itemprop="name">vrutangs</span>
+	<ul class="basic_info">
+		
+			<p class="desc member_title">Newbie</p>
+		
+		<li class="avatar">
+				
+				
+					<img itemprop="image" src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/184a4c3d077eaa069e316a7273876e83" class="ipsUserPhoto ipsUserPhoto_large">
+				
+				
+			</li>
+		<li class="group_title">
+			Members
+		</li>
+		<li class="group_icon">
+			
+				<img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/bullet_black.png" alt="Pip">
+			
+			</li>
+		
+		<li class="post_count desc lighter">
+			5 posts
+		</li>
+		
+		
+	</ul>
+	
+	
+		<ul class="custom_fields">
+			
+				
+					
+				
+			
+		</ul>
+	
+	
+</div>
+			</div>
+			<div class="post_body">
+				<p class="posted_info desc lighter ipsType_small">
+					Posted <abbr class="published" itemprop="commentTime" title="2013-05-26T12:39:17+00:00">26 May 2013 - 12:39 PM</abbr>
+					
+				</p>
+				
+				<div itemprop="commentText" class="post entry-content ">
+					<!--cached-Mon, 23 May 2016 03:49:57 +0000--><div>Respected Sir,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; I got some data from accelerometer and gyrometer using MPU 6050 with arduino. But&nbsp; i am not able to interpret numerical values of it. Can you help me to figure out this information?<br>
+here i am sending you some of data:<br><br>
+&nbsp;&nbsp;&nbsp; Accelarometer&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Gyrometer<br>
+Ax&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Ay&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Az&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Gx&nbsp;&nbsp; Gy&nbsp;&nbsp; Gz<br>
+-6616&nbsp;&nbsp; &nbsp;13880&nbsp;&nbsp; &nbsp;-1380&nbsp;&nbsp; &nbsp;915&nbsp;&nbsp; &nbsp;-68&nbsp;&nbsp; &nbsp;-49<br>
+-6624&nbsp;&nbsp; &nbsp;13924&nbsp;&nbsp; &nbsp;-1496&nbsp;&nbsp; &nbsp;909&nbsp;&nbsp; &nbsp;-41&nbsp;&nbsp; &nbsp;-136<br>
+-6680&nbsp;&nbsp; &nbsp;13896&nbsp;&nbsp; &nbsp;-1408&nbsp;&nbsp; &nbsp;917&nbsp;&nbsp; &nbsp;-46&nbsp;&nbsp; &nbsp;-148<br>
+-6636&nbsp;&nbsp; &nbsp;13996&nbsp;&nbsp; &nbsp;-1508&nbsp;&nbsp; &nbsp;913&nbsp;&nbsp; &nbsp;-35&nbsp;&nbsp; &nbsp;-111<br>
+-6668&nbsp;&nbsp; &nbsp;13896&nbsp;&nbsp; &nbsp;-1616&nbsp;&nbsp; &nbsp;902&nbsp;&nbsp; &nbsp;-47&nbsp;&nbsp; &nbsp;-47<br>
+-6716&nbsp;&nbsp; &nbsp;13944&nbsp;&nbsp; &nbsp;-1496&nbsp;&nbsp; &nbsp;916&nbsp;&nbsp; &nbsp;-43&nbsp;&nbsp; &nbsp;-40<br>
+-6616&nbsp;&nbsp; &nbsp;13972&nbsp;&nbsp; &nbsp;-1412&nbsp;&nbsp; &nbsp;879&nbsp;&nbsp; &nbsp;-57&nbsp;&nbsp; &nbsp;-5<br>
+-6584&nbsp;&nbsp; &nbsp;13884&nbsp;&nbsp; &nbsp;-1536&nbsp;&nbsp; &nbsp;918&nbsp;&nbsp; &nbsp;-47&nbsp;&nbsp; &nbsp;-25<br>
+-6920&nbsp;&nbsp; &nbsp;14192&nbsp;&nbsp; &nbsp;-1584&nbsp;&nbsp; &nbsp;892&nbsp;&nbsp; &nbsp;-10&nbsp;&nbsp; &nbsp;-164<br>
+-7792&nbsp;&nbsp; &nbsp;15016&nbsp;&nbsp; &nbsp;-1524&nbsp;&nbsp; &nbsp;1022 -80&nbsp;&nbsp; &nbsp;-68<br>
+-6928&nbsp;&nbsp; &nbsp;14244&nbsp;&nbsp; &nbsp;-1484&nbsp;&nbsp; &nbsp;773&nbsp;&nbsp; &nbsp;-112&nbsp;&nbsp; &nbsp; 261<br>
+-6396&nbsp;&nbsp; &nbsp;13764&nbsp;&nbsp; &nbsp;-1416&nbsp;&nbsp; &nbsp;939&nbsp;&nbsp; &nbsp;-72&nbsp;&nbsp; &nbsp;112<br>
+-6636&nbsp;&nbsp; &nbsp;14020&nbsp;&nbsp; &nbsp;-1596&nbsp;&nbsp; &nbsp;892&nbsp;&nbsp; &nbsp;-43&nbsp;&nbsp; &nbsp;-154<br>
+-6520&nbsp;&nbsp; &nbsp;13836&nbsp;&nbsp; &nbsp;-1524&nbsp;&nbsp; &nbsp;946&nbsp;&nbsp; &nbsp; 4&nbsp;&nbsp; &nbsp;-242<br>
+-6776&nbsp;&nbsp; &nbsp;13916&nbsp;&nbsp; &nbsp;-1552&nbsp;&nbsp; &nbsp;926&nbsp;&nbsp; &nbsp; 8&nbsp;&nbsp; &nbsp;-333<br>
+-6916&nbsp;&nbsp; &nbsp;14008&nbsp;&nbsp; &nbsp;-1568&nbsp;&nbsp; &nbsp;891&nbsp;&nbsp; &nbsp;-64&nbsp;&nbsp; &nbsp;-54<br>
+-6592&nbsp;&nbsp; &nbsp;13936&nbsp;&nbsp; &nbsp;-1460&nbsp;&nbsp; &nbsp;866&nbsp;&nbsp; &nbsp;-113&nbsp;&nbsp; &nbsp;216<br>
+&nbsp;</div>
+<p>Thanks.</p>
+<p>&nbsp;</p>
+
+					
+					<br>
+					
+				</div>
+				
+				
+				<div class="ipsLikeBar right clearfix" id="rep_post_4">
+				<ul class="ipsList_inline">
+					<li id="like_post_4" class="ipsLikeBar_info">
+							CharlesnurE, Ekbergdub and Johnnydofs like this
+						</li>
+					
+				</ul>
+			</div>
+<script type="text/javascript">
+	ipb.global.registerReputation( 'rep_post_4', { domLikeStripId: 'like_post_4', app: 'forums', type: 'pid', typeid: '4' }, parseInt('3') );
+</script>
+				
+								
+				
+				
+				
+			
+				<ul id="postControlsNormal_4" class="post_controls clear clearfix">
+					<li class="top hide"><a href="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/#ipboard_body" class="top" title="Back to top">Back to top</a></li>
+					
+					
+					
+					
+					
+					<li class="report">
+							<a href="http://www.i2cdevlib.com/forums/index.php?app=core&amp;module=reports&amp;rcom=post&amp;tid=4&amp;pid=4&amp;page=">Report</a>
+						</li>
+						
+				</ul>
+				
+			</div>
+		</div>
+	</div>
+		
+		
+		<hr>
+		
+		
+<script type="text/javascript">
+var pid = parseInt(4);
+if ( pid > ipb.topic.topPid ){
+	ipb.topic.topPid = pid;
+}
+
+	// Show multiquote for JS browsers
+	if ( $('multiq_4') )
+	{
+		$('multiq_4').show();
+	}
+	
+	if( $('toggle_post_4') )
+	{
+		$('toggle_post_4').show();
+	}
+	
+	// Add perm data
+	ipb.topic.deletePerms[4] = { 'canDelete' : 0, 'canSoftDelete' : 0 };
+
+</script>
+			
+
+				<!--post:5-->
+
+<div class="post_block hentry clear clearfix solved " id="post_id_5">
+		<a id="entry5"></a>
+		
+	
+		
+		<div class="post_wrap">
+			
+				<h3 class="row2">
+			
+				<span class="post_id right ipsType_small desc blend_links">
+					
+						<a itemprop="replyToUrl" data-entry-pid="5" href="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/#entry5" rel="bookmark" title="Understanding raw values of accelerometer and gyrometer: post #2">
+					
+					#2
+					<img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/icon_share.png" class="small" title="Understanding raw values of accelerometer and gyrometer: post #2">
+					</a>
+				</span>
+				
+				
+					<span itemprop="creator name" class="author vcard">
+	Jeff Rowberg
+</span>
+				
+			
+				
+			</h3>
+			<div class="author_info">
+				<div itemscope="" itemtype="http://schema.org/Person" class="user_details">
+	<span class="hide" itemprop="name">Jeff Rowberg</span>
+	<ul class="basic_info">
+		
+			<p class="desc member_title">Administrator</p>
+		
+		<li class="avatar">
+				
+				
+					<img itemprop="image" src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/a8e9b60d26c8b64f3b639961c76124ab" class="ipsUserPhoto ipsUserPhoto_large">
+				
+				
+			</li>
+		<li class="group_title">
+			<span style="color:red;">Administrators</span>
+		</li>
+		<li class="group_icon">
+			
+				<img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/admin.png" alt="">
+			
+			</li>
+		
+		<li class="post_count desc lighter">
+			59 posts
+		</li>
+		
+		
+	</ul>
+	
+	
+		<ul class="custom_fields">
+			
+				
+					
+						<li>
+							<span class="ft">Location</span><span class="fc">Roanoke, VA</span>
+						</li>
+					
+				
+			
+		</ul>
+	
+	
+</div>
+			</div>
+			<div class="post_body">
+				<p class="posted_info desc lighter ipsType_small">
+					Posted <abbr class="published" itemprop="commentTime" title="2013-05-26T19:24:34+00:00">26 May 2013 - 07:24 PM</abbr>
+					&nbsp; <span class="ipsBadge ipsBadge_green">Best Answer</span>
+				</p>
+				
+				<div itemprop="commentText" class="post entry-content ">
+					<!--cached-Mon, 23 May 2016 03:49:57 +0000--><p>Hi&nbsp;<a hovercard-ref="member" hovercard-id="11" data-ipb="noparse" class="_hovertrigger url fn name  bbc_member" href="http://www.i2cdevlib.com/forums/user/11-vrutangs/" title="Member profile"><span itemprop="name">vrutangs</span></a>,</p>
+<p>&nbsp;</p>
+<p>The accelerometer and gyroscope measurements are explained in the <a href="http://invensense.com/mems/gyro/documents/RM-MPU-6000A.pdf" class="bbc_url" title="External link" rel="nofollow external">MPU-6050 datasheet</a>&nbsp;in the GYRO_CONFIG and ACCEL_CONFIG register descriptions (sections 4.4 and 4.5 on pages 14 and 15). The scale of each depends on the sensitivity settings chosen, which can be one of +/- 2, 4, 8, or 16g for the accelerometer and one of +/- 250, 500, 1000, or 2000 deg/sec for the gyroscope. The accelerometer produces data in units of acceleration (distance over time<sup>2</sup>), and the gyroscope produces data in units of rotational velocity (rotation distance over time).</p>
+<p>&nbsp;</p>
+<p>The output scale for any setting is [-32768, +32767] for each of the six axes. The default setting in the I2Cdevlib class is +/- 2g for the accel and +/- 250 deg/sec for the gyro. If the device is perfectly level and not moving, then:</p>
+<ul class="bbc"><li>X/Y accel axes should read 0</li>
+<li>Z accel axis should read 1g, which is +16384 at a sensitivity of 2g</li>
+<li>X/Y/Z gyro axes should read 0</li>
+</ul><p>In reality, the accel axes won't read exactly 0 since it is difficult to be perfectly level and there is some noise/error, and the gyros will also not read exactly 0 for the same reason (noise/error).</p>
+
+					
+					<br>
+					
+				</div>
+				
+				
+				<div class="ipsLikeBar right clearfix" id="rep_post_5">
+				<ul class="ipsList_inline">
+					<li id="like_post_5" class="ipsLikeBar_info" style="display:none">
+							
+						</li>
+					
+				</ul>
+			</div>
+<script type="text/javascript">
+	ipb.global.registerReputation( 'rep_post_5', { domLikeStripId: 'like_post_5', app: 'forums', type: 'pid', typeid: '5' }, parseInt('0') );
+</script>
+				
+								
+				
+				
+				
+			
+				<ul id="postControlsNormal_5" class="post_controls clear clearfix">
+					<li class="top hide"><a href="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/#ipboard_body" class="top" title="Back to top">Back to top</a></li>
+					
+					
+					
+					
+					
+					<li class="report">
+							<a href="http://www.i2cdevlib.com/forums/index.php?app=core&amp;module=reports&amp;rcom=post&amp;tid=4&amp;pid=5&amp;page=">Report</a>
+						</li>
+						
+				</ul>
+				
+			</div>
+		</div>
+	</div>
+		
+		
+		<hr>
+		
+		
+<script type="text/javascript">
+var pid = parseInt(5);
+if ( pid > ipb.topic.topPid ){
+	ipb.topic.topPid = pid;
+}
+
+	// Show multiquote for JS browsers
+	if ( $('multiq_5') )
+	{
+		$('multiq_5').show();
+	}
+	
+	if( $('toggle_post_5') )
+	{
+		$('toggle_post_5').show();
+	}
+	
+	// Add perm data
+	ipb.topic.deletePerms[5] = { 'canDelete' : 0, 'canSoftDelete' : 0 };
+
+</script>
+			
+
+				<!--post:90-->
+
+<div class="post_block hentry clear clearfix  " id="post_id_90">
+		<a id="entry90"></a>
+		
+	
+		
+		<div class="post_wrap">
+			
+				<h3 class="row2">
+			
+				<span class="post_id right ipsType_small desc blend_links">
+					
+						<a itemprop="replyToUrl" data-entry-pid="90" href="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/#entry90" rel="bookmark" title="Understanding raw values of accelerometer and gyrometer: post #3">
+					
+					#3
+					<img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/icon_share.png" class="small" title="Understanding raw values of accelerometer and gyrometer: post #3">
+					</a>
+				</span>
+				
+				
+					<span itemprop="creator name" class="author vcard">
+	ben
+</span>
+				
+			
+				
+			</h3>
+			<div class="author_info">
+				<div itemscope="" itemtype="http://schema.org/Person" class="user_details">
+	<span class="hide" itemprop="name">ben</span>
+	<ul class="basic_info">
+		
+			<p class="desc member_title">Newbie</p>
+		
+		<li class="avatar">
+				
+				
+					<img itemprop="image" src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/6e056fe59adb9d928b5a387ebffccf1b" class="ipsUserPhoto ipsUserPhoto_large">
+				
+				
+			</li>
+		<li class="group_title">
+			Members
+		</li>
+		<li class="group_icon">
+			
+				<img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/bullet_black.png" alt="Pip">
+			
+			</li>
+		
+		<li class="post_count desc lighter">
+			1 posts
+		</li>
+		
+		
+	</ul>
+	
+	
+		<ul class="custom_fields">
+			
+				
+					
+				
+			
+		</ul>
+	
+	
+</div>
+			</div>
+			<div class="post_body">
+				<p class="posted_info desc lighter ipsType_small">
+					Posted <abbr class="published" itemprop="commentTime" title="2013-08-07T15:31:26+00:00">07 August 2013 - 03:31 PM</abbr>
+					
+				</p>
+				
+				<div itemprop="commentText" class="post entry-content ">
+					<!--cached-Mon, 23 May 2016 03:49:57 +0000--><p>Hi Jeff , sorry to reopen this post...</p>
+<p>
+I am a french student in an engeneering school and I am using the crius aiop v2 on my robot. On this board there is an MPU6050 and I am communicating with it thanks to your code. I tested a lot of codes like the one on arduino playground and the one of Kristian Lauszus with the Kalman filter.<br><br>
+However I am still having big issues with this sensor...<br><br>
+Correct me if I am wrong but when I am reading the raw data for the accelerometer I am supposed to get for x, y and z : 0 , 0 and 0.98 right ?<br>
+However when I am just reading the right registers (my sensor is put still on my desk) I am getting those values instead :<br>
+&nbsp; accX&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; accY&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; accZ<br>
+8324.00&nbsp;&nbsp;&nbsp; 4768.00&nbsp;&nbsp;&nbsp;14496.00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+8208.00&nbsp;&nbsp;&nbsp; 4768.00&nbsp;&nbsp;&nbsp;14536.00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+8216.00&nbsp;&nbsp;&nbsp; 4704.00&nbsp;&nbsp;&nbsp;14296.00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+8288.00&nbsp;&nbsp;&nbsp; 4684.00&nbsp;&nbsp;&nbsp;14608.00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+8356.00&nbsp;&nbsp;&nbsp; 4724.00&nbsp;&nbsp;&nbsp;14464.00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+8372.00&nbsp;&nbsp;&nbsp;4784.00&nbsp;&nbsp;&nbsp;14588.00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+8280.00&nbsp;&nbsp;&nbsp;4736.00&nbsp;&nbsp;&nbsp;14408.00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+8332.00&nbsp;&nbsp;&nbsp;4748.00&nbsp;&nbsp;&nbsp;14356.00<br><br>
+Since I am using your code, the sensor is set on a scale range of +/-2g which means that the sensitivity of the accelerometer is of 16384 LSB/g. I know that to understand the raw datas I need to divide them with the sensitivity and get something near 0, 0, 0.98 even if there is an error.<br>
+However with the values I am having it is no where near from what it should be...<br>
+I tried the code from arduino playground and I am having the same raw datas, the same thing with the Kalman filter... There are a lot of guides but I must be missing something... I am just reading the right registers but those raw datas doesn't make any sense at all...<br><br>
+So I would like to know if you think those datas are strange and if you happened to find something similar, I happened to find some talk on the internet which says that there is a version of the MPU6050 that doesn't have the same scale ranges and not the same sensitvities... I don't think I have that much of bad luck...<br><br>
+Thank you for your help,<br>
+Ben.</p>
+
+					
+					<br>
+					
+				</div>
+				
+				
+				<div class="ipsLikeBar right clearfix" id="rep_post_90">
+				<ul class="ipsList_inline">
+					<li id="like_post_90" class="ipsLikeBar_info" style="display:none">
+							
+						</li>
+					
+				</ul>
+			</div>
+<script type="text/javascript">
+	ipb.global.registerReputation( 'rep_post_90', { domLikeStripId: 'like_post_90', app: 'forums', type: 'pid', typeid: '90' }, parseInt('0') );
+</script>
+				
+								
+				
+				
+				
+			
+				<ul id="postControlsNormal_90" class="post_controls clear clearfix">
+					<li class="top hide"><a href="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/#ipboard_body" class="top" title="Back to top">Back to top</a></li>
+					
+					
+					
+					
+					
+					<li class="report">
+							<a href="http://www.i2cdevlib.com/forums/index.php?app=core&amp;module=reports&amp;rcom=post&amp;tid=4&amp;pid=90&amp;page=">Report</a>
+						</li>
+						
+				</ul>
+				
+			</div>
+		</div>
+	</div>
+		
+		
+		<hr>
+		
+		
+<script type="text/javascript">
+var pid = parseInt(90);
+if ( pid > ipb.topic.topPid ){
+	ipb.topic.topPid = pid;
+}
+
+	// Show multiquote for JS browsers
+	if ( $('multiq_90') )
+	{
+		$('multiq_90').show();
+	}
+	
+	if( $('toggle_post_90') )
+	{
+		$('toggle_post_90').show();
+	}
+	
+	// Add perm data
+	ipb.topic.deletePerms[90] = { 'canDelete' : 0, 'canSoftDelete' : 0 };
+
+</script>
+			
+
+				<!--post:100-->
+
+<div class="post_block hentry clear clearfix  " id="post_id_100">
+		<a id="entry100"></a>
+		
+	
+		
+		<div class="post_wrap">
+			
+				<h3 class="row2">
+			
+				<span class="post_id right ipsType_small desc blend_links">
+					
+						<a itemprop="replyToUrl" data-entry-pid="100" href="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/#entry100" rel="bookmark" title="Understanding raw values of accelerometer and gyrometer: post #4">
+					
+					#4
+					<img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/icon_share.png" class="small" title="Understanding raw values of accelerometer and gyrometer: post #4">
+					</a>
+				</span>
+				
+				
+					<span itemprop="creator name" class="author vcard">
+	Jeff Rowberg
+</span>
+				
+			
+				
+			</h3>
+			<div class="author_info">
+				<div itemscope="" itemtype="http://schema.org/Person" class="user_details">
+	<span class="hide" itemprop="name">Jeff Rowberg</span>
+	<ul class="basic_info">
+		
+			<p class="desc member_title">Administrator</p>
+		
+		<li class="avatar">
+				
+				
+					<img itemprop="image" src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/a8e9b60d26c8b64f3b639961c76124ab" class="ipsUserPhoto ipsUserPhoto_large">
+				
+				
+			</li>
+		<li class="group_title">
+			<span style="color:red;">Administrators</span>
+		</li>
+		<li class="group_icon">
+			
+				<img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/admin.png" alt="">
+			
+			</li>
+		
+		<li class="post_count desc lighter">
+			59 posts
+		</li>
+		
+		
+	</ul>
+	
+	
+		<ul class="custom_fields">
+			
+				
+					
+						<li>
+							<span class="ft">Location</span><span class="fc">Roanoke, VA</span>
+						</li>
+					
+				
+			
+		</ul>
+	
+	
+</div>
+			</div>
+			<div class="post_body">
+				<p class="posted_info desc lighter ipsType_small">
+					Posted <abbr class="published" itemprop="commentTime" title="2013-08-17T18:50:05+00:00">17 August 2013 - 06:50 PM</abbr>
+					
+				</p>
+				
+				<div itemprop="commentText" class="post entry-content ">
+					<!--cached-Mon, 23 May 2016 03:49:57 +0000--><p>Hi Ben,</p>
+<p>&nbsp;</p>
+<p>The numbers you are seeing appear to be all multiples of 4. This is extremely unlikely in a real-world situation, and makes me think that the way you are reading registers and/or converting data for storage in your variables has a problem with (1) register read orders, (2) byte orders, or (3) bit orders. Or, possibly, you are shifting values somehow after reading them.</p>
+<p>&nbsp;</p>
+<p>The various ACCEL_*OUT_H/L registers each contain 8 bits of the 16-bit raw sensor value. The _H register is the high byte (MSB), and the _L register is the low byte (LSB). If you read them independently and combine them, then you should store them into a&nbsp;<strong>signed</strong> 16-bit integer container something like this:</p>
+<pre class="prettyprint prettyprinted"><span class="typ">int16_t</span><span class="pln"> accel_x </span><span class="pun">=</span><span class="pln"> </span><span class="pun">(</span><span class="pln">ACCEL_XOUT_H </span><span class="pun">&lt;&lt;</span><span class="pln"> </span><span class="lit">8</span><span class="pun">)</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> ACCEL_XOUT_L</span><span class="pun">;</span></pre>
+<p>Is this what you are doing, or something very close anyway?</p>
+
+					
+					<br>
+					
+				</div>
+				
+				
+				<div class="ipsLikeBar right clearfix" id="rep_post_100">
+				<ul class="ipsList_inline">
+					<li id="like_post_100" class="ipsLikeBar_info" style="display:none">
+							
+						</li>
+					
+				</ul>
+			</div>
+<script type="text/javascript">
+	ipb.global.registerReputation( 'rep_post_100', { domLikeStripId: 'like_post_100', app: 'forums', type: 'pid', typeid: '100' }, parseInt('0') );
+</script>
+				
+								
+				
+				
+				
+			
+				<ul id="postControlsNormal_100" class="post_controls clear clearfix">
+					<li class="top hide"><a href="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/#ipboard_body" class="top" title="Back to top">Back to top</a></li>
+					
+					
+					
+					
+					
+					<li class="report">
+							<a href="http://www.i2cdevlib.com/forums/index.php?app=core&amp;module=reports&amp;rcom=post&amp;tid=4&amp;pid=100&amp;page=">Report</a>
+						</li>
+						
+				</ul>
+				
+			</div>
+		</div>
+	</div>
+		
+		
+		<hr>
+		
+		
+<script type="text/javascript">
+var pid = parseInt(100);
+if ( pid > ipb.topic.topPid ){
+	ipb.topic.topPid = pid;
+}
+
+	// Show multiquote for JS browsers
+	if ( $('multiq_100') )
+	{
+		$('multiq_100').show();
+	}
+	
+	if( $('toggle_post_100') )
+	{
+		$('toggle_post_100').show();
+	}
+	
+	// Add perm data
+	ipb.topic.deletePerms[100] = { 'canDelete' : 0, 'canSoftDelete' : 0 };
+
+</script>
+			
+
+				<!--post:154-->
+
+<div class="post_block hentry clear clearfix  " id="post_id_154">
+		<a id="entry154"></a>
+		
+	
+		
+		<div class="post_wrap">
+			
+				<h3 class="row2">
+			
+				<span class="post_id right ipsType_small desc blend_links">
+					
+						<a itemprop="replyToUrl" data-entry-pid="154" href="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/#entry154" rel="bookmark" title="Understanding raw values of accelerometer and gyrometer: post #5">
+					
+					#5
+					<img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/icon_share.png" class="small" title="Understanding raw values of accelerometer and gyrometer: post #5">
+					</a>
+				</span>
+				
+				
+					<span itemprop="creator name" class="author vcard">
+	Kabba
+</span>
+				
+			
+				
+			</h3>
+			<div class="author_info">
+				<div itemscope="" itemtype="http://schema.org/Person" class="user_details">
+	<span class="hide" itemprop="name">Kabba</span>
+	<ul class="basic_info">
+		
+			<p class="desc member_title">Newbie</p>
+		
+		<li class="avatar">
+				
+				
+					<img itemprop="image" src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/df9145e9511a35059f1c307bfdf7ba1b" class="ipsUserPhoto ipsUserPhoto_large">
+				
+				
+			</li>
+		<li class="group_title">
+			Members
+		</li>
+		<li class="group_icon">
+			
+				<img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/bullet_black.png" alt="Pip">
+			
+			</li>
+		
+		<li class="post_count desc lighter">
+			3 posts
+		</li>
+		
+		
+	</ul>
+	
+	
+		<ul class="custom_fields">
+			
+				
+					
+				
+			
+		</ul>
+	
+	
+</div>
+			</div>
+			<div class="post_body">
+				<p class="posted_info desc lighter ipsType_small">
+					Posted <abbr class="published" itemprop="commentTime" title="2013-09-22T07:57:21+00:00">22 September 2013 - 07:57 AM</abbr>
+					
+				</p>
+				
+				<div itemprop="commentText" class="post entry-content ">
+					<!--cached-Mon, 23 May 2016 03:49:57 +0000--><p>Sorry that I too am opening this thread up again.</p>
+<p>&nbsp;</p>
+<p>What exactly does the X, Y and Z components of the accelerometer represent? Am I correct in thinking that if any one of the axes are pointing directly upwards away from the earth it (without noise) it should be displaying 1g (16384 at 2g setting). If any of the axes are pointing straight down it should be reading -1g (-16384). all axis reading zero when they are pointing directly horizontal.</p>
+<p>&nbsp;</p>
+<p>Then a value for the X-axis is its projection onto the vertical 1g reference?</p>
+<p>&nbsp;</p>
+<p>If I am right, what would be the best way to manipulate the data to accurately measure angles at points in time.&nbsp;</p>
+
+					
+					<br>
+					
+				</div>
+				
+				
+				<div class="ipsLikeBar right clearfix" id="rep_post_154">
+				<ul class="ipsList_inline">
+					<li id="like_post_154" class="ipsLikeBar_info" style="display:none">
+							
+						</li>
+					
+				</ul>
+			</div>
+<script type="text/javascript">
+	ipb.global.registerReputation( 'rep_post_154', { domLikeStripId: 'like_post_154', app: 'forums', type: 'pid', typeid: '154' }, parseInt('0') );
+</script>
+				
+								
+				
+				
+				
+			
+				<ul id="postControlsNormal_154" class="post_controls clear clearfix">
+					<li class="top hide"><a href="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/#ipboard_body" class="top" title="Back to top">Back to top</a></li>
+					
+					
+					
+					
+					
+					<li class="report">
+							<a href="http://www.i2cdevlib.com/forums/index.php?app=core&amp;module=reports&amp;rcom=post&amp;tid=4&amp;pid=154&amp;page=">Report</a>
+						</li>
+						
+				</ul>
+				
+			</div>
+		</div>
+	</div>
+		
+		
+		<hr>
+		
+		
+<script type="text/javascript">
+var pid = parseInt(154);
+if ( pid > ipb.topic.topPid ){
+	ipb.topic.topPid = pid;
+}
+
+	// Show multiquote for JS browsers
+	if ( $('multiq_154') )
+	{
+		$('multiq_154').show();
+	}
+	
+	if( $('toggle_post_154') )
+	{
+		$('toggle_post_154').show();
+	}
+	
+	// Add perm data
+	ipb.topic.deletePerms[154] = { 'canDelete' : 0, 'canSoftDelete' : 0 };
+
+</script>
+			
+
+				<!--post:158-->
+
+<div class="post_block hentry clear clearfix  " id="post_id_158">
+		<a id="entry158"></a>
+		
+	
+		
+		<div class="post_wrap">
+			
+				<h3 class="row2">
+			
+				<span class="post_id right ipsType_small desc blend_links">
+					
+						<a itemprop="replyToUrl" data-entry-pid="158" href="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/#entry158" rel="bookmark" title="Understanding raw values of accelerometer and gyrometer: post #6">
+					
+					#6
+					<img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/icon_share.png" class="small" title="Understanding raw values of accelerometer and gyrometer: post #6">
+					</a>
+				</span>
+				
+				
+					<span itemprop="creator name" class="author vcard">
+	Murali21
+</span>
+				
+			
+				
+			</h3>
+			<div class="author_info">
+				<div itemscope="" itemtype="http://schema.org/Person" class="user_details">
+	<span class="hide" itemprop="name">Murali21</span>
+	<ul class="basic_info">
+		
+			<p class="desc member_title">Newbie</p>
+		
+		<li class="avatar">
+				
+				
+					<img itemprop="image" src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/82b3c58f067a19e66c3f182c0d570024" class="ipsUserPhoto ipsUserPhoto_large">
+				
+				
+			</li>
+		<li class="group_title">
+			Members
+		</li>
+		<li class="group_icon">
+			
+				<img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/bullet_black.png" alt="Pip">
+			
+			</li>
+		
+		<li class="post_count desc lighter">
+			2 posts
+		</li>
+		
+		
+	</ul>
+	
+	
+		<ul class="custom_fields">
+			
+				
+					
+				
+			
+		</ul>
+	
+	
+</div>
+			</div>
+			<div class="post_body">
+				<p class="posted_info desc lighter ipsType_small">
+					Posted <abbr class="published" itemprop="commentTime" title="2013-09-28T16:12:53+00:00">28 September 2013 - 04:12 PM</abbr>
+					
+				</p>
+				
+				<div itemprop="commentText" class="post entry-content ">
+					<!--cached-Mon, 23 May 2016 03:49:57 +0000--><p>Sir, I used the MPU 6050 program from Github...its strange that all my a/g values shows zero ....dont know whether its a communication program or problem with my library please &nbsp;help me out as i am new to this.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<div>the program i used is:</div>
+<div>&nbsp;</div>
+<div>#include "Wire.h"</div>
+<div>#include "DebugUtils.h"</div>
+<div>&nbsp;</div>
+<div>// I2Cdev and MPU6050 must be installed as libraries, or else the .cpp/.h files</div>
+<div>// for both classes must be in the include path of your project</div>
+<div>#include "I2Cdev.h"</div>
+<div>#include "MPU60X0.h"</div>
+<div>#include &lt;SPI.h&gt;</div>
+<div>&nbsp;</div>
+<div>&nbsp;</div>
+<div>// class default I2C address is 0x68</div>
+<div>// specific I2C addresses may be passed as a parameter here</div>
+<div>// AD0 low = 0x68 (default for InvenSense evaluation board)</div>
+<div>// AD0 high = 0x69</div>
+<div>MPU60X0 accelgyro;</div>
+<div>&nbsp;</div>
+<div>int16_t ax, ay, az;</div>
+<div>int16_t gx, gy, gz;</div>
+<div>&nbsp;</div>
+<div>#define LED_PIN 13</div>
+<div>bool blinkState = false;</div>
+<div>&nbsp;</div>
+<div>&nbsp;</div>
+<div>void setup()&nbsp;</div>
+<div>{</div>
+<div>&nbsp; &nbsp; // join I2C bus (I2Cdev library doesn't do this automatically)</div>
+<div>&nbsp; &nbsp; Wire.begin();</div>
+<div>&nbsp;</div>
+<div>&nbsp; &nbsp; // initialize serial communication</div>
+<div>&nbsp; &nbsp; // (38400 chosen because it works as well at 8MHz as it does at 16MHz, but</div>
+<div>&nbsp; &nbsp; // it's really up to you depending on your project)</div>
+<div>&nbsp; &nbsp; Serial.begin(38400);</div>
+<div>&nbsp;</div>
+<div>&nbsp; &nbsp; // initialize device</div>
+<div>&nbsp; &nbsp; Serial.println("Initializing I2C devices...");</div>
+<div>&nbsp; &nbsp; accelgyro.initialize();</div>
+<div>&nbsp;</div>
+<div>&nbsp; &nbsp; // verify connection</div>
+<div>&nbsp; &nbsp; Serial.println("Testing device connections...");</div>
+<div>&nbsp; &nbsp; Serial.println(accelgyro.testConnection() ? "MPU6050 connection successful" : "MPU6050 connection failed");</div>
+<div>&nbsp;</div>
+<div>&nbsp; &nbsp; // configure Arduino LED for</div>
+<div>&nbsp; &nbsp; pinMode(LED_PIN, OUTPUT);</div>
+<div>}</div>
+<div>&nbsp;</div>
+<div>void loop() {</div>
+<div>&nbsp; &nbsp; // read raw accel/gyro measurements from device</div>
+<div>&nbsp; &nbsp; accelgyro.getMotion6(&amp;ax, &amp;ay, &amp;az, &amp;gx, &amp;gy, &amp;gz);</div>
+<div>&nbsp;</div>
+<div>&nbsp; &nbsp; // these methods (and a few others) are also available</div>
+<div>&nbsp; &nbsp; //accelgyro.getAcceleration(&amp;ax, &amp;ay, &amp;az);</div>
+<div>&nbsp; &nbsp; //accelgyro.getRotation(&amp;gx, &amp;gy, &amp;gz);</div>
+<div>&nbsp;</div>
+<div>&nbsp; &nbsp; // display tab-separated accel/gyro x/y/z values</div>
+<div>&nbsp; &nbsp; Serial.print("a/g:\t");</div>
+<div>&nbsp; &nbsp; Serial.print(ax); Serial.print("\t");</div>
+<div>&nbsp; &nbsp; Serial.print(ay); Serial.print("\t");</div>
+<div>&nbsp; &nbsp; Serial.print(az); Serial.print("\t");</div>
+<div>&nbsp; &nbsp; Serial.print(gx); Serial.print("\t");</div>
+<div>&nbsp; &nbsp; Serial.print(gy); Serial.print("\t");</div>
+<div>&nbsp; &nbsp; Serial.println(gz);</div>
+<div>&nbsp;</div>
+<div>&nbsp; &nbsp; // blink LED to indicate activity</div>
+<div>&nbsp; &nbsp; blinkState = !blinkState;</div>
+<div>&nbsp; &nbsp; digitalWrite(LED_PIN, blinkState);</div>
+<div>}</div>
+					
+					<br>
+					
+				</div>
+				
+				
+				<div class="ipsLikeBar right clearfix" id="rep_post_158">
+				<ul class="ipsList_inline">
+					<li id="like_post_158" class="ipsLikeBar_info" style="display:none">
+							
+						</li>
+					
+				</ul>
+			</div>
+<script type="text/javascript">
+	ipb.global.registerReputation( 'rep_post_158', { domLikeStripId: 'like_post_158', app: 'forums', type: 'pid', typeid: '158' }, parseInt('0') );
+</script>
+				
+								
+				
+				
+				
+			
+				<ul id="postControlsNormal_158" class="post_controls clear clearfix">
+					<li class="top hide"><a href="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/#ipboard_body" class="top" title="Back to top">Back to top</a></li>
+					
+					
+					
+					
+					
+					<li class="report">
+							<a href="http://www.i2cdevlib.com/forums/index.php?app=core&amp;module=reports&amp;rcom=post&amp;tid=4&amp;pid=158&amp;page=">Report</a>
+						</li>
+						
+				</ul>
+				
+			</div>
+		</div>
+	</div>
+		
+		
+		<hr>
+		
+		
+<script type="text/javascript">
+var pid = parseInt(158);
+if ( pid > ipb.topic.topPid ){
+	ipb.topic.topPid = pid;
+}
+
+	// Show multiquote for JS browsers
+	if ( $('multiq_158') )
+	{
+		$('multiq_158').show();
+	}
+	
+	if( $('toggle_post_158') )
+	{
+		$('toggle_post_158').show();
+	}
+	
+	// Add perm data
+	ipb.topic.deletePerms[158] = { 'canDelete' : 0, 'canSoftDelete' : 0 };
+
+</script>
+			
+
+				<!--post:172-->
+
+<div class="post_block hentry clear clearfix  " id="post_id_172">
+		<a id="entry172"></a>
+		
+	
+		
+		<div class="post_wrap">
+			
+				<h3 class="row2">
+			
+				<span class="post_id right ipsType_small desc blend_links">
+					
+						<a itemprop="replyToUrl" data-entry-pid="172" href="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/#entry172" rel="bookmark" title="Understanding raw values of accelerometer and gyrometer: post #7">
+					
+					#7
+					<img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/icon_share.png" class="small" title="Understanding raw values of accelerometer and gyrometer: post #7">
+					</a>
+				</span>
+				
+				
+					<span itemprop="creator name" class="author vcard">
+	mauricio707
+</span>
+				
+			
+				
+			</h3>
+			<div class="author_info">
+				<div itemscope="" itemtype="http://schema.org/Person" class="user_details">
+	<span class="hide" itemprop="name">mauricio707</span>
+	<ul class="basic_info">
+		
+			<p class="desc member_title">Newbie</p>
+		
+		<li class="avatar">
+				
+				
+					<img itemprop="image" src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/bf5f109a4a99641e70f3e0e7eea40cb8" class="ipsUserPhoto ipsUserPhoto_large">
+				
+				
+			</li>
+		<li class="group_title">
+			Members
+		</li>
+		<li class="group_icon">
+			
+				<img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/bullet_black.png" alt="Pip">
+			
+			</li>
+		
+		<li class="post_count desc lighter">
+			2 posts
+		</li>
+		
+		
+	</ul>
+	
+	
+		<ul class="custom_fields">
+			
+				
+					
+				
+			
+		</ul>
+	
+	
+</div>
+			</div>
+			<div class="post_body">
+				<p class="posted_info desc lighter ipsType_small">
+					Posted <abbr class="published" itemprop="commentTime" title="2013-10-08T22:01:45+00:00">08 October 2013 - 10:01 PM</abbr>
+					
+				</p>
+				
+				<div itemprop="commentText" class="post entry-content ">
+					<!--cached-Mon, 23 May 2016 03:49:57 +0000--><p>hola jeff!</p>
+<p>que pena incluirme en este tema con preguntas en vez de soluciones, soy estudiante de ingeniería electromecánica, soy colombiano, de ahí el porque mi escritura.</p>
+<p>estoy trabajando con el mpu 6050 y quisiera preguntarte si es posible controlarlo por medio de una FPGA, exactamente una Spartan 3e, he investigado en la web pero siempre me encuentro con que el sensor se controla por arduino o por micro controladores.</p>
+<p>&nbsp;</p>
+<p>disculpa la molestia, espero me puedan colaborar, muchas gracias</p>
+					
+					<br>
+					
+				</div>
+				
+				
+				<div class="ipsLikeBar right clearfix" id="rep_post_172">
+				<ul class="ipsList_inline">
+					<li id="like_post_172" class="ipsLikeBar_info" style="display:none">
+							
+						</li>
+					
+				</ul>
+			</div>
+<script type="text/javascript">
+	ipb.global.registerReputation( 'rep_post_172', { domLikeStripId: 'like_post_172', app: 'forums', type: 'pid', typeid: '172' }, parseInt('0') );
+</script>
+				
+								
+				
+				
+				
+			
+				<ul id="postControlsNormal_172" class="post_controls clear clearfix">
+					<li class="top hide"><a href="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/#ipboard_body" class="top" title="Back to top">Back to top</a></li>
+					
+					
+					
+					
+					
+					<li class="report">
+							<a href="http://www.i2cdevlib.com/forums/index.php?app=core&amp;module=reports&amp;rcom=post&amp;tid=4&amp;pid=172&amp;page=">Report</a>
+						</li>
+						
+				</ul>
+				
+			</div>
+		</div>
+	</div>
+		
+		
+		<hr>
+		
+		
+<script type="text/javascript">
+var pid = parseInt(172);
+if ( pid > ipb.topic.topPid ){
+	ipb.topic.topPid = pid;
+}
+
+	// Show multiquote for JS browsers
+	if ( $('multiq_172') )
+	{
+		$('multiq_172').show();
+	}
+	
+	if( $('toggle_post_172') )
+	{
+		$('toggle_post_172').show();
+	}
+	
+	// Add perm data
+	ipb.topic.deletePerms[172] = { 'canDelete' : 0, 'canSoftDelete' : 0 };
+
+</script>
+			
+
+				<!--post:173-->
+
+<div class="post_block hentry clear clearfix  " id="post_id_173">
+		<a id="entry173"></a>
+		
+	
+		
+		<div class="post_wrap">
+			
+				<h3 class="row2">
+			
+				<span class="post_id right ipsType_small desc blend_links">
+					
+						<a itemprop="replyToUrl" data-entry-pid="173" href="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/#entry173" rel="bookmark" title="Understanding raw values of accelerometer and gyrometer: post #8">
+					
+					#8
+					<img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/icon_share.png" class="small" title="Understanding raw values of accelerometer and gyrometer: post #8">
+					</a>
+				</span>
+				
+				
+					<span itemprop="creator name" class="author vcard">
+	mauricio707
+</span>
+				
+			
+				
+			</h3>
+			<div class="author_info">
+				<div itemscope="" itemtype="http://schema.org/Person" class="user_details">
+	<span class="hide" itemprop="name">mauricio707</span>
+	<ul class="basic_info">
+		
+			<p class="desc member_title">Newbie</p>
+		
+		<li class="avatar">
+				
+				
+					<img itemprop="image" src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/bf5f109a4a99641e70f3e0e7eea40cb8" class="ipsUserPhoto ipsUserPhoto_large">
+				
+				
+			</li>
+		<li class="group_title">
+			Members
+		</li>
+		<li class="group_icon">
+			
+				<img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/bullet_black.png" alt="Pip">
+			
+			</li>
+		
+		<li class="post_count desc lighter">
+			2 posts
+		</li>
+		
+		
+	</ul>
+	
+	
+		<ul class="custom_fields">
+			
+				
+					
+				
+			
+		</ul>
+	
+	
+</div>
+			</div>
+			<div class="post_body">
+				<p class="posted_info desc lighter ipsType_small">
+					Posted <abbr class="published" itemprop="commentTime" title="2013-10-08T22:09:05+00:00">08 October 2013 - 10:09 PM</abbr>
+					
+				</p>
+				
+				<div itemprop="commentText" class="post entry-content ">
+					<!--cached-Mon, 23 May 2016 03:49:57 +0000--><div>hi jeff!</div>
+<div>Shame Include me in this topic with questions rather than answers, electromechanical engineering student I am, I am Colombian, from there the reason for my writing.</div>
+<div>AM Working with the MPU 6050 and I want to ask if possible control by an FPGA, a Spartan 3e exactly, I researched on the web but I always find that when using this sensor with arduino, or through microcontrollers, I have able to find information (FPGA + MPU6050)</div>
+<div>&nbsp;</div>
+<div>Sorry for the inconvenience, I hope I can collaborate,</div>
+<div>thank you very much.</div>
+					
+					<br>
+					
+				</div>
+				
+				
+				<div class="ipsLikeBar right clearfix" id="rep_post_173">
+				<ul class="ipsList_inline">
+					<li id="like_post_173" class="ipsLikeBar_info" style="display:none">
+							
+						</li>
+					
+				</ul>
+			</div>
+<script type="text/javascript">
+	ipb.global.registerReputation( 'rep_post_173', { domLikeStripId: 'like_post_173', app: 'forums', type: 'pid', typeid: '173' }, parseInt('0') );
+</script>
+				
+								
+				
+				
+				
+			
+				<ul id="postControlsNormal_173" class="post_controls clear clearfix">
+					<li class="top hide"><a href="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/#ipboard_body" class="top" title="Back to top">Back to top</a></li>
+					
+					
+					
+					
+					
+					<li class="report">
+							<a href="http://www.i2cdevlib.com/forums/index.php?app=core&amp;module=reports&amp;rcom=post&amp;tid=4&amp;pid=173&amp;page=">Report</a>
+						</li>
+						
+				</ul>
+				
+			</div>
+		</div>
+	</div>
+		
+		
+		<hr>
+		
+		
+<script type="text/javascript">
+var pid = parseInt(173);
+if ( pid > ipb.topic.topPid ){
+	ipb.topic.topPid = pid;
+}
+
+	// Show multiquote for JS browsers
+	if ( $('multiq_173') )
+	{
+		$('multiq_173').show();
+	}
+	
+	if( $('toggle_post_173') )
+	{
+		$('toggle_post_173').show();
+	}
+	
+	// Add perm data
+	ipb.topic.deletePerms[173] = { 'canDelete' : 0, 'canSoftDelete' : 0 };
+
+</script>
+			
+
+				<!--post:459-->
+
+<div class="post_block hentry clear clearfix  " id="post_id_459">
+		<a id="entry459"></a>
+		
+	
+		
+		<div class="post_wrap">
+			
+				<h3 class="row2">
+			
+				<span class="post_id right ipsType_small desc blend_links">
+					
+						<a itemprop="replyToUrl" data-entry-pid="459" href="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/#entry459" rel="bookmark" title="Understanding raw values of accelerometer and gyrometer: post #9">
+					
+					#9
+					<img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/icon_share.png" class="small" title="Understanding raw values of accelerometer and gyrometer: post #9">
+					</a>
+				</span>
+				
+				
+					<span itemprop="creator name" class="author vcard">
+	moro696
+</span>
+				
+			
+				
+			</h3>
+			<div class="author_info">
+				<div itemscope="" itemtype="http://schema.org/Person" class="user_details">
+	<span class="hide" itemprop="name">moro696</span>
+	<ul class="basic_info">
+		
+			<p class="desc member_title">Newbie</p>
+		
+		<li class="avatar">
+				
+				
+					<img itemprop="image" src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/a1ac7483d94f3a3e6afcdc121fd97aab" class="ipsUserPhoto ipsUserPhoto_large">
+				
+				
+			</li>
+		<li class="group_title">
+			Members
+		</li>
+		<li class="group_icon">
+			
+				<img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/bullet_black.png" alt="Pip">
+			
+			</li>
+		
+		<li class="post_count desc lighter">
+			1 posts
+		</li>
+		
+		
+	</ul>
+	
+	
+		<ul class="custom_fields">
+			
+				
+					
+				
+			
+		</ul>
+	
+	
+</div>
+			</div>
+			<div class="post_body">
+				<p class="posted_info desc lighter ipsType_small">
+					Posted <abbr class="published" itemprop="commentTime" title="2014-04-16T08:23:03+00:00">16 April 2014 - 08:23 AM</abbr>
+					
+				</p>
+				
+				<div itemprop="commentText" class="post entry-content ">
+					<!--cached-Mon, 23 May 2016 03:49:57 +0000--><p>Hi guys, i have some issues with mpu6050 understanding the raw values. My gyro is set at 250dps and&nbsp; accelerometer at 2g.</p>
+<p>&nbsp;</p>
+<p>For example the unsigned interger value 16bit gyro x axis divided by 131LSBs&nbsp; if i display on a lcd it flickers between 0 and 500, gues there is +/- 1dps noise.</p>
+<p>&nbsp;</p>
+<p>My main concern is how to obtain angle from these raw values? I have the three xyz raw values, divided by the 131 scale factor used for 250dps according to the datasheet , and as far for now i understand that these give me the angular speed or velocity, but a static angle?</p>
+<p>&nbsp;</p>
+<p>I never worked with gyros before thats why i ask.</p>
+<p>&nbsp;</p>
+<p>Thanks</p>
+
+					
+					<br>
+					
+				</div>
+				
+				
+				<div class="ipsLikeBar right clearfix" id="rep_post_459">
+				<ul class="ipsList_inline">
+					<li id="like_post_459" class="ipsLikeBar_info" style="display:none">
+							
+						</li>
+					
+				</ul>
+			</div>
+<script type="text/javascript">
+	ipb.global.registerReputation( 'rep_post_459', { domLikeStripId: 'like_post_459', app: 'forums', type: 'pid', typeid: '459' }, parseInt('0') );
+</script>
+				
+								
+				
+				
+				
+			
+				<ul id="postControlsNormal_459" class="post_controls clear clearfix">
+					<li class="top hide"><a href="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/#ipboard_body" class="top" title="Back to top">Back to top</a></li>
+					
+					
+					
+					
+					
+					<li class="report">
+							<a href="http://www.i2cdevlib.com/forums/index.php?app=core&amp;module=reports&amp;rcom=post&amp;tid=4&amp;pid=459&amp;page=">Report</a>
+						</li>
+						
+				</ul>
+				
+			</div>
+		</div>
+	</div>
+		
+		
+		<hr>
+		
+		
+<script type="text/javascript">
+var pid = parseInt(459);
+if ( pid > ipb.topic.topPid ){
+	ipb.topic.topPid = pid;
+}
+
+	// Show multiquote for JS browsers
+	if ( $('multiq_459') )
+	{
+		$('multiq_459').show();
+	}
+	
+	if( $('toggle_post_459') )
+	{
+		$('toggle_post_459').show();
+	}
+	
+	// Add perm data
+	ipb.topic.deletePerms[459] = { 'canDelete' : 0, 'canSoftDelete' : 0 };
+
+</script>
+			
+
+				<!--post:609-->
+
+<div class="post_block hentry clear clearfix  " id="post_id_609">
+		<a id="entry609"></a>
+		
+	
+		
+		<div class="post_wrap">
+			
+				<h3 class="row2">
+			
+				<span class="post_id right ipsType_small desc blend_links">
+					
+						<a itemprop="replyToUrl" data-entry-pid="609" href="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/#entry609" rel="bookmark" title="Understanding raw values of accelerometer and gyrometer: post #10">
+					
+					#10
+					<img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/icon_share.png" class="small" title="Understanding raw values of accelerometer and gyrometer: post #10">
+					</a>
+				</span>
+				
+				
+					<span itemprop="creator name" class="author vcard">
+	MGtan
+</span>
+				
+			
+				
+			</h3>
+			<div class="author_info">
+				<div itemscope="" itemtype="http://schema.org/Person" class="user_details">
+	<span class="hide" itemprop="name">MGtan</span>
+	<ul class="basic_info">
+		
+			<p class="desc member_title">Newbie</p>
+		
+		<li class="avatar">
+				
+				
+					<img itemprop="image" src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/663cc5f4fd3c3083ab7acb99340edd9d" class="ipsUserPhoto ipsUserPhoto_large">
+				
+				
+			</li>
+		<li class="group_title">
+			Members
+		</li>
+		<li class="group_icon">
+			
+				<img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/bullet_black.png" alt="Pip">
+			
+			</li>
+		
+		<li class="post_count desc lighter">
+			2 posts
+		</li>
+		
+		
+	</ul>
+	
+	
+		<ul class="custom_fields">
+			
+				
+					
+				
+			
+		</ul>
+	
+	
+</div>
+			</div>
+			<div class="post_body">
+				<p class="posted_info desc lighter ipsType_small">
+					Posted <abbr class="published" itemprop="commentTime" title="2014-08-12T17:34:55+00:00">12 August 2014 - 05:34 PM</abbr>
+					
+				</p>
+				
+				<div itemprop="commentText" class="post entry-content ">
+					<!--cached-Mon, 23 May 2016 03:49:57 +0000--><p class="citation">moro696, on 16 Apr 2014 - 10:23 AM, said:<a class="snapback right" rel="citation" href="http://www.i2cdevlib.com/forums/index.php?app=forums&amp;module=forums&amp;section=findpost&amp;pid=459"><img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/snapback.png"></a></p><blockquote class="ipsBlockquote built" data-author="moro696" data-cid="459" data-time="1397636583">
+<div>
+<p>Hi guys, i have some issues with mpu6050 understanding the raw values. My gyro is set at 250dps and&nbsp; accelerometer at 2g.</p>
+<p>&nbsp;</p>
+<p>For example the unsigned interger value 16bit gyro x axis divided by 131LSBs&nbsp; if i display on a lcd it flickers between 0 and 500, gues there is +/- 1dps noise.</p>
+<p>&nbsp;</p>
+<p>My main concern is how to obtain angle from these raw values? I have the three xyz raw values, divided by the 131 scale factor used for 250dps according to the datasheet , and as far for now i understand that these give me the angular speed or velocity, but a static angle?</p>
+<p>&nbsp;</p>
+<p>I never worked with gyros before thats why i ask.</p>
+<p>&nbsp;</p>
+<p>Thanks</p>
+</div>
+</blockquote>
+<p>&nbsp;</p>
+<p>I am not sure I am correct or not but Integration of angular velocity should give you static angle right?</p>
+					
+					<br>
+					
+				</div>
+				
+				
+				<div class="ipsLikeBar right clearfix" id="rep_post_609">
+				<ul class="ipsList_inline">
+					<li id="like_post_609" class="ipsLikeBar_info" style="display:none">
+							
+						</li>
+					
+				</ul>
+			</div>
+<script type="text/javascript">
+	ipb.global.registerReputation( 'rep_post_609', { domLikeStripId: 'like_post_609', app: 'forums', type: 'pid', typeid: '609' }, parseInt('0') );
+</script>
+				
+								
+				
+				
+				
+			
+				<ul id="postControlsNormal_609" class="post_controls clear clearfix">
+					<li class="top hide"><a href="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/#ipboard_body" class="top" title="Back to top">Back to top</a></li>
+					
+					
+					
+					
+					
+					<li class="report">
+							<a href="http://www.i2cdevlib.com/forums/index.php?app=core&amp;module=reports&amp;rcom=post&amp;tid=4&amp;pid=609&amp;page=">Report</a>
+						</li>
+						
+				</ul>
+				
+			</div>
+		</div>
+	</div>
+		
+		
+		<hr>
+		
+		
+<script type="text/javascript">
+var pid = parseInt(609);
+if ( pid > ipb.topic.topPid ){
+	ipb.topic.topPid = pid;
+}
+
+	// Show multiquote for JS browsers
+	if ( $('multiq_609') )
+	{
+		$('multiq_609').show();
+	}
+	
+	if( $('toggle_post_609') )
+	{
+		$('toggle_post_609').show();
+	}
+	
+	// Add perm data
+	ipb.topic.deletePerms[609] = { 'canDelete' : 0, 'canSoftDelete' : 0 };
+
+</script>
+			
+
+				<!--post:698-->
+
+<div class="post_block hentry clear clearfix  " id="post_id_698">
+		<a id="entry698"></a>
+		
+	
+		
+		<div class="post_wrap">
+			
+				<h3 class="row2">
+			
+				<span class="post_id right ipsType_small desc blend_links">
+					
+						<a itemprop="replyToUrl" data-entry-pid="698" href="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/#entry698" rel="bookmark" title="Understanding raw values of accelerometer and gyrometer: post #11">
+					
+					#11
+					<img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/icon_share.png" class="small" title="Understanding raw values of accelerometer and gyrometer: post #11">
+					</a>
+				</span>
+				
+				
+					<span itemprop="creator name" class="author vcard">
+	martink
+</span>
+				
+			
+				
+			</h3>
+			<div class="author_info">
+				<div itemscope="" itemtype="http://schema.org/Person" class="user_details">
+	<span class="hide" itemprop="name">martink</span>
+	<ul class="basic_info">
+		
+			<p class="desc member_title">Newbie</p>
+		
+		<li class="avatar">
+				
+				
+					<img itemprop="image" src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/4ff4eae16329027b677a13e4c18f5ed1" class="ipsUserPhoto ipsUserPhoto_large">
+				
+				
+			</li>
+		<li class="group_title">
+			Members
+		</li>
+		<li class="group_icon">
+			
+				<img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/bullet_black.png" alt="Pip">
+			
+			</li>
+		
+		<li class="post_count desc lighter">
+			1 posts
+		</li>
+		
+		
+	</ul>
+	
+	
+		<ul class="custom_fields">
+			
+				
+					
+				
+			
+		</ul>
+	
+	
+</div>
+			</div>
+			<div class="post_body">
+				<p class="posted_info desc lighter ipsType_small">
+					Posted <abbr class="published" itemprop="commentTime" title="2014-12-05T23:38:18+00:00">05 December 2014 - 11:38 PM</abbr>
+					
+				</p>
+				
+				<div itemprop="commentText" class="post entry-content ">
+					<!--cached-Mon, 23 May 2016 03:49:57 +0000--><p>You need to combine the values with constants defined for the sensor in order to get correct reading. Consider looking at this implementation of mpu6050_getConvData(): <a href="https://github.com/mkschreder/martink/blob/master/sensors/mpu6050.c" class="bbc_url" title="External link" rel="nofollow external">https://github.com/m...nsors/mpu6050.c</a></p>
+
+					
+					<br>
+					
+				</div>
+				
+				
+				<div class="ipsLikeBar right clearfix" id="rep_post_698">
+				<ul class="ipsList_inline">
+					<li id="like_post_698" class="ipsLikeBar_info" style="display:none">
+							
+						</li>
+					
+				</ul>
+			</div>
+<script type="text/javascript">
+	ipb.global.registerReputation( 'rep_post_698', { domLikeStripId: 'like_post_698', app: 'forums', type: 'pid', typeid: '698' }, parseInt('0') );
+</script>
+				
+								
+				
+				
+				
+			
+				<ul id="postControlsNormal_698" class="post_controls clear clearfix">
+					<li class="top hide"><a href="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/#ipboard_body" class="top" title="Back to top">Back to top</a></li>
+					
+					
+					
+					
+					
+					<li class="report">
+							<a href="http://www.i2cdevlib.com/forums/index.php?app=core&amp;module=reports&amp;rcom=post&amp;tid=4&amp;pid=698&amp;page=">Report</a>
+						</li>
+						
+				</ul>
+				
+			</div>
+		</div>
+	</div>
+		
+		
+		<hr>
+		
+		
+<script type="text/javascript">
+var pid = parseInt(698);
+if ( pid > ipb.topic.topPid ){
+	ipb.topic.topPid = pid;
+}
+
+	// Show multiquote for JS browsers
+	if ( $('multiq_698') )
+	{
+		$('multiq_698').show();
+	}
+	
+	if( $('toggle_post_698') )
+	{
+		$('toggle_post_698').show();
+	}
+	
+	// Add perm data
+	ipb.topic.deletePerms[698] = { 'canDelete' : 0, 'canSoftDelete' : 0 };
+
+</script>
+			
+
+				<!--post:711-->
+
+<div class="post_block hentry clear clearfix  " id="post_id_711">
+		<a id="entry711"></a>
+		
+	
+		
+		<div class="post_wrap">
+			
+				<h3 class="row2">
+			
+				<span class="post_id right ipsType_small desc blend_links">
+					
+						<a itemprop="replyToUrl" data-entry-pid="711" href="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/#entry711" rel="bookmark" title="Understanding raw values of accelerometer and gyrometer: post #12">
+					
+					#12
+					<img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/icon_share.png" class="small" title="Understanding raw values of accelerometer and gyrometer: post #12">
+					</a>
+				</span>
+				
+				
+					<span itemprop="creator name" class="author vcard">
+	Vinesh Saini
+</span>
+				
+			
+				
+			</h3>
+			<div class="author_info">
+				<div itemscope="" itemtype="http://schema.org/Person" class="user_details">
+	<span class="hide" itemprop="name">Vinesh Saini</span>
+	<ul class="basic_info">
+		
+			<p class="desc member_title">Newbie</p>
+		
+		<li class="avatar">
+				
+				
+					<img itemprop="image" src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/734feaf1954b1a8b89894e8d02a23568" class="ipsUserPhoto ipsUserPhoto_large">
+				
+				
+			</li>
+		<li class="group_title">
+			Members
+		</li>
+		<li class="group_icon">
+			
+				<img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/bullet_black.png" alt="Pip">
+			
+			</li>
+		
+		<li class="post_count desc lighter">
+			1 posts
+		</li>
+		
+		
+	</ul>
+	
+	
+		<ul class="custom_fields">
+			
+				
+					
+				
+			
+		</ul>
+	
+	
+</div>
+			</div>
+			<div class="post_body">
+				<p class="posted_info desc lighter ipsType_small">
+					Posted <abbr class="published" itemprop="commentTime" title="2014-12-23T09:21:42+00:00">23 December 2014 - 09:21 AM</abbr>
+					
+				</p>
+				
+				<div itemprop="commentText" class="post entry-content ">
+					<!--cached-Mon, 23 May 2016 03:49:57 +0000--><p>Hi sir,</p>
+<p>I am also using MPU6050 accelerometer and gyrometer with arduino UNO. I followed the wiring,</p>
+<p>VCC to 5v of arduino</p>
+<p>GND to GND of arduino</p>
+<p>SDA pin to A4 pin of arduino</p>
+<p>SCL pin to A5 pin of arduino</p>
+<p>AD0 to&nbsp;GND of arduino</p>
+<p>INT to Pin 2 of arduino</p>
+<p>And I ran I2C&nbsp;scanner code which is given here :</p>
+<div><span><span><a href="http://playground.arduino.cc/Main/I2cScanner" class="bbc_url" title="External link" rel="nofollow external">http://playground.ar...Main/I2cScanner</a></span></span></div>
+<div><span><span>But it is not detecting the address. Which is 0x68 default, given&nbsp;in the manual. </span></span></div>
+<div>&nbsp;</div>
+<div><span><span>And when I dump other code to detect the X Y X axes of accelerometer and gyrometer, it is giving only -1 value.</span></span></div>
+<div><span><span>Please help me out.</span></span></div>
+
+					
+					<br>
+					
+				</div>
+				
+				
+				<div class="ipsLikeBar right clearfix" id="rep_post_711">
+				<ul class="ipsList_inline">
+					<li id="like_post_711" class="ipsLikeBar_info" style="display:none">
+							
+						</li>
+					
+				</ul>
+			</div>
+<script type="text/javascript">
+	ipb.global.registerReputation( 'rep_post_711', { domLikeStripId: 'like_post_711', app: 'forums', type: 'pid', typeid: '711' }, parseInt('0') );
+</script>
+				
+								
+				
+				
+				
+			
+				<ul id="postControlsNormal_711" class="post_controls clear clearfix">
+					<li class="top hide"><a href="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/#ipboard_body" class="top" title="Back to top">Back to top</a></li>
+					
+					
+					
+					
+					
+					<li class="report">
+							<a href="http://www.i2cdevlib.com/forums/index.php?app=core&amp;module=reports&amp;rcom=post&amp;tid=4&amp;pid=711&amp;page=">Report</a>
+						</li>
+						
+				</ul>
+				
+			</div>
+		</div>
+	</div>
+		
+		
+		<hr>
+		
+		
+<script type="text/javascript">
+var pid = parseInt(711);
+if ( pid > ipb.topic.topPid ){
+	ipb.topic.topPid = pid;
+}
+
+	// Show multiquote for JS browsers
+	if ( $('multiq_711') )
+	{
+		$('multiq_711').show();
+	}
+	
+	if( $('toggle_post_711') )
+	{
+		$('toggle_post_711').show();
+	}
+	
+	// Add perm data
+	ipb.topic.deletePerms[711] = { 'canDelete' : 0, 'canSoftDelete' : 0 };
+
+</script>
+			
+
+				<!--post:822-->
+
+<div class="post_block hentry clear clearfix  " id="post_id_822">
+		<a id="entry822"></a>
+		
+	
+		
+		<div class="post_wrap">
+			
+				<h3 class="row2">
+			
+				<span class="post_id right ipsType_small desc blend_links">
+					
+						<a itemprop="replyToUrl" data-entry-pid="822" href="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/#entry822" rel="bookmark" title="Understanding raw values of accelerometer and gyrometer: post #13">
+					
+					#13
+					<img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/icon_share.png" class="small" title="Understanding raw values of accelerometer and gyrometer: post #13">
+					</a>
+				</span>
+				
+				
+					<span itemprop="creator name" class="author vcard">
+	pmbmwtf
+</span>
+				
+			
+				
+			</h3>
+			<div class="author_info">
+				<div itemscope="" itemtype="http://schema.org/Person" class="user_details">
+	<span class="hide" itemprop="name">pmbmwtf</span>
+	<ul class="basic_info">
+		
+			<p class="desc member_title">Newbie</p>
+		
+		<li class="avatar">
+				
+				
+					<img itemprop="image" src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/photo-thumb-2592.jpg" class="ipsUserPhoto ipsUserPhoto_large">
+				
+				
+			</li>
+		<li class="group_title">
+			Members
+		</li>
+		<li class="group_icon">
+			
+				<img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/bullet_black.png" alt="Pip">
+			
+			</li>
+		
+		<li class="post_count desc lighter">
+			1 posts
+		</li>
+		
+		
+	</ul>
+	
+	
+		<ul class="custom_fields">
+			
+				
+					
+				
+			
+		</ul>
+	
+	
+</div>
+			</div>
+			<div class="post_body">
+				<p class="posted_info desc lighter ipsType_small">
+					Posted <abbr class="published" itemprop="commentTime" title="2015-02-17T16:31:10+00:00">17 February 2015 - 04:31 PM</abbr>
+					
+				</p>
+				
+				<div itemprop="commentText" class="post entry-content ">
+					<!--cached-Mon, 23 May 2016 03:49:57 +0000--><p>Vinesh Saini,</p>
+<p>&nbsp;&nbsp; You are commiting a BIG mistake! You <strong>CANNOT</strong> connect directly the MPU6050 to the Arduino. If you read the datasheet you will see that the highest Vcc is 3.46v!!!! (<a href="http://www.invensense.com/mems/gyro/documents/PS-MPU-6000A-00v3.4.pdf" class="bbc_url" title="External link" rel="nofollow external">http://www.invensens...000A-00v3.4.pdf</a>). So you will need a level shifter to connect&nbsp; the MPU6050 to the arduino and 3.3V suplied by the arduino. Finally you should have a look on the Arduino website <a href="http://playground.arduino.cc/Main/MPU-6050." class="bbc_url" title="External link" rel="nofollow external">http://playground.ar.../Main/MPU-6050.</a> </p>
+<p>Regards,</p>
+
+					
+					<br>
+					
+				</div>
+				
+				
+				<div class="ipsLikeBar right clearfix" id="rep_post_822">
+				<ul class="ipsList_inline">
+					<li id="like_post_822" class="ipsLikeBar_info" style="display:none">
+							
+						</li>
+					
+				</ul>
+			</div>
+<script type="text/javascript">
+	ipb.global.registerReputation( 'rep_post_822', { domLikeStripId: 'like_post_822', app: 'forums', type: 'pid', typeid: '822' }, parseInt('0') );
+</script>
+				
+								
+				
+				
+				
+			
+				<ul id="postControlsNormal_822" class="post_controls clear clearfix">
+					<li class="top hide"><a href="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/#ipboard_body" class="top" title="Back to top">Back to top</a></li>
+					
+					
+					
+					
+					
+					<li class="report">
+							<a href="http://www.i2cdevlib.com/forums/index.php?app=core&amp;module=reports&amp;rcom=post&amp;tid=4&amp;pid=822&amp;page=">Report</a>
+						</li>
+						
+				</ul>
+				
+			</div>
+		</div>
+	</div>
+		
+		
+		<hr>
+		
+		
+<script type="text/javascript">
+var pid = parseInt(822);
+if ( pid > ipb.topic.topPid ){
+	ipb.topic.topPid = pid;
+}
+
+	// Show multiquote for JS browsers
+	if ( $('multiq_822') )
+	{
+		$('multiq_822').show();
+	}
+	
+	if( $('toggle_post_822') )
+	{
+		$('toggle_post_822').show();
+	}
+	
+	// Add perm data
+	ipb.topic.deletePerms[822] = { 'canDelete' : 0, 'canSoftDelete' : 0 };
+
+</script>
+			
+
+				<!--post:847-->
+
+<div class="post_block hentry clear clearfix  " id="post_id_847">
+		<a id="entry847"></a>
+		
+	
+		
+		<div class="post_wrap">
+			
+				<h3 class="row2">
+			
+				<span class="post_id right ipsType_small desc blend_links">
+					
+						<a itemprop="replyToUrl" data-entry-pid="847" href="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/#entry847" rel="bookmark" title="Understanding raw values of accelerometer and gyrometer: post #14">
+					
+					#14
+					<img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/icon_share.png" class="small" title="Understanding raw values of accelerometer and gyrometer: post #14">
+					</a>
+				</span>
+				
+				
+					<span itemprop="creator name" class="author vcard">
+	vrutangs
+</span>
+				
+			
+				
+			</h3>
+			<div class="author_info">
+				<div itemscope="" itemtype="http://schema.org/Person" class="user_details">
+	<span class="hide" itemprop="name">vrutangs</span>
+	<ul class="basic_info">
+		
+			<p class="desc member_title">Newbie</p>
+		
+		<li class="avatar">
+				
+				
+					<img itemprop="image" src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/184a4c3d077eaa069e316a7273876e83" class="ipsUserPhoto ipsUserPhoto_large">
+				
+				
+			</li>
+		<li class="group_title">
+			Members
+		</li>
+		<li class="group_icon">
+			
+				<img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/bullet_black.png" alt="Pip">
+			
+			</li>
+		
+		<li class="post_count desc lighter">
+			5 posts
+		</li>
+		
+		
+	</ul>
+	
+	
+		<ul class="custom_fields">
+			
+				
+					
+				
+			
+		</ul>
+	
+	
+</div>
+			</div>
+			<div class="post_body">
+				<p class="posted_info desc lighter ipsType_small">
+					Posted <abbr class="published" itemprop="commentTime" title="2015-03-03T12:40:07+00:00">03 March 2015 - 12:40 PM</abbr>
+					
+				</p>
+				
+				<div itemprop="commentText" class="post entry-content ">
+					<!--cached-Mon, 23 May 2016 03:49:57 +0000--><p>Hello..</p>
+<p>I have the small query.&nbsp;</p>
+<p>The code for reading accelerometer and gyro data from MPU 6050 is written by Jeff is as follow:</p>
+<p>&nbsp;</p>
+<div><span style="color:#0000ff;">// I2C device class (I2Cdev) demonstration Arduino sketch for MPU6050 class</span></div>
+<div><span style="color:#0000ff;">// 10/7/2011 by Jeff Rowberg &lt;jeff@rowberg.net&gt;</span></div>
+<div><span style="color:#0000ff;">// Updates should (hopefully) always be available at <a href="https://github.com/jrowberg/i2cdevlib" class="bbc_url" title="External link" rel="nofollow external">https://github.com/jrowberg/i2cdevlib</a></span></div>
+<div><span style="color:#0000ff;">//</span></div>
+<div><span style="color:#0000ff;">// Changelog:</span></div>
+<div><span style="color:#0000ff;">// &nbsp; &nbsp; &nbsp;2013-05-08 - added multiple output formats</span></div>
+<div><span style="color:#0000ff;">// &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; - added seamless Fastwire support</span></div>
+<div><span style="color:#0000ff;">// &nbsp; &nbsp; &nbsp;2011-10-07 - initial release</span></div>
+<div>&nbsp;</div>
+<div><span style="color:#0000ff;">/* ============================================</span></div>
+<div><span style="color:#0000ff;">I2Cdev device library code is placed under the MIT license</span></div>
+<div><span style="color:#0000ff;">Copyright © 2011 Jeff Rowberg</span></div>
+<div>&nbsp;</div>
+<div><span style="color:#0000ff;">Permission is hereby granted, free of charge, to any person obtaining a copy</span></div>
+<div><span style="color:#0000ff;">of this software and associated documentation files (the "Software"), to deal</span></div>
+<div><span style="color:#0000ff;">in the Software without restriction, including without limitation the rights</span></div>
+<div><span style="color:#0000ff;">to use, copy, modify, merge, publish, distribute, sublicense, and/or sell</span></div>
+<div><span style="color:#0000ff;">copies of the Software, and to permit persons to whom the Software is</span></div>
+<div><span style="color:#0000ff;">furnished to do so, subject to the following conditions:</span></div>
+<div>&nbsp;</div>
+<div><span style="color:#0000ff;">The above copyright notice and this permission notice shall be included in</span></div>
+<div><span style="color:#0000ff;">all copies or substantial portions of the Software.</span></div>
+<div>&nbsp;</div>
+<div><span style="color:#0000ff;">THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR</span></div>
+<div><span style="color:#0000ff;">IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,</span></div>
+<div><span style="color:#0000ff;">FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE</span></div>
+<div><span style="color:#0000ff;">AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER</span></div>
+<div><span style="color:#0000ff;">LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,</span></div>
+<div><span style="color:#0000ff;">OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN</span></div>
+<div><span style="color:#0000ff;">THE SOFTWARE.</span></div>
+<div><span style="color:#0000ff;">===============================================</span></div>
+<div><span style="color:#0000ff;">*/</span></div>
+<div>&nbsp;</div>
+<div><span style="color:#0000ff;">// I2Cdev and MPU6050 must be installed as libraries, or else the .cpp/.h files</span></div>
+<div><span style="color:#0000ff;">// for both classes must be in the include path of your project</span></div>
+<div><span style="color:#0000ff;">#include "I2Cdev.h"</span></div>
+<div><span style="color:#0000ff;">#include "MPU6050.h"</span></div>
+<div>&nbsp;</div>
+<div><span style="color:#0000ff;">// Arduino Wire library is required if I2Cdev I2CDEV_ARDUINO_WIRE implementation</span></div>
+<div><span style="color:#0000ff;">// is used in I2Cdev.h</span></div>
+<div><span style="color:#0000ff;">#if I2CDEV_IMPLEMENTATION == I2CDEV_ARDUINO_WIRE</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; #include "Wire.h"</span></div>
+<div><span style="color:#0000ff;">#endif</span></div>
+<div>&nbsp;</div>
+<div><span style="color:#0000ff;">// class default I2C address is 0x68</span></div>
+<div><span style="color:#0000ff;">// specific I2C addresses may be passed as a parameter here</span></div>
+<div><span style="color:#0000ff;">// AD0 low = 0x68 (default for InvenSense evaluation board)</span></div>
+<div><span style="color:#0000ff;">// AD0 high = 0x69</span></div>
+<div><span style="color:#0000ff;">MPU6050 accelgyro;</span></div>
+<div><span style="color:#0000ff;">//MPU6050 accelgyro(0x69); // &lt;-- use for AD0 high</span></div>
+<div>&nbsp;</div>
+<div><span style="color:#0000ff;">int16_t ax, ay, az;</span></div>
+<div><span style="color:#0000ff;">int16_t gx, gy, gz;</span></div>
+<div>&nbsp;</div>
+<div>&nbsp;</div>
+<div>&nbsp;</div>
+<div><span style="color:#0000ff;">// uncomment "OUTPUT_READABLE_ACCELGYRO" if you want to see a tab-separated</span></div>
+<div><span style="color:#0000ff;">// list of the accel X/Y/Z and then gyro X/Y/Z values in decimal. Easy to read,</span></div>
+<div><span style="color:#0000ff;">// not so easy to parse, and slow(er) over UART.</span></div>
+<div><span style="color:#0000ff;">#define OUTPUT_READABLE_ACCELGYRO</span></div>
+<div>&nbsp;</div>
+<div><span style="color:#0000ff;">// uncomment "OUTPUT_BINARY_ACCELGYRO" to send all 6 axes of data as 16-bit</span></div>
+<div><span style="color:#0000ff;">// binary, one right after the other. This is very fast (as fast as possible</span></div>
+<div><span style="color:#0000ff;">// without compression or data loss), and easy to parse, but impossible to read</span></div>
+<div><span style="color:#0000ff;">// for a human.</span></div>
+<div><span style="color:#0000ff;">//#define OUTPUT_BINARY_ACCELGYRO</span></div>
+<div>&nbsp;</div>
+<div>&nbsp;</div>
+<div><span style="color:#0000ff;">#define LED_PIN 13</span></div>
+<div><span style="color:#0000ff;">bool blinkState = false;</span></div>
+<div>&nbsp;</div>
+<div><span style="color:#0000ff;">void setup() {</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; // join I2C bus (I2Cdev library doesn't do this automatically)</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; #if I2CDEV_IMPLEMENTATION == I2CDEV_ARDUINO_WIRE</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; &nbsp; &nbsp; Wire.begin();</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; #elif I2CDEV_IMPLEMENTATION == I2CDEV_BUILTIN_FASTWIRE</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; &nbsp; &nbsp; Fastwire::setup(400, true);</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; #endif</span></div>
+<div>&nbsp;</div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; // initialize serial communication</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; // (38400 chosen because it works as well at 8MHz as it does at 16MHz, but</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; // it's really up to you depending on your project)</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; Serial.begin(38400);</span></div>
+<div>&nbsp;</div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; // initialize device</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; //Serial.println("Initializing I2C devices...");</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; accelgyro.initialize();</span></div>
+<div>&nbsp;</div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; // verify connection</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; //Serial.println("Testing device connections...");</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp;// Serial.println(accelgyro.testConnection() ? "MPU6050 connection successful" : "MPU6050 connection failed");</span></div>
+<div>&nbsp;</div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; // use the code below to change accel/gyro offset values</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; /*</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; Serial.println("Updating internal sensor offsets...");</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; // -76<span> </span>-2359<span> </span>1688<span> </span>0<span> </span>0<span> </span>0</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; Serial.print(accelgyro.getXAccelOffset()); Serial.print("\t"); // -76</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; Serial.print(accelgyro.getYAccelOffset()); Serial.print("\t"); // -2359</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; Serial.print(accelgyro.getZAccelOffset()); Serial.print("\t"); // 1688</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; Serial.print(accelgyro.getXGyroOffset()); Serial.print("\t"); // 0</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; Serial.print(accelgyro.getYGyroOffset()); Serial.print("\t"); // 0</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; Serial.print(accelgyro.getZGyroOffset()); Serial.print("\t"); // 0</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; Serial.print("\n");</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; accelgyro.setXGyroOffset(220);</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; accelgyro.setYGyroOffset(76);</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; accelgyro.setZGyroOffset(-85);</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; Serial.print(accelgyro.getXAccelOffset()); Serial.print("\t"); // -76</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; Serial.print(accelgyro.getYAccelOffset()); Serial.print("\t"); // -2359</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; Serial.print(accelgyro.getZAccelOffset()); Serial.print("\t"); // 1688</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; Serial.print(accelgyro.getXGyroOffset()); Serial.print("\t"); // 0</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; Serial.print(accelgyro.getYGyroOffset()); Serial.print("\t"); // 0</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; Serial.print(accelgyro.getZGyroOffset()); Serial.print("\t"); // 0</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; Serial.print("\n");</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; */</span></div>
+<div>&nbsp;</div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; // configure Arduino LED for</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; pinMode(LED_PIN, OUTPUT);</span></div>
+<div><span style="color:#0000ff;">}</span></div>
+<div>&nbsp;</div>
+<div><span style="color:#0000ff;">void loop() {</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; // read raw accel/gyro measurements from device</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; accelgyro.getMotion6(&amp;ax, &amp;ay, &amp;az, &amp;gx, &amp;gy, &amp;gz);</span></div>
+<div>&nbsp;</div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; // these methods (and a few others) are also available</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; //accelgyro.getAcceleration(&amp;ax, &amp;ay, &amp;az);</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; //accelgyro.getRotation(&amp;gx, &amp;gy, &amp;gz);</span></div>
+<div>&nbsp;</div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; #ifdef OUTPUT_READABLE_ACCELGYRO</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; &nbsp; &nbsp; // display tab-separated accel/gyro x/y/z values</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; &nbsp; &nbsp;// Serial.print("a/g:\t");</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; &nbsp; &nbsp; int start=millis();Serial.print(start);Serial.print("\t");</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; &nbsp; &nbsp; Serial.print(ax); Serial.print("\t");</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; &nbsp; &nbsp; Serial.print(ay); Serial.print("\t");</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; &nbsp; &nbsp; Serial.print(az); Serial.print("\t");</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; &nbsp; &nbsp; Serial.print(gx); Serial.print("\t");</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; &nbsp; &nbsp; Serial.print(gy); Serial.print("\t");</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; &nbsp; &nbsp; Serial.println(gz);</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; #endif</span></div>
+<div>&nbsp;</div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; &nbsp; //#ifdef OUTPUT_BINARY_ACCELGYRO</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; &nbsp; &nbsp; // &nbsp;Serial.write((uint8_t)(ax &gt;&gt; 8)); Serial.write((uint8_t)(ax &amp; 0xFF));</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //Serial.write((uint8_t)(ay &gt;&gt; 8)); Serial.write((uint8_t)(ay &amp; 0xFF));</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //Serial.write((uint8_t)(az &gt;&gt; 8)); Serial.write((uint8_t)(az &amp; 0xFF));</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //Serial.write((uint8_t)(gx &gt;&gt; 8)); Serial.write((uint8_t)(gx &amp; 0xFF));</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //Serial.write((uint8_t)(gy &gt;&gt; 8)); Serial.write((uint8_t)(gy &amp; 0xFF));</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //Serial.write((uint8_t)(gz &gt;&gt; 8)); Serial.write((uint8_t)(gz &amp; 0xFF));</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; &nbsp; //#endif</span></div>
+<div>&nbsp;</div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; // blink LED to indicate activity</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; blinkState = !blinkState;</span></div>
+<div><span style="color:#0000ff;">&nbsp; &nbsp; digitalWrite(LED_PIN, blinkState);</span></div>
+<div><span style="color:#0000ff;">}</span></div>
+<div>&nbsp;</div>
+<div>I just delete the thing which i don't know and made a small code as follow:</div>
+<div>
+<div>&nbsp;</div>
+<div>&nbsp;</div>
+<div><span style="color:#ff0000;">#include "I2Cdev.h"</span></div>
+<div><span style="color:#ff0000;">#include "MPU6050.h"</span></div>
+<div><span style="color:#ff0000;">#include "Wire.h"</span></div>
+<div><span style="color:#ff0000;">MPU6050 accelgyro;</span></div>
+<div><span style="color:#ff0000;">int16_t ax, ay, az;</span></div>
+<div><span style="color:#ff0000;">int16_t gx, gy, gz;</span></div>
+<div><span style="color:#ff0000;">#define OUTPUT_READABLE_ACCELGYRO</span></div>
+<div><span style="color:#ff0000;">#define LED_PIN 13</span></div>
+<div><span style="color:#ff0000;">bool blinkState = false;</span></div>
+<div>&nbsp;</div>
+<div><span style="color:#ff0000;">void setup() {</span></div>
+<div><span style="color:#ff0000;">&nbsp;&nbsp;</span></div>
+<div><span style="color:#ff0000;">&nbsp; &nbsp; &nbsp; &nbsp; Wire.begin();</span></div>
+<div><span style="color:#ff0000;">&nbsp; &nbsp; Serial.begin(38400);</span></div>
+<div><span style="color:#ff0000;">&nbsp; &nbsp; accelgyro.initialize();</span></div>
+<div><span style="color:#ff0000;">&nbsp; &nbsp; pinMode(LED_PIN, OUTPUT);</span></div>
+<div><span style="color:#ff0000;">}</span></div>
+<div>&nbsp;</div>
+<div><span style="color:#ff0000;">void loop() {</span></div>
+<div><span style="color:#ff0000;">&nbsp;</span></div>
+<div><span style="color:#ff0000;">&nbsp; &nbsp; accelgyro.getMotion6(&amp;ax, &amp;ay, &amp;az, &amp;gx, &amp;gy, &amp;gz);</span></div>
+<div><span style="color:#ff0000;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; int start=millis();Serial.print(start);Serial.print("\t");</span></div>
+<div><span style="color:#ff0000;">&nbsp; &nbsp; &nbsp; &nbsp; Serial.print(ax); Serial.print("\t");</span></div>
+<div><span style="color:#ff0000;">&nbsp; &nbsp; &nbsp; &nbsp; Serial.print(ay); Serial.print("\t");</span></div>
+<div><span style="color:#ff0000;">&nbsp; &nbsp; &nbsp; &nbsp; Serial.print(az); Serial.print("\t");</span></div>
+<div><span style="color:#ff0000;">&nbsp; &nbsp; &nbsp; &nbsp; Serial.print(gx); Serial.print("\t");</span></div>
+<div><span style="color:#ff0000;">&nbsp; &nbsp; &nbsp; &nbsp; Serial.print(gy); Serial.print("\t");</span></div>
+<div><span style="color:#ff0000;">&nbsp; &nbsp; &nbsp; &nbsp; Serial.println(gz);</span></div>
+<div>&nbsp;</div>
+<div><span style="color:#ff0000;">&nbsp; &nbsp; blinkState = !blinkState;</span></div>
+<div><span style="color:#ff0000;">&nbsp; &nbsp; digitalWrite(LED_PIN, blinkState);</span></div>
+<div><span style="color:#ff0000;">}</span></div>
+</div>
+<div>&nbsp;</div>
+<div>&nbsp;</div>
+<div>&nbsp;</div>
+<div>&nbsp;</div>
+<div>Now i am not sure about the importance of the if and elseif statement (for an example) :</div>
+<div>&nbsp;</div>
+<div>#ifdef OUTPUT_BINARY_ACCELGYRO</div>
+<div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Serial.write((uint8_t)(ax &gt;&gt; 8)); Serial.write((uint8_t)(ax &amp; 0xFF));</div>
+<div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Serial.write((uint8_t)(ay &gt;&gt; 8)); Serial.write((uint8_t)(ay &amp; 0xFF));</div>
+<div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Serial.write((uint8_t)(az &gt;&gt; 8)); Serial.write((uint8_t)(az &amp; 0xFF));</div>
+<div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Serial.write((uint8_t)(gx &gt;&gt; 8)); Serial.write((uint8_t)(gx &amp; 0xFF));</div>
+<div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Serial.write((uint8_t)(gy &gt;&gt; 8)); Serial.write((uint8_t)(gy &amp; 0xFF));</div>
+<div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Serial.write((uint8_t)(gz &gt;&gt; 8)); Serial.write((uint8_t)(gz &amp; 0xFF));</div>
+<div>&nbsp; &nbsp; &nbsp; #endif</div>
+<div>&nbsp;</div>
+<div>&nbsp;</div>
+<div>Can anyone help me to understand the importance of the if and elseif condition that has been used in the Jeff's code?</div>
+<div>Thanks.</div>
+					
+					<br>
+					
+				</div>
+				
+				
+				<div class="ipsLikeBar right clearfix" id="rep_post_847">
+				<ul class="ipsList_inline">
+					<li id="like_post_847" class="ipsLikeBar_info" style="display:none">
+							
+						</li>
+					
+				</ul>
+			</div>
+<script type="text/javascript">
+	ipb.global.registerReputation( 'rep_post_847', { domLikeStripId: 'like_post_847', app: 'forums', type: 'pid', typeid: '847' }, parseInt('0') );
+</script>
+				
+								
+				
+				
+				
+			
+				<ul id="postControlsNormal_847" class="post_controls clear clearfix">
+					<li class="top hide"><a href="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/#ipboard_body" class="top" title="Back to top">Back to top</a></li>
+					
+					
+					
+					
+					
+					<li class="report">
+							<a href="http://www.i2cdevlib.com/forums/index.php?app=core&amp;module=reports&amp;rcom=post&amp;tid=4&amp;pid=847&amp;page=">Report</a>
+						</li>
+						
+				</ul>
+				
+			</div>
+		</div>
+	</div>
+		
+		
+		<hr>
+		
+		
+<script type="text/javascript">
+var pid = parseInt(847);
+if ( pid > ipb.topic.topPid ){
+	ipb.topic.topPid = pid;
+}
+
+	// Show multiquote for JS browsers
+	if ( $('multiq_847') )
+	{
+		$('multiq_847').show();
+	}
+	
+	if( $('toggle_post_847') )
+	{
+		$('toggle_post_847').show();
+	}
+	
+	// Add perm data
+	ipb.topic.deletePerms[847] = { 'canDelete' : 0, 'canSoftDelete' : 0 };
+
+</script>
+			
+
+				<!--post:884-->
+
+<div class="post_block hentry clear clearfix  " id="post_id_884">
+		<a id="entry884"></a>
+		
+	
+		
+		<div class="post_wrap">
+			
+				<h3 class="row2">
+			
+				<span class="post_id right ipsType_small desc blend_links">
+					
+						<a itemprop="replyToUrl" data-entry-pid="884" href="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/#entry884" rel="bookmark" title="Understanding raw values of accelerometer and gyrometer: post #15">
+					
+					#15
+					<img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/icon_share.png" class="small" title="Understanding raw values of accelerometer and gyrometer: post #15">
+					</a>
+				</span>
+				
+				
+					<span itemprop="creator name" class="author vcard">
+	Piyumal
+</span>
+				
+			
+				
+			</h3>
+			<div class="author_info">
+				<div itemscope="" itemtype="http://schema.org/Person" class="user_details">
+	<span class="hide" itemprop="name">Piyumal</span>
+	<ul class="basic_info">
+		
+			<p class="desc member_title">Newbie</p>
+		
+		<li class="avatar">
+				
+				
+					<img itemprop="image" src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/05dda7325ffeb1c255a45570badf26f1" class="ipsUserPhoto ipsUserPhoto_large">
+				
+				
+			</li>
+		<li class="group_title">
+			Members
+		</li>
+		<li class="group_icon">
+			
+				<img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/bullet_black.png" alt="Pip">
+			
+			</li>
+		
+		<li class="post_count desc lighter">
+			3 posts
+		</li>
+		
+		
+	</ul>
+	
+	
+		<ul class="custom_fields">
+			
+				
+					
+				
+			
+		</ul>
+	
+	
+</div>
+			</div>
+			<div class="post_body">
+				<p class="posted_info desc lighter ipsType_small">
+					Posted <abbr class="published" itemprop="commentTime" title="2015-04-24T07:31:14+00:00">24 April 2015 - 07:31 AM</abbr>
+					
+				</p>
+				
+				<div itemprop="commentText" class="post entry-content ">
+					<!--cached-Mon, 23 May 2016 03:49:57 +0000--><p>Hello friends,</p>
+<p>I am trying to make a self balancing robot, so I found some tutorials regarding Complementary filters. In that tutorial there is a equation for take acceleration and gyro value, these are the equation,</p>
+<p>&nbsp;</p>
+<p>x_acc = (x_acc_ADC - x_acc_offset) * x_acc_scale;</p>
+<p>&nbsp;</p>
+<p>gyro = (gyro_ADC - gyro_offset) * gyro_scale;</p>
+<p>&nbsp;</p>
+<p>form that I obtained following values,</p>
+<p>&nbsp;</p>
+<p>ax= 0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; gy= -159&nbsp;&nbsp; &nbsp;&nbsp; &nbsp; x_acc= 148.00&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;gyro= 11000.00<br>
+ax= -116&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; gy= -184&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; x_acc= -84.00&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; gyro= -1500.00<br>
+ax= -40&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; gy= -175&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;x_acc= 68.00&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; gyro= 3000.00<br>
+ax= -48&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; gy= -177&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;x_acc= 52.00&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; gyro= 2000.00<br>
+ax= 4&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp; gy= -183&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;x_acc= 156.00&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;gyro= -1000.00<br>
+ax= -60&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; gy= -190&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;x_acc= 28.00&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; gyro= -4500.00<br>
+ax= -84&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; gy= -192&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;x_acc= -20.00&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;gyro= -5500.00<br>
+ax= -92&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; gy= -184&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;x_acc= -36.00&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;gyro= -1500.00<br>
+ax= -88&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; gy= -164&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;x_acc= -28.00&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;gyro= 8500.00</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>Here is my code,</p>
+<pre class="prettyprint prettyprinted"><span class="com">#include</span><span class="pln"> </span><span class="str">&lt;Wire.h&gt;</span><span class="pln">
+</span><span class="com">#include</span><span class="pln"> </span><span class="str">&lt;I2Cdev.h&gt;</span><span class="pln">
+</span><span class="com">#include</span><span class="pln"> </span><span class="str">&lt;MPU6050.h&gt;</span><span class="pln">
+
+MPU6050 mpu</span><span class="pun">;</span><span class="pln">
+
+</span><span class="typ">int16_t</span><span class="pln"> ax</span><span class="pun">,</span><span class="pln"> ay</span><span class="pun">,</span><span class="pln"> az</span><span class="pun">;</span><span class="pln">
+</span><span class="typ">int16_t</span><span class="pln"> gx</span><span class="pun">,</span><span class="pln"> gy</span><span class="pun">,</span><span class="pln"> gz</span><span class="pun">;</span><span class="pln">
+</span><span class="kwd">float</span><span class="pln"> x_acc</span><span class="pun">,</span><span class="pln"> gyro</span><span class="pun">;</span><span class="pln">
+
+</span><span class="kwd">void</span><span class="pln"> setup</span><span class="pun">()</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="com">// put your setup code here, to run once:</span><span class="pln">
+</span><span class="typ">Serial</span><span class="pun">.</span><span class="kwd">begin</span><span class="pun">(</span><span class="lit">1200</span><span class="pun">);</span><span class="pln">
+</span><span class="typ">Serial</span><span class="pun">.</span><span class="pln">println</span><span class="pun">(</span><span class="str">"Initialize MPU"</span><span class="pun">);</span><span class="pln">
+mpu</span><span class="pun">.</span><span class="pln">initialize</span><span class="pun">();</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="kwd">void</span><span class="pln"> loop</span><span class="pun">(){</span><span class="pln">
+mpu</span><span class="pun">.</span><span class="pln">getMotion6</span><span class="pun">(&amp;</span><span class="pln">ax</span><span class="pun">,</span><span class="pln"> </span><span class="pun">&amp;</span><span class="pln">ay</span><span class="pun">,</span><span class="pln"> </span><span class="pun">&amp;</span><span class="pln">az</span><span class="pun">,</span><span class="pln"> </span><span class="pun">&amp;</span><span class="pln">gx</span><span class="pun">,</span><span class="pln"> </span><span class="pun">&amp;</span><span class="pln">gy</span><span class="pun">,</span><span class="pln"> </span><span class="pun">&amp;</span><span class="pln">gz</span><span class="pun">);</span><span class="pln">
+  </span><span class="typ">Serial</span><span class="pun">.</span><span class="kwd">print</span><span class="pun">(</span><span class="str">"ax= "</span><span class="pun">);</span><span class="pln"> 
+  </span><span class="typ">Serial</span><span class="pun">.</span><span class="kwd">print</span><span class="pun">(</span><span class="pln">ax</span><span class="pun">);</span><span class="pln"> 
+  </span><span class="typ">Serial</span><span class="pun">.</span><span class="kwd">print</span><span class="pun">(</span><span class="str">"\t\t"</span><span class="pun">);</span><span class="pln">
+  </span><span class="typ">Serial</span><span class="pun">.</span><span class="kwd">print</span><span class="pun">(</span><span class="str">"gy= "</span><span class="pun">);</span><span class="pln"> 
+  </span><span class="typ">Serial</span><span class="pun">.</span><span class="kwd">print</span><span class="pun">(</span><span class="pln">gy</span><span class="pun">);</span><span class="pln"> 
+  </span><span class="typ">Serial</span><span class="pun">.</span><span class="kwd">print</span><span class="pun">(</span><span class="str">"\t\t"</span><span class="pun">);</span><span class="pln">
+  
+  x_acc</span><span class="pun">=</span><span class="pln"> </span><span class="pun">(</span><span class="pln">ax </span><span class="pun">-</span><span class="pln"> </span><span class="pun">(-</span><span class="lit">74</span><span class="pun">))*(</span><span class="lit">2</span><span class="pun">);</span><span class="pln">
+  </span><span class="typ">Serial</span><span class="pun">.</span><span class="kwd">print</span><span class="pun">(</span><span class="str">"x_acc= "</span><span class="pun">);</span><span class="pln"> </span><span class="typ">Serial</span><span class="pun">.</span><span class="kwd">print</span><span class="pun">(</span><span class="pln">x_acc</span><span class="pun">);</span><span class="pln">
+  </span><span class="typ">Serial</span><span class="pun">.</span><span class="kwd">print</span><span class="pun">(</span><span class="str">"\t\t"</span><span class="pun">);</span><span class="pln">
+  
+  gyro</span><span class="pun">=</span><span class="pln"> </span><span class="pun">(</span><span class="pln">gy </span><span class="pun">-</span><span class="pln"> </span><span class="pun">(-</span><span class="lit">181</span><span class="pun">))*(</span><span class="lit">500</span><span class="pun">);</span><span class="pln">
+  </span><span class="typ">Serial</span><span class="pun">.</span><span class="kwd">print</span><span class="pun">(</span><span class="str">"gyro= "</span><span class="pun">);</span><span class="pln"> 
+  </span><span class="typ">Serial</span><span class="pun">.</span><span class="kwd">print</span><span class="pun">(</span><span class="pln">gyro</span><span class="pun">);</span><span class="pln">
+  </span><span class="typ">Serial</span><span class="pun">.</span><span class="kwd">print</span><span class="pun">(</span><span class="str">"\n"</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span></pre>
+<p>Please let me know whether that values are correct or not, if it is not please help me to correct it..</p>
+<p>&nbsp;</p>
+<p>Thank you!</p>
+<p>
+&nbsp;</p>
+
+					
+					<br>
+					
+				</div>
+				
+				
+				<div class="ipsLikeBar right clearfix" id="rep_post_884">
+				<ul class="ipsList_inline">
+					<li id="like_post_884" class="ipsLikeBar_info" style="display:none">
+							
+						</li>
+					
+				</ul>
+			</div>
+<script type="text/javascript">
+	ipb.global.registerReputation( 'rep_post_884', { domLikeStripId: 'like_post_884', app: 'forums', type: 'pid', typeid: '884' }, parseInt('0') );
+</script>
+				
+								
+				
+				
+				
+			
+				<ul id="postControlsNormal_884" class="post_controls clear clearfix">
+					<li class="top hide"><a href="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/#ipboard_body" class="top" title="Back to top">Back to top</a></li>
+					
+					
+					
+					
+					
+					<li class="report">
+							<a href="http://www.i2cdevlib.com/forums/index.php?app=core&amp;module=reports&amp;rcom=post&amp;tid=4&amp;pid=884&amp;page=">Report</a>
+						</li>
+						
+				</ul>
+				
+			</div>
+		</div>
+	</div>
+		
+		
+		<hr>
+		
+		
+<script type="text/javascript">
+var pid = parseInt(884);
+if ( pid > ipb.topic.topPid ){
+	ipb.topic.topPid = pid;
+}
+
+	// Show multiquote for JS browsers
+	if ( $('multiq_884') )
+	{
+		$('multiq_884').show();
+	}
+	
+	if( $('toggle_post_884') )
+	{
+		$('toggle_post_884').show();
+	}
+	
+	// Add perm data
+	ipb.topic.deletePerms[884] = { 'canDelete' : 0, 'canSoftDelete' : 0 };
+
+</script>
+			
+
+				<!--post:983-->
+
+<div class="post_block hentry clear clearfix  " id="post_id_983">
+		<a id="entry983"></a>
+		
+	
+		
+		<div class="post_wrap">
+			
+				<h3 class="row2">
+			
+				<span class="post_id right ipsType_small desc blend_links">
+					
+						<a itemprop="replyToUrl" data-entry-pid="983" href="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/#entry983" rel="bookmark" title="Understanding raw values of accelerometer and gyrometer: post #16">
+					
+					#16
+					<img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/icon_share.png" class="small" title="Understanding raw values of accelerometer and gyrometer: post #16">
+					</a>
+				</span>
+				
+				
+					<span itemprop="creator name" class="author vcard">
+	Danviero Yuzwan
+</span>
+				
+			
+				
+			</h3>
+			<div class="author_info">
+				<div itemscope="" itemtype="http://schema.org/Person" class="user_details">
+	<span class="hide" itemprop="name">Danviero Yuzwan</span>
+	<ul class="basic_info">
+		
+			<p class="desc member_title">Newbie</p>
+		
+		<li class="avatar">
+				
+				
+					<img itemprop="image" src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/f448f2fd38e668227f9be69d9a9192e3" class="ipsUserPhoto ipsUserPhoto_large">
+				
+				
+			</li>
+		<li class="group_title">
+			Members
+		</li>
+		<li class="group_icon">
+			
+				<img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/bullet_black.png" alt="Pip">
+			
+			</li>
+		
+		<li class="post_count desc lighter">
+			1 posts
+		</li>
+		
+		
+	</ul>
+	
+	
+		<ul class="custom_fields">
+			
+				
+					
+				
+			
+		</ul>
+	
+	
+</div>
+			</div>
+			<div class="post_body">
+				<p class="posted_info desc lighter ipsType_small">
+					Posted <abbr class="published" itemprop="commentTime" title="2015-09-29T09:58:13+00:00">29 September 2015 - 09:58 AM</abbr>
+					
+				</p>
+				
+				<div itemprop="commentText" class="post entry-content ">
+					<!--cached-Thu, 19 May 2016 03:34:56 +0000--><p>excuse me, i want to ask to you.&nbsp; How to change AFS_SEL and FS_SEL in MPU 6050 ? thank you.</p>
+<p>&nbsp;</p>
+
+					
+					<br>
+					
+				</div>
+				
+				
+				<div class="ipsLikeBar right clearfix" id="rep_post_983">
+				<ul class="ipsList_inline">
+					<li id="like_post_983" class="ipsLikeBar_info" style="display:none">
+							
+						</li>
+					
+				</ul>
+			</div>
+<script type="text/javascript">
+	ipb.global.registerReputation( 'rep_post_983', { domLikeStripId: 'like_post_983', app: 'forums', type: 'pid', typeid: '983' }, parseInt('0') );
+</script>
+				
+								
+				
+				
+				
+			
+				<ul id="postControlsNormal_983" class="post_controls clear clearfix">
+					<li class="top hide"><a href="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/#ipboard_body" class="top" title="Back to top">Back to top</a></li>
+					
+					
+					
+					
+					
+					<li class="report">
+							<a href="http://www.i2cdevlib.com/forums/index.php?app=core&amp;module=reports&amp;rcom=post&amp;tid=4&amp;pid=983&amp;page=">Report</a>
+						</li>
+						
+				</ul>
+				
+			</div>
+		</div>
+	</div>
+		
+		
+		<hr>
+		
+		
+<script type="text/javascript">
+var pid = parseInt(983);
+if ( pid > ipb.topic.topPid ){
+	ipb.topic.topPid = pid;
+}
+
+	// Show multiquote for JS browsers
+	if ( $('multiq_983') )
+	{
+		$('multiq_983').show();
+	}
+	
+	if( $('toggle_post_983') )
+	{
+		$('toggle_post_983').show();
+	}
+	
+	// Add perm data
+	ipb.topic.deletePerms[983] = { 'canDelete' : 0, 'canSoftDelete' : 0 };
+
+</script>
+			
+
+				<!--post:1054-->
+
+<div class="post_block hentry clear clearfix  " id="post_id_1054">
+		<a id="entry1054"></a>
+		
+	
+		
+		<div class="post_wrap">
+			
+				<h3 class="row2">
+			
+				<span class="post_id right ipsType_small desc blend_links">
+					
+						<a itemprop="replyToUrl" data-entry-pid="1054" href="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/#entry1054" rel="bookmark" title="Understanding raw values of accelerometer and gyrometer: post #17">
+					
+					#17
+					<img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/icon_share.png" class="small" title="Understanding raw values of accelerometer and gyrometer: post #17">
+					</a>
+				</span>
+				
+				
+					<span itemprop="creator name" class="author vcard">
+	willemde20
+</span>
+				
+			
+				
+			</h3>
+			<div class="author_info">
+				<div itemscope="" itemtype="http://schema.org/Person" class="user_details">
+	<span class="hide" itemprop="name">willemde20</span>
+	<ul class="basic_info">
+		
+			<p class="desc member_title">Newbie</p>
+		
+		<li class="avatar">
+				
+				
+					<img itemprop="image" src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/c8857e54e11fd453b3ef5edf47fac173" class="ipsUserPhoto ipsUserPhoto_large">
+				
+				
+			</li>
+		<li class="group_title">
+			Members
+		</li>
+		<li class="group_icon">
+			
+				<img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/bullet_black.png" alt="Pip">
+			
+			</li>
+		
+		<li class="post_count desc lighter">
+			2 posts
+		</li>
+		
+		
+	</ul>
+	
+	
+		<ul class="custom_fields">
+			
+				
+					
+				
+			
+		</ul>
+	
+	
+</div>
+			</div>
+			<div class="post_body">
+				<p class="posted_info desc lighter ipsType_small">
+					Posted <abbr class="published" itemprop="commentTime" title="2015-12-15T11:28:29+00:00">15 December 2015 - 11:28 AM</abbr>
+					
+				</p>
+				
+				<div itemprop="commentText" class="post entry-content ">
+					<!--cached-Thu, 19 May 2016 03:34:57 +0000--><p>Danviero Yuzwan,</p>
+<p>&nbsp;</p>
+<p>you can change the AFS_SEL and FS_SEL by using:&nbsp;</p>
+<pre class="prettyprint prettyprinted"><span class="pln"> mpu</span><span class="pun">.</span><span class="pln">setFullScaleGyroRange</span><span class="pun">(</span><span class="lit">0</span><span class="pun">);</span><span class="pln"> </span><span class="com">//0 = +/- 250 degrees/sec | 1 = +/- 500 degrees/sec | 2 = +/- 1000 degrees/sec | 3 =  +/- 2000 degrees/sec</span><span class="pln">
+  mpu</span><span class="pun">.</span><span class="pln">setFullScaleAccelRange</span><span class="pun">(</span><span class="lit">0</span><span class="pun">);</span><span class="pln">  </span><span class="com">//0 = +/- 2g | 1 = +/- 4g | 2 = +/- 8g | 3 =  +/- 16g </span></pre>
+<p>mpu is the name of the sensor in my code.</p>
+<p>&nbsp;</p>
+<p>greetings Willem&nbsp;</p>
+
+					
+					<br>
+					
+				</div>
+				
+				
+				<div class="ipsLikeBar right clearfix" id="rep_post_1054">
+				<ul class="ipsList_inline">
+					<li id="like_post_1054" class="ipsLikeBar_info" style="display:none">
+							
+						</li>
+					
+				</ul>
+			</div>
+<script type="text/javascript">
+	ipb.global.registerReputation( 'rep_post_1054', { domLikeStripId: 'like_post_1054', app: 'forums', type: 'pid', typeid: '1054' }, parseInt('0') );
+</script>
+				
+								
+				
+				
+				
+			
+				<ul id="postControlsNormal_1054" class="post_controls clear clearfix">
+					<li class="top hide"><a href="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/#ipboard_body" class="top" title="Back to top">Back to top</a></li>
+					
+					
+					
+					
+					
+					<li class="report">
+							<a href="http://www.i2cdevlib.com/forums/index.php?app=core&amp;module=reports&amp;rcom=post&amp;tid=4&amp;pid=1054&amp;page=">Report</a>
+						</li>
+						
+				</ul>
+				
+			</div>
+		</div>
+	</div>
+		
+		
+		<hr>
+		
+		
+<script type="text/javascript">
+var pid = parseInt(1054);
+if ( pid > ipb.topic.topPid ){
+	ipb.topic.topPid = pid;
+}
+
+	// Show multiquote for JS browsers
+	if ( $('multiq_1054') )
+	{
+		$('multiq_1054').show();
+	}
+	
+	if( $('toggle_post_1054') )
+	{
+		$('toggle_post_1054').show();
+	}
+	
+	// Add perm data
+	ipb.topic.deletePerms[1054] = { 'canDelete' : 0, 'canSoftDelete' : 0 };
+
+</script>
+			
+
+				<!--post:1167-->
+
+<div class="post_block hentry clear clearfix  " id="post_id_1167">
+		<a id="entry1167"></a>
+		
+	
+		
+		<div class="post_wrap">
+			
+				<h3 class="row2">
+			
+				<span class="post_id right ipsType_small desc blend_links">
+					
+						<a itemprop="replyToUrl" data-entry-pid="1167" href="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/#entry1167" rel="bookmark" title="Understanding raw values of accelerometer and gyrometer: post #18">
+					
+					#18
+					<img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/icon_share.png" class="small" title="Understanding raw values of accelerometer and gyrometer: post #18">
+					</a>
+				</span>
+				
+				
+					<span itemprop="creator name" class="author vcard">
+	MOCHAMMAD_HABIB_BACHTIAR
+</span>
+				
+			
+				
+			</h3>
+			<div class="author_info">
+				<div itemscope="" itemtype="http://schema.org/Person" class="user_details">
+	<span class="hide" itemprop="name">MOCHAMMAD_HABIB_BACHTIAR</span>
+	<ul class="basic_info">
+		
+			<p class="desc member_title">Newbie</p>
+		
+		<li class="avatar">
+				
+				
+					<img itemprop="image" src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/photo-thumb-4005.jpg" class="ipsUserPhoto ipsUserPhoto_large">
+				
+				
+			</li>
+		<li class="group_title">
+			Members
+		</li>
+		<li class="group_icon">
+			
+				<img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/bullet_black.png" alt="Pip">
+			
+			</li>
+		
+		<li class="post_count desc lighter">
+			2 posts
+		</li>
+		
+		
+	</ul>
+	
+	
+		<ul class="custom_fields">
+			
+				
+					
+				
+			
+		</ul>
+	
+	
+</div>
+			</div>
+			<div class="post_body">
+				<p class="posted_info desc lighter ipsType_small">
+					Posted <abbr class="published" itemprop="commentTime" title="2016-04-10T04:58:11+00:00">10 April 2016 - 04:58 AM</abbr>
+					
+				</p>
+				
+				<div itemprop="commentText" class="post entry-content ">
+					<!--cached-Thu, 19 May 2016 03:34:57 +0000--><p><span style="color:rgb(40,40,40);font-family:helvetica, arial, sans-serif;">HI Jeff...</span><br><br><span style="color:rgb(40,40,40);font-family:helvetica, arial, sans-serif;">I'm Mochammad Habib Bachtiar as student of trunojoyo university in Indonesia.&nbsp;</span><br><span style="color:rgb(40,40,40);font-family:helvetica, arial, sans-serif;">In this semester I have project about motion capture use a MPU6050 &amp; Arduino Uno. but my focus is gyroscope with horizontal motion at upper arm, lower arm, and hand. so each segmen one sensor.&nbsp;</span><br><br><span style="color:rgb(40,40,40);font-family:helvetica, arial, sans-serif;">I want ask you about that. how to modified some source code at arduino until this raw value become to angular rate.</span><br><span style="color:rgb(40,40,40);font-family:helvetica, arial, sans-serif;">Please explain source code base from x, y &amp; z axis....&nbsp;</span><br><br><span style="color:rgb(40,40,40);font-family:helvetica, arial, sans-serif;">Thank's Jeff ....</span></p>
+
+					
+					<br>
+					
+				</div>
+				
+				
+				<div class="ipsLikeBar right clearfix" id="rep_post_1167">
+				<ul class="ipsList_inline">
+					<li id="like_post_1167" class="ipsLikeBar_info" style="display:none">
+							
+						</li>
+					
+				</ul>
+			</div>
+<script type="text/javascript">
+	ipb.global.registerReputation( 'rep_post_1167', { domLikeStripId: 'like_post_1167', app: 'forums', type: 'pid', typeid: '1167' }, parseInt('0') );
+</script>
+				
+								
+				
+				
+				
+			
+				<ul id="postControlsNormal_1167" class="post_controls clear clearfix">
+					<li class="top hide"><a href="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/#ipboard_body" class="top" title="Back to top">Back to top</a></li>
+					
+					
+					
+					
+					
+					<li class="report">
+							<a href="http://www.i2cdevlib.com/forums/index.php?app=core&amp;module=reports&amp;rcom=post&amp;tid=4&amp;pid=1167&amp;page=">Report</a>
+						</li>
+						
+				</ul>
+				
+			</div>
+		</div>
+	</div>
+		
+		
+		<hr>
+		
+		
+<script type="text/javascript">
+var pid = parseInt(1167);
+if ( pid > ipb.topic.topPid ){
+	ipb.topic.topPid = pid;
+}
+
+	// Show multiquote for JS browsers
+	if ( $('multiq_1167') )
+	{
+		$('multiq_1167').show();
+	}
+	
+	if( $('toggle_post_1167') )
+	{
+		$('toggle_post_1167').show();
+	}
+	
+	// Add perm data
+	ipb.topic.deletePerms[1167] = { 'canDelete' : 0, 'canSoftDelete' : 0 };
+
+</script>
+			
+
+				<!--post:1181-->
+
+<div class="post_block hentry clear clearfix  " id="post_id_1181">
+		<a id="entry1181"></a>
+		
+	
+		
+		<div class="post_wrap">
+			
+				<h3 class="row2">
+			
+				<span class="post_id right ipsType_small desc blend_links">
+					
+						<a itemprop="replyToUrl" data-entry-pid="1181" href="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/#entry1181" rel="bookmark" title="Understanding raw values of accelerometer and gyrometer: post #19">
+					
+					#19
+					<img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/icon_share.png" class="small" title="Understanding raw values of accelerometer and gyrometer: post #19">
+					</a>
+				</span>
+				
+				
+					<span itemprop="creator name" class="author vcard">
+	wureka
+</span>
+				
+			
+				
+			</h3>
+			<div class="author_info">
+				<div itemscope="" itemtype="http://schema.org/Person" class="user_details">
+	<span class="hide" itemprop="name">wureka</span>
+	<ul class="basic_info">
+		
+			<p class="desc member_title">Newbie</p>
+		
+		<li class="avatar">
+				
+				
+					<img itemprop="image" src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/89cf0f8f9752a1168573713365148684" class="ipsUserPhoto ipsUserPhoto_large">
+				
+				
+			</li>
+		<li class="group_title">
+			Members
+		</li>
+		<li class="group_icon">
+			
+				<img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/bullet_black.png" alt="Pip">
+			
+			</li>
+		
+		<li class="post_count desc lighter">
+			1 posts
+		</li>
+		
+		
+	</ul>
+	
+	
+		<ul class="custom_fields">
+			
+				
+					
+				
+			
+		</ul>
+	
+	
+</div>
+			</div>
+			<div class="post_body">
+				<p class="posted_info desc lighter ipsType_small">
+					Posted <abbr class="published" itemprop="commentTime" title="2016-04-27T00:13:30+00:00">27 April 2016 - 12:13 AM</abbr>
+					
+				</p>
+				
+				<div itemprop="commentText" class="post entry-content ">
+					<!--cached-Thu, 19 May 2016 03:34:57 +0000--><p><span style="font-family:&#39;courier new&#39;, courier, monospace;">Hello,</span></p>
+<p><span style="font-family:&#39;courier new&#39;, courier, monospace;">I have a waveshare 10 DOF MPU which uses MPU9255 chip, I know this topic is for MPU6050.</span></p>
+<p><span style="font-family:&#39;courier new&#39;, courier, monospace;">InvenSense told me that MPU9255 is completely the same as MPU6050 in gyroscope and acceleration measurements, so I come here for asking help.</span></p>
+<p>&nbsp;</p>
+<p><span style="font-family:&#39;courier new&#39;, courier, monospace;">After following calibration steps that people frequently remind, my MPU9255's Gyro X always output value 65xxx.</span></p>
+<p><span style="font-family:&#39;courier new&#39;, courier, monospace;">Is this output correct ? Or where am I wrong and how to fix ?</span></p>
+<p><span style="font-family:&#39;courier new&#39;, courier, monospace;">(especially on Gyro X output)</span></p>
+<p><span style="font-family:&#39;courier new&#39;, courier, monospace;">Thank you.</span></p>
+<p>&nbsp;</p>
+<p><span style="font-family:&#39;courier new&#39;, courier, monospace;">Below is my program's output:</span></p>
+<p>&nbsp;</p>
+<div><span style="font-family:&#39;courier new&#39;, courier, monospace;">&nbsp; &nbsp; Rxx is the output value from registers, ex: RGX, RAY</span></div>
+<div><span style="font-family:&#39;courier new&#39;, courier, monospace;">&nbsp; &nbsp; (AX, AY, AZ) = (RAX, RAY, RAZ) / 16384</span></div>
+<div><span style="font-family:&#39;courier new&#39;, courier, monospace;">&nbsp; &nbsp; (GX, GY, GZ) = (RGX, RGY, RGZ) / 131.0</span></div>
+<div>&nbsp;</div>
+<div><span style="font-family:&#39;courier new&#39;, courier, monospace;">Output ==============================================</span></div>
+<div><span style="font-family:&#39;courier new&#39;, courier, monospace;">Temperature: 29.60 C</span></div>
+<div><span style="font-family:&#39;courier new&#39;, courier, monospace;">Pressure &nbsp; : 1003.65 hPa</span></div>
+<div><span style="font-family:&#39;courier new&#39;, courier, monospace;">Altitude &nbsp; : 00.17 m</span></div>
+<div><span style="font-family:&#39;courier new&#39;, courier, monospace;">CPU Temperature &nbsp; : &nbsp;53.7</span></div>
+<div><span style="font-family:&#39;courier new&#39;, courier, monospace;">CPU Core Voltage &nbsp;: &nbsp;1.2625</span></div>
+<div><span style="font-family:&#39;courier new&#39;, courier, monospace;">Who Am I=115</span></div>
+<div><span style="font-family:&#39;courier new&#39;, courier, monospace;">getAccelCfgFsSel=0, sensitivity=16384</span></div>
+<div><span style="font-family:&#39;courier new&#39;, courier, monospace;">getGyroCfgFsSel=0, sensitivity=131.0</span></div>
+<div>&nbsp;</div>
+<div><span style="font-family:&#39;courier new&#39;, courier, monospace;">&nbsp; &nbsp;RGX &nbsp; RGY &nbsp; RGZ , &nbsp; &nbsp; GX &nbsp; &nbsp; &nbsp;GY &nbsp; &nbsp; &nbsp;GZ &nbsp;| &nbsp; RAX &nbsp; RAY &nbsp; RAZ , &nbsp; AX &nbsp; &nbsp;AY &nbsp; &nbsp;AZ&nbsp;</span></div>
+<div><span style="font-family:&#39;courier new&#39;, courier, monospace;">&nbsp;65469 &nbsp; 105 &nbsp; &nbsp; 6 , 499.763 &nbsp; 0.802 &nbsp; 0.046 | &nbsp; 616 &nbsp;1296 17688 , 0.038 0.079 1.080</span></div>
+<div><span style="font-family:&#39;courier new&#39;, courier, monospace;">&nbsp;65497 &nbsp; &nbsp;99 &nbsp; &nbsp;41 , 499.977 &nbsp; 0.756 &nbsp; 0.313 | &nbsp; 632 &nbsp;1304 17620 , 0.039 0.080 1.075</span></div>
+<div><span style="font-family:&#39;courier new&#39;, courier, monospace;">&nbsp;65481 &nbsp; 102 &nbsp; &nbsp;62 , 499.855 &nbsp; 0.779 &nbsp; 0.473 | &nbsp; 652 &nbsp;1356 17464 , 0.040 0.083 1.066</span></div>
+<div><span style="font-family:&#39;courier new&#39;, courier, monospace;">&nbsp;65512 &nbsp; &nbsp;73 &nbsp; &nbsp;30 , 500.092 &nbsp; 0.557 &nbsp; 0.229 | &nbsp; 604 &nbsp;1328 17560 , 0.037 0.081 1.072</span></div>
+<div><span style="font-family:&#39;courier new&#39;, courier, monospace;">&nbsp;65521 &nbsp; &nbsp;87 &nbsp; &nbsp;32 , 500.160 &nbsp; 0.664 &nbsp; 0.244 | &nbsp; 588 &nbsp;1236 17636 , 0.036 0.075 1.076</span></div>
+<div><span style="font-family:&#39;courier new&#39;, courier, monospace;">&nbsp;65471 &nbsp; 101 &nbsp; &nbsp;52 , 499.779 &nbsp; 0.771 &nbsp; 0.397 | &nbsp; 596 &nbsp;1308 17576 , 0.036 0.080 1.073</span></div>
+<div><span style="font-family:&#39;courier new&#39;, courier, monospace;">&nbsp;65516 &nbsp; &nbsp;89 &nbsp; &nbsp;59 , 500.122 &nbsp; 0.679 &nbsp; 0.450 | &nbsp; 564 &nbsp;1212 17488 , 0.034 0.074 1.067</span></div>
+<div><span style="font-family:&#39;courier new&#39;, courier, monospace;">&nbsp;65479 &nbsp; &nbsp;91 &nbsp; &nbsp;74 , 499.840 &nbsp; 0.695 &nbsp; 0.565 | &nbsp; 616 &nbsp;1252 17524 , 0.038 0.076 1.070</span></div>
+<div><span style="font-family:&#39;courier new&#39;, courier, monospace;">&nbsp;65533 &nbsp; &nbsp;85 &nbsp; &nbsp;64 , 500.252 &nbsp; 0.649 &nbsp; 0.489 | &nbsp; 600 &nbsp;1276 17528 , 0.037 0.078 1.070</span></div>
+<div><span style="font-family:&#39;courier new&#39;, courier, monospace;">&nbsp;65479 &nbsp; &nbsp;52 &nbsp; &nbsp;67 , 499.840 &nbsp; 0.397 &nbsp; 0.511 | &nbsp; 664 &nbsp;1324 17480 , 0.041 0.081 1.075</span></div>
+
+					
+					<br>
+					
+				</div>
+				
+				
+				<div class="ipsLikeBar right clearfix" id="rep_post_1181">
+				<ul class="ipsList_inline">
+					<li id="like_post_1181" class="ipsLikeBar_info" style="display:none">
+							
+						</li>
+					
+				</ul>
+			</div>
+<script type="text/javascript">
+	ipb.global.registerReputation( 'rep_post_1181', { domLikeStripId: 'like_post_1181', app: 'forums', type: 'pid', typeid: '1181' }, parseInt('0') );
+</script>
+				
+								
+				
+				
+				
+			
+				<ul id="postControlsNormal_1181" class="post_controls clear clearfix">
+					<li class="top hide"><a href="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/#ipboard_body" class="top" title="Back to top">Back to top</a></li>
+					
+					
+					
+					
+					
+					<li class="report">
+							<a href="http://www.i2cdevlib.com/forums/index.php?app=core&amp;module=reports&amp;rcom=post&amp;tid=4&amp;pid=1181&amp;page=">Report</a>
+						</li>
+						
+				</ul>
+				
+			</div>
+		</div>
+	</div>
+		
+		
+		<hr>
+		
+		
+<script type="text/javascript">
+var pid = parseInt(1181);
+if ( pid > ipb.topic.topPid ){
+	ipb.topic.topPid = pid;
+}
+
+	// Show multiquote for JS browsers
+	if ( $('multiq_1181') )
+	{
+		$('multiq_1181').show();
+	}
+	
+	if( $('toggle_post_1181') )
+	{
+		$('toggle_post_1181').show();
+	}
+	
+	// Add perm data
+	ipb.topic.deletePerms[1181] = { 'canDelete' : 0, 'canSoftDelete' : 0 };
+
+</script>
+			
+		</div>
+	</div>
+
+<hr>
+<div class="topic_controls clear ipsPad_top_bottom_half">
+	
+	<div class="ipsPad_top_slimmer right">
+		
+		<a href="http://www.i2cdevlib.com/forums/forum/2-mpu-6050-6-axis-accelerometergyroscope-invensense/" class="ipsType_small desc">Back to MPU-6050 6-axis accelerometer/gyroscope (InvenSense)</a>
+		
+	</div>
+</div>
+
+<!-- Close topic -->
+</div>
+<!-- BOTTOM BUTTONS -->
+
+	<br>
+	<div class="clear clearfix left">
+		
+
+	<ul class="topic_share left shareButtons ipsList_inline">
+	
+		<li><a href="http://www.i2cdevlib.com/forums/index.php?sharelink=twitter;aHR0cDovL3d3dy5pMmNkZXZsaWIuY29tL2ZvcnVtcy90b3BpYy80LXVuZGVyc3RhbmRpbmctcmF3LXZhbHVlcy1vZi1hY2NlbGVyb21ldGVyLWFuZC1neXJvbWV0ZXIv;VW5kZXJzdGFuZGluZyByYXcgdmFsdWVzIG9mIGFjY2VsZXJvbWV0ZXIgYW5kIGd5cm9tZXRlcg,," rel="nofollow" target="_blank" title="Share this link via Twitter" class="_slink" id="slink_twitter"><img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/twitter.png"></a></li>
+	
+
+		
+				<li class="fbLike"><div class="fb-like fb_iframe_widget" data-href="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/" data-send="false" data-layout="button_count" data-width="150" data-show-faces="false" data-action="like" fb-xfbml-state="rendered" fb-iframe-plugin-query="action=like&amp;app_id=&amp;container_width=0&amp;href=http%3A%2F%2Fwww.i2cdevlib.com%2Fforums%2Ftopic%2F4-understanding-raw-values-of-accelerometer-and-gyrometer%2F&amp;layout=button_count&amp;locale=en_US&amp;sdk=joey&amp;send=false&amp;show_faces=false&amp;width=150"><span style="vertical-align: bottom; width: 79px; height: 20px;"><iframe name="f2338da54902994" width="150px" height="1000px" frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no" title="fb:like Facebook Social Plugin" src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/like.html" style="border: none; visibility: visible; width: 79px; height: 20px;" class=""></iframe></span></div><div id="fb-root" class=" fb_reset"><div style="position: absolute; top: -10000px; height: 0px; width: 0px;"><div><iframe name="fb_xdm_frame_http" frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no" id="fb_xdm_frame_http" aria-hidden="true" title="Facebook Cross Domain Communication Frame" tabindex="-1" src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/xd_arbiter.html" style="border: none;"></iframe><iframe name="fb_xdm_frame_https" frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no" id="fb_xdm_frame_https" aria-hidden="true" title="Facebook Cross Domain Communication Frame" tabindex="-1" src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/xd_arbiter(1).html" style="border: none;"></iframe></div></div><div style="position: absolute; top: -10000px; height: 0px; width: 0px;"><div></div></div></div></li>
+<script>
+window.fbAsyncInit = function() {
+	FB.init({
+		appId      : '',
+		xfbml      : true,
+		version    : 'v2.1'
+	});
+};
+(function(d, s, id){
+	var js, fjs = d.getElementsByTagName(s)[0];
+	if (d.getElementById(id)) {return;}
+	js = d.createElement(s); js.id = id;
+	js.src = "//connect.facebook.net/en_US/sdk.js";
+	fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));
+</script>
+			
+	
+
+		
+				<script type="text/javascript" src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/plusone.js" gapi_processed="true">
+	
+		{lang: 'en-GB'}
+	
+</script>
+<li><div class="googlePlusOne"><div id="___plusone_0" style="text-indent: 0px; margin: 0px; padding: 0px; border-style: none; float: none; line-height: normal; font-size: 1px; vertical-align: baseline; display: inline-block; width: 24px; height: 15px; background: transparent;"><iframe frameborder="0" hspace="0" marginheight="0" marginwidth="0" scrolling="no" style="position: static; top: 0px; width: 24px; margin: 0px; border-style: none; left: 0px; visibility: visible; height: 15px;" tabindex="0" vspace="0" width="100%" id="I0_1464204130403" name="I0_1464204130403" src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/fastbutton.html" data-gapiattached="true" title="+1"></iframe></div></div></li>
+			
+	
+
+		<li><a href="http://www.i2cdevlib.com/forums/index.php?sharelink=digg;aHR0cDovL3d3dy5pMmNkZXZsaWIuY29tL2ZvcnVtcy90b3BpYy80LXVuZGVyc3RhbmRpbmctcmF3LXZhbHVlcy1vZi1hY2NlbGVyb21ldGVyLWFuZC1neXJvbWV0ZXIv;VW5kZXJzdGFuZGluZyByYXcgdmFsdWVzIG9mIGFjY2VsZXJvbWV0ZXIgYW5kIGd5cm9tZXRlcg,," rel="nofollow" target="_blank" title="Share this link via Digg" class="_slink" id="slink_digg"><img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/digg.png"></a></li>
+	
+
+		<li><a href="http://www.i2cdevlib.com/forums/index.php?sharelink=delicious;aHR0cDovL3d3dy5pMmNkZXZsaWIuY29tL2ZvcnVtcy90b3BpYy80LXVuZGVyc3RhbmRpbmctcmF3LXZhbHVlcy1vZi1hY2NlbGVyb21ldGVyLWFuZC1neXJvbWV0ZXIv;VW5kZXJzdGFuZGluZyByYXcgdmFsdWVzIG9mIGFjY2VsZXJvbWV0ZXIgYW5kIGd5cm9tZXRlcg,," rel="nofollow" target="_blank" title="Share this link via Del.icio.us" class="_slink" id="slink_delicious"><img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/delicious.png"></a></li>
+	
+
+		<li><a href="http://www.i2cdevlib.com/forums/index.php?sharelink=reddit;aHR0cDovL3d3dy5pMmNkZXZsaWIuY29tL2ZvcnVtcy90b3BpYy80LXVuZGVyc3RhbmRpbmctcmF3LXZhbHVlcy1vZi1hY2NlbGVyb21ldGVyLWFuZC1neXJvbWV0ZXIv;VW5kZXJzdGFuZGluZyByYXcgdmFsdWVzIG9mIGFjY2VsZXJvbWV0ZXIgYW5kIGd5cm9tZXRlcg,," rel="nofollow" target="_blank" title="Share this link via Reddit" class="_slink" id="slink_reddit"><img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/reddit.png"></a></li>
+	
+
+		<li><a href="http://www.i2cdevlib.com/forums/index.php?sharelink=stumble;aHR0cDovL3d3dy5pMmNkZXZsaWIuY29tL2ZvcnVtcy90b3BpYy80LXVuZGVyc3RhbmRpbmctcmF3LXZhbHVlcy1vZi1hY2NlbGVyb21ldGVyLWFuZC1neXJvbWV0ZXIv;VW5kZXJzdGFuZGluZyByYXcgdmFsdWVzIG9mIGFjY2VsZXJvbWV0ZXIgYW5kIGd5cm9tZXRlcg,," rel="nofollow" target="_blank" title="Share this link via StumbleUpon" class="_slink" id="slink_stumble"><img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/stumble.png"></a></li>
+	
+
+		<li><a href="http://www.i2cdevlib.com/forums/index.php?sharelink=email;aHR0cDovL3d3dy5pMmNkZXZsaWIuY29tL2ZvcnVtcy90b3BpYy80LXVuZGVyc3RhbmRpbmctcmF3LXZhbHVlcy1vZi1hY2NlbGVyb21ldGVyLWFuZC1neXJvbWV0ZXIv;VW5kZXJzdGFuZGluZyByYXcgdmFsdWVzIG9mIGFjY2VsZXJvbWV0ZXIgYW5kIGd5cm9tZXRlcg,," rel="nofollow" target="_blank" title="Share this link via Email" class="_slink" id="slink_email"><img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/email.png"></a></li>
+	
+
+		<li><a href="http://www.i2cdevlib.com/forums/index.php?sharelink=print;aHR0cDovL3d3dy5pMmNkZXZsaWIuY29tL2ZvcnVtcy90b3BpYy80LXVuZGVyc3RhbmRpbmctcmF3LXZhbHVlcy1vZi1hY2NlbGVyb21ldGVyLWFuZC1neXJvbWV0ZXIv;VW5kZXJzdGFuZGluZyByYXcgdmFsdWVzIG9mIGFjY2VsZXJvbWV0ZXIgYW5kIGd5cm9tZXRlcg,," rel="nofollow" target="_blank" title="Print" class="_slink" id="slink_print"><img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/print.png"></a></li>
+	
+
+		<li><a href="http://www.i2cdevlib.com/forums/index.php?sharelink=download;aHR0cDovL3d3dy5pMmNkZXZsaWIuY29tL2ZvcnVtcy90b3BpYy80LXVuZGVyc3RhbmRpbmctcmF3LXZhbHVlcy1vZi1hY2NlbGVyb21ldGVyLWFuZC1neXJvbWV0ZXIv;VW5kZXJzdGFuZGluZyByYXcgdmFsdWVzIG9mIGFjY2VsZXJvbWV0ZXIgYW5kIGd5cm9tZXRlcg,," rel="nofollow" target="_blank" title="Download" class="_slink" id="slink_download"><img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/download.png"></a></li>
+	
+	</ul>
+	<script type="text/javascript">
+		ipb.sharelinks.url   = "http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/";
+		ipb.sharelinks.title = "Understanding raw values of accelerometer and gyrometer";
+		ipb.sharelinks.bname = "I2Cdevlib Forums";
+	</script>
+
+	</div>
+	<br>
+
+<!-- SAME TAGGED -->
+
+	<br>
+	<div class="ipsBox">
+		<h3 class="maintitle">Also tagged with one or more of these keywords: MPU 6050</h3>
+		<div class="ipsBox_container">
+			<table class="ipb_table topic_list">
+			
+				<tbody><tr class="__topic  expandable" id="trow_82" data-tid="82">
+	<td class="col_f_icon altrow short">
+		
+
+
+
+	</td>
+	<td class="col_f_content ">
+		
+		
+		
+		
+		
+		
+			
+				<a href="http://www.i2cdevlib.com/forums/forum/1-i2c-device-discussion/" class="ipsText_small desc">I2C Device Discussion</a> <span class="ipsText_small desc">→</span>&nbsp;
+			
+
+				<a href="http://www.i2cdevlib.com/forums/forum/2-mpu-6050-6-axis-accelerometergyroscope-invensense/" class="ipsText_small desc">MPU-6050 6-axis accelerometer/gyroscope (InvenSense)</a> <span class="ipsText_small desc">→</span>&nbsp;
+			
+		
+		
+		<h4>
+			<a itemprop="url" id="tid-link-82" href="http://www.i2cdevlib.com/forums/topic/82-error-2-in-ard-uno-serial-monitor/" title="error = 2 in Ard. Uno Serial Monitor - started  13 November 2013 - 04:27 AM" class="topic_title">
+				<span itemprop="name">error = 2 in Ard. Uno Serial Monitor</span>
+			</a>
+		</h4>
+		<br>
+		<span class="desc lighter blend_links">
+			Started by 
+	emerjer
+, <span itemprop="dateCreated">13 Nov 2013</span>
+			
+				&nbsp; <img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/icon_tag.png"> <a href="http://www.i2cdevlib.com/forums/tags/forums/error/" data-tooltip="Find more content tagged &#39;error&#39;"><span>error</span></a>, <a href="http://www.i2cdevlib.com/forums/tags/forums/Ardruino/" data-tooltip="Find more content tagged &#39;Ardruino&#39;"><span>Ardruino</span></a>, <a href="http://www.i2cdevlib.com/forums/tags/forums/Uno/" data-tooltip="Find more content tagged &#39;Uno&#39;"><span>Uno</span></a>, <a href="http://www.i2cdevlib.com/forums/tags/forums/MPU%2B6050/" data-tooltip="Find more content tagged &#39;MPU 6050&#39;"><span>MPU 6050</span></a> <span hovercard-ref="tagsPopUp" hovercard-id="dfe79e8da8a003b36c7351dd7161fe32" class="clickable ___hover___tagsPopUp _hoversetup" id="anonymous_element_1" title="">and 3 more...</span>
+			
+		</span>
+		
+	</td>
+	
+	<td class="col_f_preview __topic_preview">
+		<a href="http://www.i2cdevlib.com/forums/topic/82-error-2-in-ard-uno-serial-monitor/" class="expander closed" title="Preview this topic">&nbsp;</a>
+	</td>
+	
+	<td class="col_f_views desc blend_links">
+		<ul>
+			<li>
+				
+					0 replies
+					<meta itemprop="interactionCount" content="UserComments:0">
+			</li>
+			<li class="views desc">1,411 views</li>
+		</ul>
+	</td>
+	<td class="col_f_post">
+		
+	<div class="left">
+
+<img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/c55d4f64be391c6f038303846d997dcb" alt="error = 2 in Ard. Uno Serial Monitor - last post by emerjer" class="ipsUserPhoto ipsUserPhoto_mini">
+
+	</div>
+
+		<ul class="last_post ipsType_small">
+			<li>
+	emerjer
+</li>
+			<li>
+				<a href="http://www.i2cdevlib.com/forums/topic/82-error-2-in-ard-uno-serial-monitor/?view=getlastpost" title="Go to last post: error = 2 in Ard. Uno Serial Monitor">
+					
+						13 Nov 2013
+					
+				</a>
+			</li>
+		</ul>
+	</td>
+	
+</tr>
+
+			
+
+				<tr class="__topic  expandable" id="trow_56" data-tid="56">
+	<td class="col_f_icon altrow short">
+		
+
+
+
+	</td>
+	<td class="col_f_content ">
+		
+		
+		
+		
+		
+		
+			
+				<a href="http://www.i2cdevlib.com/forums/forum/1-i2c-device-discussion/" class="ipsText_small desc">I2C Device Discussion</a> <span class="ipsText_small desc">→</span>&nbsp;
+			
+
+				<a href="http://www.i2cdevlib.com/forums/forum/2-mpu-6050-6-axis-accelerometergyroscope-invensense/" class="ipsText_small desc">MPU-6050 6-axis accelerometer/gyroscope (InvenSense)</a> <span class="ipsText_small desc">→</span>&nbsp;
+			
+		
+		
+		<h4>
+			<a itemprop="url" id="tid-link-56" href="http://www.i2cdevlib.com/forums/topic/56-mpu-6050-questions/" title="MPU-6050 questions - started  01 October 2013 - 06:11 AM" class="topic_title">
+				<span itemprop="name">MPU-6050 questions</span>
+			</a>
+		</h4>
+		<br>
+		<span class="desc lighter blend_links">
+			Started by 
+	martinb
+, <span itemprop="dateCreated">01 Oct 2013</span>
+			
+				&nbsp; <img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/icon_tag.png"> <a href="http://www.i2cdevlib.com/forums/tags/forums/mpu%2B6050/" data-tooltip="Find more content tagged &#39;mpu 6050&#39;"><span>mpu 6050</span></a>
+			
+		</span>
+		
+	</td>
+	
+	<td class="col_f_preview __topic_preview">
+		<a href="http://www.i2cdevlib.com/forums/topic/56-mpu-6050-questions/" class="expander closed" title="Preview this topic">&nbsp;</a>
+	</td>
+	
+	<td class="col_f_views desc blend_links">
+		<ul>
+			<li>
+				
+					0 replies
+					<meta itemprop="interactionCount" content="UserComments:0">
+			</li>
+			<li class="views desc">1,521 views</li>
+		</ul>
+	</td>
+	<td class="col_f_post">
+		
+	<div class="left">
+
+<img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/c2448936015b909bc82e9b44ac1d7a50" alt="MPU-6050 questions - last post by martinb" class="ipsUserPhoto ipsUserPhoto_mini">
+
+	</div>
+
+		<ul class="last_post ipsType_small">
+			<li>
+	martinb
+</li>
+			<li>
+				<a href="http://www.i2cdevlib.com/forums/topic/56-mpu-6050-questions/?view=getlastpost" title="Go to last post: MPU-6050 questions">
+					
+						01 Oct 2013
+					
+				</a>
+			</li>
+		</ul>
+	</td>
+	
+</tr>
+
+			
+			</tbody></table>
+		</div>
+	</div>
+
+<!-- ACTIVE USERS -->
+<div id="topic_stats" class="statistics clear clearfix">
+		<div id="topic_active_users" class="active_users">
+			<h4 class="statistics_head">2 user(s) are reading this topic</h4>
+			<p class="statistics_brief desc">0 members, 2 guests, 0 anonymous users</p>
+			
+		</div>
+	</div>
+
+
+	<script type="text/javascript" src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/prettify.js"></script>
+	<script type="text/javascript" src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/lang-sql.js"></script>
+	<!-- By default we load generic code, php, css, sql and xml/html; load others here if desired -->
+	<script type="text/javascript">
+	//<![CDATA[
+		Event.observe( window, 'load', function(e){ prettyPrint() });
+	//]]>
+	</script>
+<div id="multiQuoteInsert" style="display: none;" class="ipsFloatingAction">
+	<span class="ipsButton no_width" id="mqbutton">Reply to quoted posts</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/#" id="multiQuoteClear" class="ipsType_smaller desc" title="Clear the posts you have selected with MultiQuote">Clear</a> &nbsp;&nbsp;&nbsp;
+</div>
+<form id="modform" method="post" action="http://www.i2cdevlib.com/forums/index.php?">
+	<input type="hidden" name="app" value="forums">
+	<input type="hidden" name="module" value="moderate">
+	<input type="hidden" name="section" value="moderate">
+	<input type="hidden" name="do" value="postchoice">
+	<input type="hidden" name="f" value="2">
+	<input type="hidden" name="t" value="4">
+	<input type="hidden" name="auth_key" value="880ea6a14ea49e853634fbdc5015a024">
+	<input type="hidden" name="st" value="">
+	<input type="hidden" name="page" value="">
+	<input type="hidden" value="" name="selectedpidsJS" id="selectedpidsJS">
+	<input type="hidden" name="tact" id="tact" value="">
+</form>
+				
+				<ol class="breadcrumb bottom ipsList_inline left clearfix clear">
+											<li><a href="http://www.i2cdevlib.com/forums/">I2Cdevlib Forums</a></li>
+							
+						
+							<li><span class="nav_sep">→</span> <a href="http://www.i2cdevlib.com/forums/forum/1-i2c-device-discussion/" title="Return to I2C Device Discussion"><span>I2C Device Discussion</span></a></li>
+							
+						
+
+							<li><span class="nav_sep">→</span> <a href="http://www.i2cdevlib.com/forums/forum/2-mpu-6050-6-axis-accelerometergyroscope-invensense/" title="Return to MPU-6050 6-axis accelerometer/gyroscope (InvenSense)"><span>MPU-6050 6-axis accelerometer/gyroscope (InvenSense)</span></a></li>
+							
+						
+
+					
+					<li class="right ipsType_smaller">
+						<a rel="nofollow" href="http://www.i2cdevlib.com/forums/privacypolicy/">Privacy Policy</a>
+					</li>
+					
+					
+				</ol>
+			</div>
+			<!-- ::: FOOTER (Change skin, language, mark as read, etc) ::: -->
+			<div id="footer_utilities" class="main_width clearfix clear">
+				<a rel="nofollow" href="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/#top" id="backtotop" title="Go to top"><img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/top.png" alt=""></a>
+				<ul class="ipsList_inline left">
+					<li>
+						<img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/feed.png" alt="RSS Feed" id="rss_feed" class="clickable"><ul id="rss_menu" class="ipbmenu_content" style="position: absolute; display: none; z-index: 9999;"><li style="z-index: 10000;"><a href="http://www.i2cdevlib.com/forums/rss/forums/1-i2c-device-discussion/" title="I2C Device Discussion" style="z-index: 10000;">I2C Device Discussion</a></li></ul>
+					</li>
+					
+							
+								<li>
+									<a rel="nofollow" id="new_skin" href="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/#" title="Change Theme">Change Theme</a>
+									<ul id="new_skin_menucontent" class="ipbmenu_content with_checks" style="display: none; position: absolute; z-index: 9999;">
+										
+											<li class="selected" style="z-index: 10000;">
+												<a href="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/#" data-clicklaunch="changeSkin" data-skinid="1" style="z-index: 10000;">IP.Board</a>
+											</li>
+										
+
+											<li style="z-index: 10000;">
+												<a href="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/#" data-clicklaunch="changeSkin" data-skinid="2" style="z-index: 10000;">IP.Board Mobile</a>
+											</li>
+										
+									</ul>
+								</li>
+							
+					
+					
+					<li>
+						<a href="http://www.i2cdevlib.com/forums/index.php?app=core&amp;module=help" title="View help" rel="help" accesskey="6">Help</a>
+					</li>
+				</ul>
+				<!-- Copyright Information -->
+        				  <p id="copyright">
+        				  	<a href="http://www.invisionpower.com/apps/board/" title="Community Forum Software by Invision Power Services">Community Forum Software by IP.Board 3.4.8</a></p>
+		<!-- / Copyright -->
+			</div>
+			
+			<div><img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/index(3).php" alt="" style="border: 0px;height:1px;width:1px;"></div>
+			
+				<script type="text/javascript" src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/lightbox.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+	// Lightbox Configuration
+	LightboxOptions = Object.extend({
+	    fileLoadingImage:        'http://www.i2cdevlib.com/forums/public/style_images/master/lightbox/loading.gif',
+	    fileBottomNavCloseImage: 'http://www.i2cdevlib.com/forums/public/style_images/master/lightbox/closelabel.gif',
+	    overlayOpacity: 0.8,   // controls transparency of shadow overlay
+	    animate: true,         // toggles resizing animations
+	    resizeSpeed: 10,        // controls the speed of the image resizing animations (1=slowest and 10=fastest)
+	    borderSize: 10,         //if you adjust the padding in the CSS, you will need to update this variable
+		// When grouping images this is used to write: Image # of #.
+		// Change it for non-english localization
+		labelImage: "Image",
+		labelOf: "of"
+	}, window.LightboxOptions || {});
+/* Watch for a lightbox image and set up our downloadbutton watcher */
+document.observe('click', (function(event){
+    var target = event.findElement('a[rel*="lightbox"]') || event.findElement('area[rel*="lightbox"]') || event.findElement('span[rel*="lightbox"]');
+    if (target) {
+        event.stop();
+        gbl_addDownloadButton();
+    }
+}).bind(this));
+var _to    = '';
+var _last  = '';
+function gbl_addDownloadButton()
+{
+	if ( typeof( ipsLightbox.lightboxImage ) != 'undefined' && ipsLightbox.lightboxImage.src )
+	{
+		if ( _last != ipsLightbox.lightboxImage.src )
+		{
+			if ( ! $('gbl_d') )
+			{
+				$('bottomNav').insert( { top: "<div id='gbl_d' style='text-align:right;padding-bottom:4px;'></div>" } );
+			}
+			
+			$('gbl_d').update( "<a href='"+ ipsLightbox.lightboxImage.src + "' target='_blank'><img src='http://www.i2cdevlib.com/forums/public/style_images/master/lightbox/download-icon.png' /></a>" );
+			
+			_last = ipsLightbox.lightboxImage.src;
+		}
+	}
+	
+	/* Check for init and then keep checking for new image */
+	_to = setTimeout( "gbl_addDownloadButton()", 1000 );
+}
+//]]>
+</script>
+			
+			<div id="inline_login_form" style="display:none">
+		<form action="http://www.i2cdevlib.com/forums/index.php?app=core&amp;module=global&amp;section=login&amp;do=process" method="post" id="login">
+				<input type="hidden" name="auth_key" value="880ea6a14ea49e853634fbdc5015a024">
+				<input type="hidden" name="referer" value="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/">
+				<h3>Sign In</h3>
+				
+				<br>
+				<div class="ipsForm ipsForm_horizontal">
+					<fieldset>
+						<ul>
+							<li class="ipsField">
+								<div class="ipsField_content">
+									Need an account? <a href="http://www.i2cdevlib.com/forums/index.php?app=core&amp;module=global&amp;section=register" title="Register now!">Register now!</a>
+								</div>
+							</li>
+							<li class="ipsField ipsField_primary">
+								<label for="ips_username" class="ipsField_title">Username</label>
+								<div class="ipsField_content">
+									<input id="ips_username" type="text" class="input_text" name="ips_username" size="30" tabindex="0">
+								</div>
+							</li>
+							<li class="ipsField ipsField_primary">
+								<label for="ips_password" class="ipsField_title">Password</label>
+								<div class="ipsField_content">
+									<input id="ips_password" type="password" class="input_text" name="ips_password" size="30" tabindex="0"><br>
+									<a href="http://www.i2cdevlib.com/forums/index.php?app=core&amp;module=global&amp;section=lostpass" title="Retrieve password">I've forgotten my password</a>
+								</div>
+							</li>
+							<li class="ipsField ipsField_checkbox">
+								<input type="checkbox" id="inline_remember" checked="checked" name="rememberMe" value="1" class="input_check" tabindex="0">
+								<div class="ipsField_content">
+									<label for="inline_remember">
+										<strong>Remember me</strong><br>
+										<span class="desc lighter">This is not recommended for shared computers</span>
+									</label>
+								</div>
+							</li>
+							
+								<li class="ipsField ipsField_checkbox">
+									<input type="checkbox" id="inline_invisible" name="anonymous" value="1" class="input_check" tabindex="0">
+									<div class="ipsField_content">
+										<label for="inline_invisible">
+											<strong>Sign in anonymously</strong><br>
+											<span class="desc lighter">Don't add me to the active users list</span>
+										</label>
+									</div>
+								</li>
+							
+							
+							<li class="ipsPad_top ipsForm_center desc ipsType_smaller">
+								<a rel="nofollow" href="http://www.i2cdevlib.com/forums/privacypolicy/">Privacy Policy</a>
+							</li>
+							
+						</ul>
+					</fieldset>
+					
+					<div class="ipsForm_submit ipsForm_center">
+						<input type="submit" class="ipsButton" value="Sign In" tabindex="0">
+					</div>
+				</div>
+			</form>
+	</div>
+		</div>
+		
+		
+		<script type="text/javascript">
+			if( $('primary_nav') ){	ipb.global.activateMainMenu(); }
+		</script>
+			
+<div id="overlay" style="display: none;"></div><div id="lightbox" style="display: none;"><div id="outerImageContainer" style="width: 250px; height: 250px;"><div id="imageContainer"><img id="lightboxImage"><div id="hoverNav"><a id="prevLink" href="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/#"></a><a id="nextLink" href="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/#"></a></div><div id="loading"><a id="loadingLink" href="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/#"><img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/loading.gif"></a></div></div></div><div id="imageDataContainer"><div id="imageData"><div id="imageDetails"><span id="caption"></span><span id="numberDisplay"></span></div><div id="bottomNav"><a id="bottomNavClose" href="http://www.i2cdevlib.com/forums/topic/4-understanding-raw-values-of-accelerometer-and-gyrometer/#"><img src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/closelabel.gif"></a></div></div></div></div><iframe name="oauth2relay884659768" id="oauth2relay884659768" src="./Understanding raw values of accelerometer and gyrometer - MPU-6050 6-axis accelerometer_gyroscope (InvenSense) - I2Cdevlib Forums_files/postmessageRelay.html" tabindex="-1" style="width: 1px; height: 1px; position: absolute; top: -100px;"></iframe></body></html>

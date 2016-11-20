@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<!-- saved from url=(0060)http://www.dl8rds.de/index.php/Arduino_Syslog_Client_Library -->
+<html lang="de" dir="ltr" class="client-js"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Arduino Syslog Client Library – DL8RDS Wiki</title>
+
+<meta name="generator" content="MediaWiki 1.18.1">
+<link rel="shortcut icon" href="http://www.dl8rds.de/favicon.ico">
+<link rel="search" type="application/opensearchdescription+xml" href="http://www.dl8rds.de/opensearch_desc.php" title="DL8RDS Wiki (de)">
+<link rel="EditURI" type="application/rsd+xml" href="http://www.dl8rds.de/api.php?action=rsd">
+<link rel="alternate" type="application/atom+xml" title="Atom-Feed für „DL8RDS Wiki“" href="http://www.dl8rds.de/index.php?title=Spezial:Letzte_%C3%84nderungen&amp;feed=atom">
+<link rel="stylesheet" href="./Arduino Syslog Client Library – DL8RDS Wiki_files/load.php">
+<!--[if lt IE 5.5000]><link rel="stylesheet" href="/skins/monobook/IE50Fixes.css?303" media="screen" /><![endif]-->
+<!--[if IE 5.5000]><link rel="stylesheet" href="/skins/monobook/IE55Fixes.css?303" media="screen" /><![endif]-->
+<!--[if IE 6]><link rel="stylesheet" href="/skins/monobook/IE60Fixes.css?303" media="screen" /><![endif]-->
+<!--[if IE 7]><link rel="stylesheet" href="/skins/monobook/IE70Fixes.css?303" media="screen" /><![endif]--><style type="text/css" media="all">.mw-collapsible-toggle{float:right} li .mw-collapsible-toggle{float:none} .mw-collapsible-toggle-li{list-style:none}
+
+/* cache key: dl8rdswiki:resourceloader:filter:minify-css:4:4250852ed2349a0d4d0fc6509a3e7d4c */
+</style><style type="text/css" media="all">.js-messagebox{margin:1em 5%;padding:0.5em 2.5%;border:1px solid #ccc;background-color:#fcfcfc;font-size:0.8em}.js-messagebox .js-messagebox-group{margin:1px;padding:0.5em 2.5%;border-bottom:1px solid #ddd}.js-messagebox .js-messagebox-group:last-child{border-bottom:thin none transparent}
+
+/* cache key: dl8rdswiki:resourceloader:filter:minify-css:4:8b08bdc91c52a9ffba396dccfb5b473c */
+</style><meta name="ResourceLoaderDynamicStyles" content="">
+<style>a:lang(ar),a:lang(ckb),a:lang(fa),a:lang(kk-arab),a:lang(mzn),a:lang(ps),a:lang(ur){text-decoration:none}a.new,#quickbar a.new{color:#ba0000}
+
+/* cache key: dl8rdswiki:resourceloader:filter:minify-css:4:c88e2bcd56513749bec09a7e29cb3ffa */
+</style>
+<script src="./Arduino Syslog Client Library – DL8RDS Wiki_files/load(1).php"></script><script src="./Arduino Syslog Client Library – DL8RDS Wiki_files/load(2).php"></script>
+<script>if(window.mw){
+	mw.config.set({"wgCanonicalNamespace": "", "wgCanonicalSpecialPageName": false, "wgNamespaceNumber": 0, "wgPageName": "Arduino_Syslog_Client_Library", "wgTitle": "Arduino Syslog Client Library", "wgCurRevisionId": 1848, "wgArticleId": 361, "wgIsArticle": true, "wgAction": "view", "wgUserName": null, "wgUserGroups": ["*"], "wgCategories": [], "wgBreakFrames": false, "wgRestrictionEdit": [], "wgRestrictionMove": [], "wgWikiEditorEnabledModules": {"toolbar": false, "dialogs": false, "hidesig": true, "templateEditor": false, "templates": false, "preview": false, "previewDialog": false, "publish": false, "toc": false}, "wgVectorEnabledModules": {"collapsiblenav": true, "collapsibletabs": true, "editwarning": false, "expandablesearch": false, "footercleanup": false, "sectioneditlinks": false, "simplesearch": true, "experiments": true}});
+}
+</script><script>if(window.mw){
+	mw.loader.load(["mediawiki.page.startup"]);
+}
+</script><script type="text/javascript" src="./Arduino Syslog Client Library – DL8RDS Wiki_files/load(3).php"></script>
+</head>
+<body class="mediawiki ltr sitedir-ltr capitalize-all-nouns ns-0 ns-subject page-Arduino_Syslog_Client_Library action-view skin-monobook">
+<div id="globalWrapper">
+<div id="column-content"><div id="content"><div id="mw-js-message" class="js-messagebox" style="display: none;"></div>
+	<a id="top"></a>
+	
+	<h1 id="firstHeading" class="firstHeading">Arduino Syslog Client Library</h1>
+	<div id="bodyContent">
+		<div id="siteSub">Aus DL8RDS Wiki</div>
+		<div id="contentSub"></div>
+		<div id="jump-to-nav">Wechseln zu: <a href="http://www.dl8rds.de/index.php/Arduino_Syslog_Client_Library#column-one">Navigation</a>, <a href="http://www.dl8rds.de/index.php/Arduino_Syslog_Client_Library#searchInput">Suche</a></div>
+		<!-- start content -->
+<div lang="de" dir="ltr" class="mw-content-ltr"><table id="toc" class="toc"><tbody><tr><td><div id="toctitle"><h2>Inhaltsverzeichnis</h2><span class="toctoggle">&nbsp;[<a href="http://www.dl8rds.de/index.php/Arduino_Syslog_Client_Library#" class="internal" id="togglelink">Verbergen</a>]&nbsp;</span></div>
+<ul>
+<li class="toclevel-1 tocsection-1"><a href="http://www.dl8rds.de/index.php/Arduino_Syslog_Client_Library#Project_Definition"><span class="tocnumber">1</span> <span class="toctext">Project Definition</span></a></li>
+<li class="toclevel-1 tocsection-2"><a href="http://www.dl8rds.de/index.php/Arduino_Syslog_Client_Library#Advance_Tests"><span class="tocnumber">2</span> <span class="toctext">Advance Tests</span></a>
+<ul>
+<li class="toclevel-2 tocsection-3"><a href="http://www.dl8rds.de/index.php/Arduino_Syslog_Client_Library#Understand_the_format_of_a_Syslog_message"><span class="tocnumber">2.1</span> <span class="toctext">Understand the format of a Syslog message</span></a></li>
+<li class="toclevel-2 tocsection-4"><a href="http://www.dl8rds.de/index.php/Arduino_Syslog_Client_Library#Enable_my_local_Syslog_daemon_to_receive_log_messages_over_the_network"><span class="tocnumber">2.2</span> <span class="toctext">Enable my local Syslog daemon to receive log messages over the network</span></a></li>
+<li class="toclevel-2 tocsection-5"><a href="http://www.dl8rds.de/index.php/Arduino_Syslog_Client_Library#Trace_the_logger_command"><span class="tocnumber">2.3</span> <span class="toctext">Trace the logger command</span></a></li>
+<li class="toclevel-2 tocsection-6"><a href="http://www.dl8rds.de/index.php/Arduino_Syslog_Client_Library#Manually_Sending_a_Syslog_Message"><span class="tocnumber">2.4</span> <span class="toctext">Manually Sending a Syslog Message</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-7"><a href="http://www.dl8rds.de/index.php/Arduino_Syslog_Client_Library#Implementation_and_Tests"><span class="tocnumber">3</span> <span class="toctext">Implementation and Tests</span></a></li>
+</ul>
+</td></tr></tbody></table>
+<h1> <span class="mw-headline" id="Project_Definition"> Project Definition </span></h1>
+<p>We intend to upgrade our ATV relay DB0MHB in a way that it logs every event right on the second over the network to a syslog server. Since we are going to do this with an Arduino system, I understood that there is no such thing as a Syslog client library for Arduino. 
+</p><p>If something does not exist, you need to change that. 
+</p><p>Please visit my Google Code site:
+</p>
+<ul><li> <a rel="nofollow" class="external free" href="http://code.google.com/p/ardusyslog/">http://code.google.com/p/ardusyslog/</a>
+</li></ul>
+<h1> <span class="mw-headline" id="Advance_Tests"> Advance Tests </span></h1>
+<h2> <span class="mw-headline" id="Understand_the_format_of_a_Syslog_message"> Understand the format of a Syslog message </span></h2>
+<p>The format of a syslog message is defined in RFC5424. It is depicted as a transformational grammar:
+</p>
+<pre>     SYSLOG-MSG      = HEADER SP STRUCTURED-DATA [SP MSG]
+</pre>
+<pre>     HEADER          = PRI VERSION SP TIMESTAMP SP HOSTNAME
+                       SP APP-NAME SP PROCID SP MSGID
+     PRI             = "&lt;" PRIVAL "&gt;"
+     PRIVAL          = 1*3DIGIT&nbsp;; range 0 .. 191
+     VERSION         = NONZERO-DIGIT 0*2DIGIT
+     HOSTNAME        = NILVALUE / 1*255PRINTUSASCII
+</pre>
+<pre>     APP-NAME        = NILVALUE / 1*48PRINTUSASCII
+     PROCID          = NILVALUE / 1*128PRINTUSASCII
+     MSGID           = NILVALUE / 1*32PRINTUSASCII
+</pre>
+<pre>     TIMESTAMP       = NILVALUE / FULL-DATE "T" FULL-TIME
+     FULL-DATE       = DATE-FULLYEAR "-" DATE-MONTH "-" DATE-MDAY
+     DATE-FULLYEAR   = 4DIGIT
+     DATE-MONTH      = 2DIGIT &nbsp;; 01-12
+     DATE-MDAY       = 2DIGIT &nbsp;; 01-28, 01-29, 01-30, 01-31 based on
+                              &nbsp;; month/year
+     FULL-TIME       = PARTIAL-TIME TIME-OFFSET
+     PARTIAL-TIME    = TIME-HOUR ":" TIME-MINUTE ":" TIME-SECOND
+                       [TIME-SECFRAC]
+     TIME-HOUR       = 2DIGIT &nbsp;; 00-23
+     TIME-MINUTE     = 2DIGIT &nbsp;; 00-59
+     TIME-SECOND     = 2DIGIT &nbsp;; 00-59
+     TIME-SECFRAC    = "." 1*6DIGIT
+     TIME-OFFSET     = "Z" / TIME-NUMOFFSET
+     TIME-NUMOFFSET  = ("+" / "-") TIME-HOUR ":" TIME-MINUTE
+     STRUCTURED-DATA = NILVALUE / 1*SD-ELEMENT
+     SD-ELEMENT      = "[" SD-ID *(SP SD-PARAM) "]"
+     SD-PARAM        = PARAM-NAME "="&nbsp;%d34 PARAM-VALUE&nbsp;%d34
+     SD-ID           = SD-NAME
+     PARAM-NAME      = SD-NAME
+     PARAM-VALUE     = UTF-8-STRING&nbsp;; characters '"', '\' and
+                                   &nbsp;; ']' MUST be escaped.
+     SD-NAME         = 1*32PRINTUSASCII
+                      &nbsp;; except '=', SP, ']',&nbsp;%d34 (")
+     MSG             = MSG-ANY / MSG-UTF8
+     MSG-ANY         = *OCTET&nbsp;; not starting with BOM
+     MSG-UTF8        = BOM UTF-8-STRING
+     BOM             =&nbsp;%xEF.BB.BF
+     UTF-8-STRING    = *OCTET&nbsp;; UTF-8 string as specified
+                      &nbsp;; in <a class="external mw-magiclink-rfc" href="http://tools.ietf.org/html/rfc3629">RFC 3629</a>
+     OCTET           =&nbsp;%d00-255
+     SP              =&nbsp;%d32
+     PRINTUSASCII    =&nbsp;%d33-126
+     NONZERO-DIGIT   =&nbsp;%d49-57
+     DIGIT           =&nbsp;%d48 / NONZERO-DIGIT
+     NILVALUE        = "-"
+</pre>
+<p>This grammar defines nonstructured as well as structured presentations. So very basically, the Syslog message consists of the following basic form:
+</p>
+<pre>     &lt;PRI&gt; TIMESTAMP TAG MESSAGE
+</pre>
+<p>The PRI value is an integer number which calculates by the following metric:
+</p>
+<pre>     8 x (facility code) + (severity code)
+</pre>
+<p>where the individual codes are those:
+</p><p>Facilities:
+</p>
+<pre>             0             kernel messages
+             1             user-level messages
+             2             mail system
+             3             system daemons
+             4             security/authorization messages
+             5             messages generated internally by syslogd
+             6             line printer subsystem
+             7             network news subsystem
+             8             UUCP subsystem
+             9             clock daemon
+            10             security/authorization messages
+            11             FTP daemon
+            12             NTP subsystem
+            13             log audit
+            14             log alert
+            15             clock daemon (note 2)
+            16             local use 0  (local0)
+            17             local use 1  (local1)
+            18             local use 2  (local2)
+            19             local use 3  (local3)
+            20             local use 4  (local4)
+            21             local use 5  (local5)
+            22             local use 6  (local6)
+            23             local use 7  (local7)
+</pre>
+<p>Severities:
+</p>
+<pre>             0       Emergency: system is unusable
+             1       Alert: action must be taken immediately
+             2       Critical: critical conditions
+             3       Error: error conditions
+             4       Warning: warning conditions
+             5       Notice: normal but significant condition
+             6       Informational: informational messages
+             7       Debug: debug-level messages
+</pre>
+<p>The TIMESTAMP may be the NILVALUE if there is no time available. 
+</p>
+<h2> <span class="mw-headline" id="Enable_my_local_Syslog_daemon_to_receive_log_messages_over_the_network"> Enable my local Syslog daemon to receive log messages over the network </span></h2>
+<p>Running a NATTY Ubuntu, I noticed that modern Ubuntu distros use Rainer Gerhards' <b>rsyslog</b> implementation. 
+</p><p>It has a section in the config file /etc/rsyslog.conf which just needs to be uncommented:
+</p>
+<pre># provides UDP syslog reception
+$ModLoad imudp
+$UDPServerRun 514
+</pre>
+<p>Upon restarting the rsyslog service with the command <b>service rsyslog restart</b> you can check with <b>netstat -tulpen</b> if the service is listening on UDP port 514. 
+</p>
+<h2> <span class="mw-headline" id="Trace_the_logger_command"> Trace the logger command </span></h2>
+<p>The <b>logger</b> command is a nice little commandline tool that permits local services and scripts to log to the system's syslog. It is not able to send messages over the network, but uses /dev/log instead. Since there are no network packages we can capture, we need to use <b>strace</b> to capture everything the logger is doing:
+</p>
+<pre>markus@note:~$ strace logger -p local0.warn -t test huhuasder345345sdfsdfhsdfee
+execve("/usr/bin/logger", ["logger", "-p", "local0.warn", "-t", "test", "huhuasder345345sdfsdfhsdfee"], [/* 41 vars */]) = 0
+brk(0)                                  = 0x10f3000
+access("/etc/ld.so.nohwcap", F_OK)      = -1 ENOENT (No such file or directory)
+mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7f22b36b5000
+access("/etc/ld.so.preload", R_OK)      = -1 ENOENT (No such file or directory)
+open("/etc/ld.so.cache", O_RDONLY)      = 3
+fstat(3, {st_mode=S_IFREG|0644, st_size=152165, ...}) = 0
+mmap(NULL, 152165, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7f22b368f000
+close(3)                                = 0
+access("/etc/ld.so.nohwcap", F_OK)      = -1 ENOENT (No such file or directory)
+open("/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY) = 3
+read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0&gt;\0\1\0\0\0\20\360\1\0\0\0\0\0"..., 832) = 832
+fstat(3, {st_mode=S_IFREG|0755, st_size=1638120, ...}) = 0
+mmap(NULL, 3749080, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7f22b3103000
+mprotect(0x7f22b328d000, 2093056, PROT_NONE) = 0
+mmap(0x7f22b348c000, 20480, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x189000) = 0x7f22b348c000
+mmap(0x7f22b3491000, 21720, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x7f22b3491000
+close(3)                                = 0
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7f22b368e000
+mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7f22b368c000
+arch_prctl(ARCH_SET_FS, 0x7f22b368c720) = 0
+mprotect(0x7f22b348c000, 16384, PROT_READ) = 0
+mprotect(0x601000, 4096, PROT_READ)     = 0
+mprotect(0x7f22b36b7000, 4096, PROT_READ) = 0
+munmap(0x7f22b368f000, 152165)          = 0
+brk(0)                                  = 0x10f3000
+brk(0x1114000)                          = 0x1114000
+open("/usr/lib/locale/locale-archive", O_RDONLY) = 3
+fstat(3, {st_mode=S_IFREG|0644, st_size=8310192, ...}) = 0
+mmap(NULL, 8310192, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7f22b2916000
+close(3)                                = 0
+close(1)                                = 0
+open("/etc/localtime", O_RDONLY)        = 1
+fstat(1, {st_mode=S_IFREG|0644, st_size=2309, ...}) = 0
+fstat(1, {st_mode=S_IFREG|0644, st_size=2309, ...}) = 0
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7f22b36b4000
+read(1, "TZif2\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\10\0\0\0\10\0\0\0\0"..., 4096) = 2309
+lseek(1, -1467, SEEK_CUR)               = 842
+read(1, "TZif2\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\t\0\0\0\t\0\0\0\0"..., 4096) = 1467
+close(1)                                = 0
+munmap(0x7f22b36b4000, 4096)            = 0
+socket(PF_FILE, SOCK_DGRAM|SOCK_CLOEXEC, 0) = 1
+connect(1, {sa_family=AF_FILE, path="/dev/log"}, 110) = 0
+sendto(1, "&lt;132&gt;Jun 23 20:46:53 test: huhua"..., 54, MSG_NOSIGNAL, NULL, 0) = 54
+close(1)                                = 0
+exit_group(0)                           =&nbsp;?
+</pre>
+<p>Note the last four lines: The tool opens the /dev/log device and the following string is being sent to it:
+</p>
+<pre>&lt;132&gt;Jun 23 20:46:53 test: huhua (......)
+</pre>
+<h2> <span class="mw-headline" id="Manually_Sending_a_Syslog_Message"> Manually Sending a Syslog Message </span></h2>
+<p>Since we now know how a syslog message looks like, there is the assumption the the syslog server will just accept the message when we submit it via the network. We can do that with the Swiss Army Knife of network engineering, the tool <b>netcat</b>, also known as <b>nc</b>:
+</p>
+<pre>markus@note:~$ nc -u localhost 514
+&lt;132&gt;Jun 23 20:46:53 test: huhua
+</pre>
+<p>and it just comes out in the /var/log/syslog file as expected:
+</p>
+<pre>Jun 23 20:46:53 localhost test: huhua
+</pre>
+<p>So we have the proof that a syslog client just needs to work accordingly.
+</p>
+<h1> <span class="mw-headline" id="Implementation_and_Tests"> Implementation and Tests </span></h1>
+<p>Since we have seen how Syslog works across the network, we will now implement the client library.
+</p>
+<!-- 
+NewPP limit report
+Preprocessor node count: 26/1000000
+Post-expand include size: 0/2097152 bytes
+Template argument size: 0/2097152 bytes
+Expensive parser function count: 0/100
+-->
+
+<!-- Saved in parser cache with key dl8rdswiki:pcache:idhash:361-0!*!*!!de!*!* and timestamp 20160625144027 -->
+</div><div class="printfooter">
+Von „<a href="http://www.dl8rds.de/index.php?title=Arduino_Syslog_Client_Library&amp;oldid=1848">http://www.dl8rds.de/index.php?title=Arduino_Syslog_Client_Library&amp;oldid=1848</a>“</div>
+		<div id="catlinks" class="catlinks catlinks-allhidden"></div>		<!-- end content -->
+				<div class="visualClear"></div>
+	</div>
+</div></div>
+<div id="column-one">
+	<div id="p-cactions" class="portlet">
+		<h5>Ansichten</h5>
+		<div class="pBody">
+			<ul>
+				<li id="ca-nstab-main" class="selected"><a href="http://www.dl8rds.de/index.php/Arduino_Syslog_Client_Library" title="Seiteninhalt anzeigen [alt-c]" accesskey="c">Seite</a></li>
+				<li id="ca-talk" class="new"><a href="http://www.dl8rds.de/index.php?title=Diskussion:Arduino_Syslog_Client_Library&amp;action=edit&amp;redlink=1" title="Diskussion zum Seiteninhalt [alt-t]" accesskey="t">Diskussion</a></li>
+				<li id="ca-viewsource"><a href="http://www.dl8rds.de/index.php?title=Arduino_Syslog_Client_Library&amp;action=edit" title="Diese Seite ist geschützt. Der Quelltext kann angesehen werden. [alt-e]" accesskey="e">Quelltext anzeigen</a></li>
+				<li id="ca-history"><a href="http://www.dl8rds.de/index.php?title=Arduino_Syslog_Client_Library&amp;action=history" title="Frühere Versionen dieser Seite [alt-h]" accesskey="h">Versionen/Autoren</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="portlet" id="p-personal">
+		<h5>Meine Werkzeuge</h5>
+		<div class="pBody">
+			<ul>
+				<li id="pt-login"><a href="http://www.dl8rds.de/index.php?title=Spezial:Anmelden&amp;returnto=Arduino+Syslog+Client+Library" title="Sich anzumelden wird zwar gerne gesehen, ist aber keine Pflicht. [alt-o]" accesskey="o">Anmelden</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="portlet" id="p-logo">
+		<a title="Hauptseite" style="background-image: url(/images/International_amateur_radio_symbol.gif);" href="http://www.dl8rds.de/index.php/Hauptseite"></a>
+	</div>
+	<script type="text/javascript"> if (window.isMSIE55) fixalpha(); </script>
+	<div class="generated-sidebar portlet" id="p-navigation">
+		<h5>Navigation</h5>
+		<div class="pBody">
+			<ul>
+				<li id="n-Viewpoints"><a href="http://www.dl8rds.de/index.php/Viewpoints">Viewpoints</a></li>
+				<li id="n-The-Station"><a href="http://www.dl8rds.de/index.php/The_Station">The Station</a></li>
+				<li id="n-Projects"><a href="http://www.dl8rds.de/index.php/Projects">Projects</a></li>
+				<li id="n-Interesting-Topics"><a href="http://www.dl8rds.de/index.php/Interesting_Topics">Interesting Topics</a></li>
+				<li id="n-About-me"><a href="http://www.dl8rds.de/index.php/About_me">About me</a></li>
+				<li id="n-Contact-and-QSL"><a href="http://www.dl8rds.de/index.php/Contact_and_QSL">Contact and QSL</a></li>
+			</ul>
+		</div>
+	</div>
+	<div id="p-search" class="portlet">
+		<h5><label for="searchInput">Suche</label></h5>
+		<div id="searchBody" class="pBody">
+			<form action="http://www.dl8rds.de/index.php" id="searchform">
+				<input type="hidden" name="title" value="Spezial:Suche">
+				<input type="search" name="search" title="DL8RDS Wiki durchsuchen [alt-f]" accesskey="f" id="searchInput">
+				<input type="submit" name="go" value="Seite" title="Gehe direkt zu der Seite, die exakt dem eingegebenen Namen entspricht." id="searchGoButton" class="searchButton">&nbsp;
+				<input type="submit" name="fulltext" value="Suchen" title="Suche nach Seiten, die diesen Text enthalten" id="mw-searchButton" class="searchButton">
+			</form>
+		</div>
+	</div>
+	<div class="portlet" id="p-tb">
+		<h5>Werkzeuge</h5>
+		<div class="pBody">
+			<ul>
+				<li id="t-whatlinkshere"><a href="http://www.dl8rds.de/index.php/Spezial:Linkliste/Arduino_Syslog_Client_Library" title="Liste aller Seiten, die hierher verlinken [alt-j]" accesskey="j">Links auf diese Seite</a></li>
+				<li id="t-recentchangeslinked"><a href="http://www.dl8rds.de/index.php/Spezial:%C3%84nderungen_an_verlinkten_Seiten/Arduino_Syslog_Client_Library" title="Letzte Änderungen an Seiten, die von hier verlinkt sind [alt-k]" accesskey="k">Änderungen an verlinkten Seiten</a></li>
+				<li id="t-specialpages"><a href="http://www.dl8rds.de/index.php/Spezial:Spezialseiten" title="Liste aller Spezialseiten [alt-q]" accesskey="q">Spezialseiten</a></li>
+				<li><a href="http://www.dl8rds.de/index.php?title=Arduino_Syslog_Client_Library&amp;printable=yes" rel="alternate">Druckversion</a></li>
+				<li id="t-permalink"><a href="http://www.dl8rds.de/index.php?title=Arduino_Syslog_Client_Library&amp;oldid=1848" title="Dauerhafter Link zu dieser Seitenversion">Permanenter Link</a></li>
+			</ul>
+		</div>
+	</div>
+</div><!-- end of the left (by default at least) column -->
+<div class="visualClear"></div>
+<div id="footer">
+	<div id="f-poweredbyico">
+		<a href="http://www.mediawiki.org/"><img src="./Arduino Syslog Client Library – DL8RDS Wiki_files/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" width="88" height="31"></a>
+	</div>
+	<ul id="f-list">
+		<li id="lastmod"> Diese Seite wurde zuletzt am 23. Juni 2011 um 22:56 Uhr geändert.</li>
+		<li id="viewcount">Diese Seite wurde bisher 5.919-mal abgerufen.</li>
+		<li id="privacy"><a href="http://www.dl8rds.de/index.php/DL8RDS_Wiki:Datenschutz" title="DL8RDS Wiki:Datenschutz">Datenschutz</a></li>
+		<li id="about"><a href="http://www.dl8rds.de/index.php/DL8RDS_Wiki:%C3%9Cber" title="DL8RDS Wiki:Über">Über DL8RDS Wiki</a></li>
+		<li id="disclaimer"><a href="http://www.dl8rds.de/index.php/DL8RDS_Wiki:Impressum" title="DL8RDS Wiki:Impressum">Impressum</a></li>
+	</ul>
+</div>
+</div>
+<script>if(window.mw){
+	mw.loader.load(["mediawiki.user", "mediawiki.util", "mediawiki.page.ready", "mediawiki.legacy.wikibits", "mediawiki.legacy.ajax"]);
+}
+</script><script type="text/javascript" src="./Arduino Syslog Client Library – DL8RDS Wiki_files/load(4).php"></script>
+<script>if(window.mw){
+	mw.user.options.set({"ccmeonemails":0,"cols":80,"date":"default","diffonly":0,"disablemail":0,"disablesuggest":0,"editfont":"default","editondblclick":0,"editsection":1,"editsectiononrightclick":0,"enotifminoredits":0,"enotifrevealaddr":0,"enotifusertalkpages":1,"enotifwatchlistpages":0,"extendwatchlist":0,"externaldiff":0,"externaleditor":0,"fancysig":0,"forceeditsummary":0,"gender":"unknown","hideminor":0,"hidepatrolled":0,"highlightbroken":1,"imagesize":2,"justify":0,"math":1,"minordefault":0,"newpageshidepatrolled":0,"nocache":0,"noconvertlink":0,"norollbackdiff":0,"numberheadings":0,"previewonfirst":0,"previewontop":1,"quickbar":5,"rcdays":7,"rclimit":50,"rememberpassword":0,"rows":25,"searchlimit":20,"showhiddencats":0,"showjumplinks":1,"shownumberswatching":1,"showtoc":1,"showtoolbar":1,"skin":"monobook","stubthreshold":0,"thumbsize":2,"underline":2,"uselivepreview":0,"usenewrc":0,"watchcreations":0,"watchdefault":0,"watchdeletion":0,"watchlistdays":3,"watchlisthideanons":0,
+	"watchlisthidebots":0,"watchlisthideliu":0,"watchlisthideminor":0,"watchlisthideown":0,"watchlisthidepatrolled":0,"watchmoves":0,"wllimit":250,"vector-simplesearch":1,"variant":"de","language":"de","searchNs0":true,"searchNs1":false,"searchNs2":false,"searchNs3":false,"searchNs4":false,"searchNs5":false,"searchNs6":false,"searchNs7":false,"searchNs8":false,"searchNs9":false,"searchNs10":false,"searchNs11":false,"searchNs12":false,"searchNs13":false,"searchNs14":false,"searchNs15":false});;mw.user.tokens.set({"editToken":"+\\","watchToken":false});;mw.loader.state({"user.options":"ready","user.tokens":"ready"});
+	
+	/* cache key: dl8rdswiki:resourceloader:filter:minify-js:4:6cdb3018fbbb3093684343e230eb8a13 */
+}
+</script><!-- Served in 0.192 secs. --></body></html>

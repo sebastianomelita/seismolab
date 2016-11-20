@@ -1,6 +1,6 @@
 #include "Commandinterface.h"
 
-byte udpPacketBuffer[PACKET_SIZE];
+//byte udpPacketBuffer[PACKET_SIZE];
 
 void commandInterfaceInit() {
 	Serial.println(F("beginUDPServer"));
@@ -8,8 +8,9 @@ void commandInterfaceInit() {
 }
 
 void commandInterfaceTick() {
+  byte udpPacketBuffer[PACKET_SIZE];
   //int packetSize = ESP8266wifi::getWifi().parseUDPPacket(); //ci vorrebbe ma, se si legge tutto il buffer con una read, 
-  //l'available è sufficiente per richiamare un nuovo paccchetto
+  //l'available Ã¨ sufficiente per richiamare un nuovo paccchetto
   if(ESP8266wifi::getWifi().available(10, NULL, LOCALSERVER)) {
   	Serial.println(F("available"));
     // read the packet into packetBufffer
@@ -120,5 +121,6 @@ void commandInterfaceTick() {
     }*/
   }
 }
+
 
 

@@ -3,40 +3,51 @@
 //#include <utility/socket.h>
 #include <avr/pgmspace.h>
 //#define SYSLOG_PKT_SIZE 128
+#define BUFLEN1 64
+#define BUFLEN2 83
 
-  void httpQuakeRequest() {
+ void httpQuakeRequest() {
   char *server = "www.sapienzaapps.it";
-  String postVars = String("deviceid=");
-  char buf[5];
-  postVars += String(ESP8266wifi::getWifi().getMAC());    
-  postVars += "&tsstart=";
-  postVars += getUNIXTime();
-  postVars += "&lat=" + getLatitudeAsString() + "&lon=" + getLongitudeAsString();
-  httpRequest(server, "80", "/seismocloud/terremoto.php", postVars, buf, "\r\n\r\n",true);
+  
+  char buf[BUFLEN1];
+  char out[9];
+  snprintf(buf,BUFLEN1, "deviceid=%s", ESP8266wifi::getWifi().getMAC());
+  ftoa(out,9,getUNIXTime());
+  snprintf(buf,BUFLEN1, "%s&tsstart=%s", buf, out);
+  ftoa(out,9,getLatitude());
+  snprintf(buf,BUFLEN1, "%s&lat=%s", buf, out);
+  ftoa(out,9,getLongitude());
+  snprintf(buf,BUFLEN1, "%s&lon=%s&sensor=MPU6050", buf, out);
+  
+  //Serial.println(postVars);
+  httpRequest(server, "80", "/seismocloud/terremoto.php", buf, buf, "\r\n\r\n",true);
   Serial.print(F("\nQuake response: "));
   buf[1]=0;
   Serial.println(buf);
+
   Serial.println(F("\nEnd httpQuakeRequest")); 
 }
 
 void httpAliveRequest() {
   char *server = "www.sapienzaapps.it";
-  Serial.println(F("\nBegin HttpAliveRequest"));
-  char buf[100], sigma[10];
-
-  String postVars = String("deviceid=");
-  postVars += String(ESP8266wifi::getWifi().getMAC());
-  postVars += "&model=uno";
-  postVars += "&version=" + getVersionAsString();
-  postVars += "&lat=" + getLatitudeAsString();
-  postVars += "&lon=" + getLongitudeAsString();
-  postVars += "&sensor=MPU6050";
-  postVars += "&memfree="  + String(freeMemory()); 
+  //Serial.println(F("\nBegin HttpAliveRequest"));
+  char buf[BUFLEN2], sigma[10];
+  char out[9];
+  snprintf(buf,BUFLEN2, "deviceid=%s", ESP8266wifi::getWifi().getMAC());
+  snprintf(buf,BUFLEN2, "%s&model=uno&version=%s", buf, getVersionAsString().c_str());
+  ftoa(out,9,getLatitude());
+  snprintf(buf,BUFLEN2, "%s&lat=%s", buf, out);
+  ftoa(out,9,getLongitude());
+  snprintf(buf,BUFLEN2, "%s&lon=%s&sensor=MPU6050", buf, out);
+  //Serial.println(postVars);
+  //postVars += "&memfree="  + String(getLongitudeAsString()); 
   //postVars += "&avg=" + getDoubleAsString(getCurrentAVG());
   //postVars += "&stddev=" + getDoubleAsString(getCurrentSTDDEV());
   
-  //postVars += "&jsonoutput=1"; //134 Bytes! attualmente il buffer MSG_BUFFER_MAX su ESP8266wifi.h � di 128 byte
-  httpRequest(server, "80", "/seismocloud/alive.php", postVars, buf, "server:",true); 
+  //char msg2[128];	
+  //snprintf(msg2,128, "deviceid=%s&model=uno&version=%s&lat=%s&lon=%s&sensor=MPU6050", ESP8266wifi::getWifi().getMAC(), VERSION, getLatitude(), getLongitude());
+  //postVars += "&jsonoutput=1"; //134 Bytes! attualmente il buffer MSG_BUFFER_MAX su ESP8266wifi.h Ã¨ di 128 byte
+  httpRequest(server, "80", "/seismocloud/alive.php", buf, buf, "server:",true); 
   Serial.print(F("\nAliveResponse: "));
   Serial.println(buf);
   readParameter(buf,"sigma",sigma,10);
@@ -44,15 +55,16 @@ void httpAliveRequest() {
      setSigma(atof(sigma)); 
   else
      setSigma(11.33);
+ 
   Serial.println(F("\nEnd HttpAliveRequest"));
 }
 
 void logRequest(char* msg) {	
   char *server = "www.sapienzaapps.it";  // log server
-  char msg2[115];	
-  snprintf(msg2,115, "<134>[%lu] [I] [%s] %s", getUNIXTime(), ESP8266wifi::getWifi().getMAC(), msg);
-  Serial.println(msg2);
+  char msg2[116];	
+  snprintf(msg2,116, "<134>[%lu] [I] [%s] %s", getUNIXTime(), ESP8266wifi::getWifi().getMAC(), msg);
   // Send a syslog request
+  //Serial.print(F("\nSyslog request: "));
   ESP8266wifi::getWifi().beginUDPPacket((const char*)server, "514"); // 514 is the syslog port
   ESP8266wifi::getWifi().write((const unsigned char*)msg2,strlen(msg2));
   ESP8266wifi::getWifi().endUDPPacket(false);
@@ -60,11 +72,13 @@ void logRequest(char* msg) {
   Serial.println(F("\nEnd logRequest")); 
 }
 
-void httpRequest(char* host, char* port, char* path, String &postVars, char * buf, char * offset, bool keepAlive){
+void httpRequest(char* host, char* port, char* path, char *postVars, char * buf, char *offset, bool keepAlive){
+  //Serial.println(F("\nBeginHttpRequest")); NON STAMPARE NULLA ADESSO, INSPIEGABILMENTE SI PIANTA!
+  char len[5];	
   ESP8266wifi &client=ESP8266wifi::getWifi();
   // if there's a successful connection:
   int cresult = client.beginTCPConnection(host, port);
- 
+
   if (cresult) {
     if(postVars == "") {
     	client.printD(F("\nGET "));
@@ -86,16 +100,16 @@ void httpRequest(char* host, char* port, char* path, String &postVars, char * bu
     if(postVars != "") {
       client.printlnD(F("Content-Type: application/x-www-form-urlencoded"));
       client.printD(F("Content-Length: "));
-	  String(postVars.length(), DEC).toCharArray(buf, 80);
-      client.printlnD(buf);
+	  sprintf(len,"%d",strlen(postVars));
+      client.printlnD(len);
       client.printlnD(F(""));
-      client.printD((char*)postVars.c_str());
+      client.printD(postVars);
     }else{
     	client.printlnD(F("Content-Length: 0"));
 		client.printlnD(F(""));
 	} 
     
-    if(client.available(2000,offset)) {  //legge la risposta a partire dall stringa in offset 
+    if(client.available(3000,offset)) {  //legge la risposta a partire dall stringa in offset 
 		client.readLine(buf,80);
     } else {
         Serial.println(F("Socket read error"));
@@ -118,6 +132,11 @@ void httpRequest(char* host, char* port, char* path, String &postVars, char * bu
   	Serial.println(F(""));
   	client.disconnectFromServer();
   }
+  Serial.print(F("\nFree memory: "));
+  sprintf(len,"%u",freeMemory());
+  Serial.print(len);  
+  Serial.println(F(" byte")); 
 }
+
 
 

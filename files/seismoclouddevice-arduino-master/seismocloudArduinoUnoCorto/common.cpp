@@ -188,21 +188,21 @@ String getLatitudeAsString() {
   char v[11];
   memset(v, 0, 11);
   ftoa(v, 10, latitude);
-  return String(v);
+  return (String(v));
 }
 
 String getDoubleAsString(double d) {
   char v[11];
   memset(v, 0, 11);
   ftoa(v, 10, d);
-  return String(v);
+  return (String(v));
 }
 
 String getLongitudeAsString() {
   char v[10+1];
   memset(v, 0, 10+1);
   ftoa(v, 10, longitude);
-  return String(v);
+  return  (String(v));
 }
 
 String getVersionAsString() {
@@ -240,4 +240,5 @@ bool readParameter(char* cfg, char* tag, char* into, int maxn) {
   } while(sep != NULL);
   return ret;
 }
+
 

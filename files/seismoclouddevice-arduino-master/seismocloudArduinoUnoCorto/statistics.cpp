@@ -191,3 +191,4 @@ double statistics::getCurrentSTDDEV() {
 	return sqrt(partialStdDev /(double) (elements - 1));
 }
 
+

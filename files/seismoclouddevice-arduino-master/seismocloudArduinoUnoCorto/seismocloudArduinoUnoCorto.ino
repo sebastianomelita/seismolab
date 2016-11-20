@@ -1,7 +1,5 @@
-#include <Arduino.h>
-#include <SoftwareSerial.h>
 #include "common.h"
-#include "ESP8266wifi.h"
+//#include "ESP8266wifi.h"
 
 #define sw_serial_rx_pin 2 //  Connect this pin to TX on the esp8266
 #define sw_serial_tx_pin 3 //  Connect this pin to RX on the esp8266
@@ -13,6 +11,8 @@
 //#define PASSWORD "topolino"
 #define SSID "OpenWrt"
 #define PASSWORD "dorabino.7468!"
+//#define SSID "Dorita"
+//#define PASSWORD "dorabino.7468!"
 
 //ESP8266wifi wifi(swSerial, swSerial, esp8266_reset_pin, Serial);
 SoftwareSerial swSerial(sw_serial_rx_pin, sw_serial_tx_pin);
@@ -57,7 +57,7 @@ void setup() {
     Serial.println(wifi.getIP());
 
     Serial.println(F("Updating NTP Time"));
-   do {
+    do {
       updateNTP();
       setBootTime(getUNIXTime());
      if(getBootTime() == 0) {
@@ -70,13 +70,12 @@ void setup() {
     printUNIXTime();
     Serial.println();
 
-    Serial.println(F("Init command interface"));
+    
     commandInterfaceInit();
-    Serial.println(F("Send first keep-alive to server"));
-    httpAliveRequest();
-    lastAliveMs = millis();
+   
+    //lastAliveMs = millis();
   
-	//finchè non funziona la comunicazione con il telefono....
+	//finchÃ¨ non funziona la comunicazione con il telefono....
 	//setLatitude(42.091522);
     //setLongitude(11.799870);
    
@@ -106,8 +105,12 @@ void setup() {
     Serial.println();
     LED::startupBlink();
     LED::green(true);
-	
-	lastAliveMs=0; 
+	  
+	  Serial.println(F("Send first keep-alive to server"));
+    httpAliveRequest();  
+    lastAliveMs = millis();
+	  //lastAliveMs=0; 
+    wdt_enable(WDTO_8S);
 }
 
 void loop() {	
@@ -116,18 +119,19 @@ void loop() {
   commandInterfaceTick();
   LED::tick();
   // Calling alive every 14 minutes
-  if((millis() - lastAliveMs) >= 740000) {
+  if((millis() - lastAliveMs) >= 300000) {
+    //resetStat();
     Serial.print(F("Keepalive sent at "));
     printUNIXTime();
     Serial.println();
     httpAliveRequest();
-	resetStat();
-    lastAliveMs = millis();
-    //Serial.print(F("Sigma: "));
-    //Serial.println(getSigma());
     Serial.print(F("Keepalive ACK at "));
     printUNIXTime();
     Serial.println();
+	  resetStat();
+    lastAliveMs = millis();
+    //Serial.print(F("Sigma: "));
+    //Serial.println(getSigma());
   }
 
   // Detection
@@ -140,6 +144,8 @@ void loop() {
     probeCount = 0;
   }
   probeCount++;
+  wdt_reset();
 }
+
 
 

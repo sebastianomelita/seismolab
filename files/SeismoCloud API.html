@@ -1,0 +1,133 @@
+
+<!-- saved from url=(0049)http://www.sapienzaapps.it/seismocloud/readme.php -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252"><title>SeismoCloud API</title></head><body style="font-family:&quot;Helvetica Neue&quot;;color:111111;"><h1>SeismoCloud API</h1>
+<p><code>[]</code> indica un campo opzionale</p>
+<h1><code>alive.php</code></h1>
+<p>Questo script va chiamato per far sapere al server che il sismometro è attivo e in ascolto di eventuali terremoti; inoltre ad ogni comunicazione il sismometro fornisce al server le proprie coordinate lat lon; infine, se necessario, il server può comunicare le informazioni per effettuare l'update del software del sismometro.
+Va chiamato appena il sismometro si accende e poi ogni 15 minuti mentre il sismometro è attivo in ascolto di terremoti.</p>
+<p>parametri in POST: <code>deviceid lat lon model version [name] [floor] [jsonoutput]</code></p>
+<p>Dove:</p>
+<ul>
+<li><code>deviceid</code> è il mac address o l'UDID del device</li>
+<li><code>lat</code> e <code>lon</code> indicano la posizione del device e sono decimali, es: lat=41.9141078 lon=12.4973127</li>
+<li><code>model</code> è il modello del sismometro, es. galileo o galileo2 etc</li>
+<li><code>version</code> è la versione corrente del software che gira sul sismometro</li>
+<li><code>jsonoutput</code> è opzionale; se presente (es. jsonoutput=1) allora l'output sarà in formato json, altrimenti è in formato <code>nome:valore|nome:valore|...|</code></li>
+<li><code>name</code> è il nome del sismometro (nome dato dal propietario); DA FARE</li>
+<li><code>floor</code> indica il piano del luogo in cui è posizionato il sismometro DA FARE</li>
+<li><code>[]</code> = opzionale</li>
+</ul>
+<p>Se <code>deviceid</code> è diverso da quello di default (<code>00:00:00:00:c1:a0</code>), restituisce un file nel formato scelto con le seguenti informazioni:</p>
+<ul>
+<li><code>server</code>: url del server al quale fare le prossime connessioni</li>
+<li><code>ntpserver</code>: IP del server NTP per la sincronizzazione dell'orario</li>
+<li><code>updatingto</code>: numero della nuova versione se è richiesto un aggiornamento software</li>
+<li><code>path</code>: url della nuova versione del codice compilato per quel modello da scaricare per effettuare l'update</li>
+<li><code>script</code>: script per effettuare l'update del software (solo per model=galileo o galileo2)</li>
+</ul>
+<p>Se <code>deviceid</code> è uguale a <code>00:00:00:00:c1:a0</code>, il server restituirà solamente il nuovo deviceid che va memorizzato sul device.</p>
+<h1><code>terremoto.php</code></h1>
+<p>Questo script viene chiamato se il sismometro ha rilevato una vibrazione. Restituisce il numero di secondi di silenzio che il sismometro deve osservare prima di poter chiamare questo script nuovamente.</p>
+<p>parametri in POST: <code>deviceid tsstart lat lon</code></p>
+<p>Dove:</p>
+<ul>
+<li><code>deviceid</code> è il mac address o l'UDID del device</li>
+<li><code>tsstart</code> è orario in cui è stata rilevata la vibrazione (in secondi dalla Unix Epoch (January 1 1970 00:00:00 GMT)</li>
+<li><code>lat</code> e <code>lon</code> indicano la posizione del device e sono decimali, es: lat=41.9141078 lon=12.4973127</li>
+</ul>
+<p>Restituisce un intero che indica il tempo (in secondi) durante il quale ignorare ogni vibrazione.</p>
+<h1><code>owner.php</code></h1>
+<p>Questo servizio permette di inizializzare, cancellare o modificare la configurazione di un sismometro. In caso di modifica o cancellazione. l'uuid dell'owner deve corrispondere a quello utilizzato per la creazione.</p>
+<p>parametri in POST: <code>phoneid deviceid label [lat lon floor model version] [delete]</code></p>
+<p>Dove: </p>
+<ul>
+<li><code>phoneid</code> è l'uuid assegnato al telefono che sta inizializzando il device </li>
+<li><code>deviceid</code> è il mac address del device (del sismometro)</li>
+<li><code>label</code> è il nome da assegnare al device</li>
+<li><code>lat</code> e <code>lon</code> indicano la posizione assegnata al device e sono decimali, es: lat=41.9141078 lon=12.4973127</li>
+<li><code>floor</code> indica il piano del luogo in cui è posizionato il sismometro</li>
+<li><code>model</code> è il modello del sismometro</li>
+<li><code>version</code> è la versione corrente del software che gira sul sismometro</li>
+</ul>
+<p>Se specificato il parametro <code>delete=1</code> il sismometro viene eliminato dal database. In questo caso i campi <code>label</code>, <code>lat</code>, <code>lon</code>, <code>floor</code>, <code>version</code> e <code>model</code> vengono ignorati.
+Restituisce un json con l'esito true o false dell'operazione.</p>
+<h1><code>pairing.php</code></h1>
+<p>Questo servizio permette di abbinare un sismometro (già inizializzato) a un altro telefono</p>
+<p>parametri in POST: <code>phoneid deviceid label</code></p>
+<p>Dove: </p>
+<ul>
+<li><code>phoneid</code> è l'uuid assegnato al telefono </li>
+<li><code>deviceid</code> è il mac address del device (del sismometro)</li>
+<li><code>label</code> è il nome sotto il quale il telefono vedrà il device</li>
+</ul>
+<p>Se specificato il parametro <code>delete=1</code> il pairing viene eliminato. In questo caso il parametro <code>label</code>.
+Restituisce un json con l'esito true o false dell'operazione. </p>
+<h1><code>tuoisismometri.php</code></h1>
+<p>Questo servizio restituisce i sismometri abbinati al telefono o di cui il telefono Ã¨ owner, con lo storico delle ultime 32 rilevazioni.</p>
+<p>parametri in GET: <code>[phoneid] [deviceid]</code></p>
+<p>Dove: </p>
+<ul>
+<li><code>phoneid</code> è l'uuid assegnato al telefono</li>
+<li><code>deviceid</code> è il mac address di un device (un sismometro associato o di cui il telefono è owner)</li>
+</ul>
+<p>Se non &amp;egrave specificato <code>deviceid</code>, restituisce un json contenente l'elenco di sismometri (owned o associati) con i relativi storici; se non &amp;egrave specificato <code>phoneid</code>, restituisce un json contenente i dati principali del sismometro <code>deviceid</code>; se sono specificati sia <code>deviceid</code> che <code>phoneid</code>, restituisce un json contenente esclusivamente lo storico di quel device.</p>
+<h1><code>register.php</code></h1>
+<p>Questo servizio registra un telefono per le push.</p>
+<p>parametri in POST: <code>phoneid regid prov</code></p>
+<p>Dove: </p>
+<ul>
+<li><code>phoneid</code> è l'uuid assegnato al telefono</li>
+<li><code>regid</code> è il token assegnato da google</li>
+<li><code>prov</code> è la provincia scelta dall'utente per la ricezione dell'early warning</li>
+</ul>
+<h1><code>addtoscuola.php</code></h1>
+<p>Questo servizio registra un telefono ad una certa scuola.</p>
+<p>parametri in POST: <code>phoneid idscuola scuolapass</code></p>
+<p>Dove: </p>
+<ul>
+<li><code>phoneid</code> è l'uuid assegnato al telefono</li>
+<li><code>scuolapass</code> è la password della scuola</li>
+<li><code>idscuola</code> è l'ID assegnato alla scuola</li>
+</ul>
+<p>Restituisce un json con l'esito true o false dell'operazione.</p>
+<hr>
+<h1>API per il sito delle scuole</h1>
+<h1><code>createscuola.php</code></h1>
+<p>Questo servizio registra una scuola.</p>
+<p>parametri in POST: <code>idscuola scuolapass nome provincia</code></p>
+<p>Dove: </p>
+<ul>
+<li><code>idscuola</code> è l'id che va assegnato alla scuola</li>
+<li><code>scuolapass</code> è la password pubblica della scuola</li>
+<li><code>nome</code> è il nome della scuola</li>
+<li><code>provincia</code> è la provincia della scuola</li>
+</ul>
+<p>Restituisce un json con l'esito true o false dell'operazione.</p>
+<h1><code>scuolapass.php</code></h1>
+<p>Questo servizio permette di modificare la password pubblica della scuola.</p>
+<p>parametri in POST: <code>idscuola scuolapass scuolaoldpass</code></p>
+<p>Dove: </p>
+<ul>
+<li><code>scuolapass</code> è la password pubblica della scuola</li>
+<li><code>scuolaoldpass</code> è la password precedente della scuola</li>
+</ul>
+<p>Restituisce un json con l'esito true (1) o false (0) dell'operazione.</p>
+<h1><code>scuola.php</code></h1>
+<p>Questo servizio restituisce i sismometri della scuola con la loro attività.</p>
+<p>parametri in GET: <code>idscuola scuolapass</code></p>
+<p>Dove: </p>
+<ul>
+<li><code>idscuola</code> è la provincia scelta dall'utente per la ricezione dell'early warning</li>
+<li><code>scuolapass</code> è la password pubblica della scuola</li>
+</ul>
+<p>Restituisce un json con le informazioni per ogni device: lat,lon,acceso,status. Acceso=1 indica che il sismometro è acceso e funzionante. Se status=1 il sismometro ha rilevato una vibrazione negli ultimi 5 secondi.</p>
+<h1><code>lista.php</code></h1>
+<p>Questo servizio restituisce gli eventi sismici rilevanti per la scuola</p>
+<p>parametri in GET: <code>idscuola scuolapass lat lon</code></p>
+<p>Dove: </p>
+<ul>
+<li><code>idscuola</code> è la provincia scelta dall'utente per la ricezione dell'early warning</li>
+<li><code>scuolapass</code> è la password pubblica della scuola</li>
+<li><code>lat e lon</code> coordinate della scuola</li>
+</ul>
+<p>Restituisce un json con le informazioni per ogni evento e il numero di sismometri che hanno vibrato per quell'evento</p></body></html>

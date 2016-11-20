@@ -41,7 +41,6 @@ public:
     char channel;
     char * message;
     byte length;
-    bool first;
 };
 
 
@@ -65,7 +64,6 @@ struct Flags   // 1 byte value (on a system where 8 bits is a byte
          localServerRunning:1, 
          endSendWithNewline:1, 
          connectToServerUsingTCP:1;
-         //transparentMode:1;
 };
 
 class ESP8266wifi
@@ -152,11 +150,8 @@ public:
     //bool startNTPClient();
     //bool stopNTPClient();
     //char* getNTP();
-    //bool startTransparentMode();
-    //bool stopTransparentMode();
 	//Per connessioni UDP------------------------------------------------------------------
 	bool registerUDP(char* addr, char* port, char channel='0');
-    //bool beginUDPPacket(const char* host, const char* port, bool transparent=false); //connette ad un server UDP imposta writeChannel=SERVER
     bool beginUDPPacket(const char* host, const char* port); //connette ad un server UDP imposta writeChannel=SERVER
 	bool beginUDPPacket();
 	bool beginTCPConnection(const char* host, const char* port); //connette ad un server TCP imposta writeChannel=SERVER
@@ -188,7 +183,7 @@ public:
     //metodo di classe singleton da invocare alla prima chiamata
     static ESP8266wifi &getWifi(Stream &serialIn, Stream &serialOut, byte resetPin, Stream &dbgSerial,uint32_t rate=115200){
     	// l'unica istanza della classe viene creata alla prima chiamata di getWifi()
-        // e verrà distrutta solo all'uscita dal programma
+        // e verrÃ  distrutta solo all'uscita dal programma
 		static ESP8266wifi wifi(serialIn,serialOut,resetPin,dbgSerial,rate); 
 		return wifi;
 	}
@@ -197,14 +192,15 @@ public:
 
 private:
 	//modificate rispetto all'originale
-	//sono adesso proprietà di classe
+	//sono adesso proprietÃ  di classe
     static Stream* _serialIn;
     static Stream* _serialOut;
     static byte _resetPin;
     static Stream* _dbgSerial;
     static uint32_t _rate;
-    //-----fine proprietà di classe-------------
-    //in più rispetto all'originale-------------
+	static uint16_t _buff;
+    //-----fine proprietÃ  di classe-------------
+    //in piÃ¹ rispetto all'originale-------------
     static WifiMessage msg;
     uint16_t  pos;  //segnaposto
     uint16_t  posw;  //segnaposto
@@ -263,4 +259,5 @@ private:
 };
 
 #endif
+
 

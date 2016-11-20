@@ -1,0 +1,880 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!-- saved from url=(0041)http://www.cse.dmu.ac.uk/~sexton/ESP8266/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <title>esp8266</title>
+  </head>
+  <body background="./esp8266_files/Mback15.gif">
+    <h1> <font face="Arial">ESP8266 Teensy Time</font></h1>
+    <font face="Arial"> <br>
+      It isn't often that a new chip on the block causes a stir like the
+      <a href="https://espressif.com/en/products/esp8266/">ESP8266 </a>has!
+
+
+
+
+
+
+      What is it? It's a WiFi interface.<br>
+      To be more precise it's a WiFi interface suited to microcontroller
+      applications, IoT etc &amp; it has an integrated TCP/IP stack.<br>
+      <br>
+      There are plenty of alternative devices around so what's so
+      special about this one? In a word, the <b>price</b>! These little
+      things are readily available in one off quantities for <b>around
+        £3.</b><br>
+      To put this into perspective, the nearest equivalent I've used is
+      the <a href="https://www.coolcomponents.co.uk/wifi-module-rn-xv-xbee-footprint.html">Roving
+
+
+
+
+
+
+        Networks XV</a> which weighs in at around £30.<br>
+      <br>
+      So what's the catch? Well, I've spent more hours than I care to
+      admit messing around with the ESP8266 &amp; I think it's fair to
+      say that it's a little unpolished!<br>
+      <br>
+      Apart from mere curiosity, I was interested to discover whether
+      these devices might be suitable for students to use in projects.
+      Previously I'd advocated use of a <a href="http://www.cse.dmu.ac.uk/~sexton/ENGD2003/web/openwrt/arduino%20teensy%20openwrt.html">TP-Link
+
+
+
+
+
+
+        703 running OpenWrt</a>, I'm still very fond of this approach
+      but the price of the ESP device is impossible to ignore.<br>
+      <br>
+      There are a few examples of use floating around on the interweb,
+      I've probably tried them <b>all</b>, with limited success. Most
+      of the examples seem to have common roots, I certainly don't wish
+      to denigrate anyone who has 'had a go' and is generous enough to
+      share their work but I've not found a <i>single </i>robust
+      example out there.<br>
+      <br>
+      I chose to use a <a href="https://www.pjrc.com/teensy/teensy31.html">Teensy 3.1</a>
+      to work with the ESP8266 for a few reasons: as well as having USB
+      serial it also has 3 real serial ports which eases interfacing.
+      It's a 3v3 device so there are no worries about level shifting. As
+      added bonuses it has a lot more memory than a 'run of the mill'
+      Arduino and it's a lot faster too. If you're not familiar with the
+      Teensy, all I can say is, "Buy one!" You won't be disappointed.<br>
+      <br>
+    </font>
+    <table border="0" cellpadding="2" cellspacing="2" width="100%">
+      <tbody>
+        <tr>
+          <td align="center" valign="top"><font face="Arial"><img alt="" src="./esp8266_files/esp2.JPG" height="303" width="307"><br>
+            </font> </td>
+          <td align="center" valign="top"><font face="Arial"><img alt="" src="./esp8266_files/teensy3.JPG" height="199" width="400"><br>
+            </font> </td>
+        </tr>
+        <tr>
+          <td align="center" valign="top"><font face="Arial">ESP8266<br>
+            </font></td>
+          <td align="center" valign="top"><font face="Arial">Teensy 3.1<br>
+            </font></td>
+        </tr>
+      </tbody>
+    </table>
+    <font face="Arial"> <br>
+      My early dabblings with the ESP &amp; downloaded examples were
+      tortuous to say the least. I've a feeling that the problems were
+      exacerbated by the Teensy being so much faster than an Arduino.<br>
+      <br>
+      The general consensus is that the ESP needs its own power supply,
+      it typically requires 200mA which is twice what the Teensy can
+      provide. Similarly, we are 'told' that the RESET pin &amp; the
+      CH_PD pins should be pulled high in normal use. I simply soldered
+      a wire across the pins on the board.<br>
+      <br>
+      I connected it up and - nothing... Following my first couple of
+      hours of head scratching I realised that I needed to go back to
+      basics &amp; try talking to the device from a serial terminal.
+      This was how I fathomed the RN XV after all! <br>
+      <br>
+      Rather than hooking it up to a USB serial adapter (which can't
+      provide enough current!) I wrote a little program that simply
+      passes data between the USB &amp; a real serial port on the
+      Teensy.</font><br>
+    <blockquote> <br>
+      <pre><span style="color: #7E7E7E;">/*&nbsp;Serial&nbsp;pass&nbsp;through&nbsp;for&nbsp;teensy&nbsp;*/</span>
+
+<span style="color: #CC6600;">void</span> <span style="color: #CC6600;"><b>setup</b></span>()
+{
+&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(5000);
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">begin</span>(115200);
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">begin</span>(115200);
+}
+
+<span style="color: #CC6600;">void</span> <span style="color: #CC6600;"><b>loop</b></span>()
+{
+&nbsp;&nbsp;<span style="color: #7E7E7E;">/* send everything received from the hardware uart to usb serial &amp; vv */</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">available</span>() &gt; 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">char</span> ch = <span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">read</span>();
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">print</span>(ch);
+&nbsp;&nbsp;}
+&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (<span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">available</span>() &gt; 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">char</span> ch = <span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">read</span>();
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">print</span>(ch);
+&nbsp;&nbsp;}
+}<font face="Arial">
+
+</font></pre>
+      <font face="Arial"> </font></blockquote>
+    <font face="Arial"> <br>
+      Using this it's easy to type commands into the terminal &amp; see
+      what happens:<br>
+      <br>
+      <img alt="" src="./esp8266_files/pass_thru.JPG" height="456" width="504"><br>
+      <br>
+      This is the response to a software reset: AT+RST, your guess is as
+      good as mine regarding what it all means!<br>
+      <br>
+      What I was trying to achieve was to implement a web client which
+      involves:<br>
+    </font>
+    <ul>
+      <li><font face="Arial">Connect to my Wifi</font></li>
+      <li><font face="Arial">Connect to a remote http server</font></li>
+      <li><font face="Arial">Request a web page</font></li>
+      <li><font face="Arial">Filter the response</font></li>
+      <li><font face="Arial">Do something useful</font></li>
+    </ul>
+    <font face="Arial"> <br>
+      Doing as much as possible from the serial terminal is instructive.
+      For example, do I even know if the thing can 'see' my wireless
+      network?<br>
+      <br>
+      <img alt="" src="./esp8266_files/CWLAP.JPG" height="572" width="652"><br>
+      <br>
+      The command AT+CWLAP will list access points in range. This was
+      very encouraging, not only is my access point (dynamode) on the
+      list, but the ESP can see at least as many access points as my
+      laptop can.<br>
+      <br>
+      So can it connect to my access point?<br>
+      <br>
+      <img alt="" src="./esp8266_files/CWJAP.JPG" height="183" width="650"><br>
+      <br>
+      You bet it can! Again this is instructive, the particular access
+      point I'm using can be quite slow to connect so it's important to
+      give it a chance in our code. In fact it's useful to allow several
+      attempts in case we can't connect on the first attempt. OK is
+      hardly <u>proof </u>- I looked in the DHCP client list on my
+      access point for confirmation!<br>
+      <br>
+      I won't bore you with every step along the way, suffice to say
+      that by entering commands manually I could retrieve the file I'd
+      put on the server for testing. The file itself is simply a text
+      file for no particular reason. It looks like this in a browser:<br>
+      <br>
+      <img alt="" src="./esp8266_files/test.JPG" height="456" width="669"><br>
+      <br>
+      Armed with enthusiasm and a <i>little </i>knowledge I returned
+      to the code. I reworked one of the examples I'd tried &amp; BINGO!
+      I put it in a loop, downloaded the file over a hundred times and
+      was beginning to think I'd cracked it when it crashed! This became
+      a sadly familiar pattern of events &amp; I dread to think how many
+      iterations I went around trying to make it bomb proof. Alarmingly,
+      it often seemed that the ESP8266 had crashed as it refused to
+      respond to a AT+RST software reset. The only way that I could get
+      it up &amp; running again was to disconnect &amp; reconnect the
+      3v3 supply. However, I was pleasantly surprised to discover here
+      that the thing would automatically reconnect to my access point
+      after I'd done this!<br>
+      <br>
+      By this time I'd spent far more time fighting with this than I
+      could possibly justify. I was growing tired of pulling out jumper
+      wires to reset the thing &amp; wary that I could easily do some
+      damage - unless I'm wearing my reading glasses, pushing jumpers
+      into breadboards is a bit hit &amp; miss!<br>
+      <br>
+      The ESP8266 module has a RESET pin which I presume is there for a
+      reason(?) I'd previously tied this to 3v3 and relied upon software
+      resets using AT+RST. I connected the RESET pin to an output pin on
+      the Teensy &amp; replaced the software reset in my code with a
+      hardware reset, this got around the problem of pulling wires; the
+      hardware reset works when the thing locks up!<br>
+      <br>
+      I'd written a couple of simple functions for debugging,
+      essentially these were to tell me where the problem was when the
+      thing locked up. I tried performing a hardware reset from one of
+      these functions and more by chance than design it recovered
+      gracefully &amp; got back to the job, so I hacked my code a bit
+      more to work like this:<br>
+      <br>
+    </font>
+    <blockquote><font face="Arial">setup()<br>
+        connect to Wifi<br>
+      </font> <font face="Arial"><br>
+        loop()<br>
+        connect to remote http server<br>
+        request a web page<br>
+        filter response<br>
+        do something useful<br>
+        reset ESP8266<br>
+        wait a while<br>
+      </font> </blockquote>
+    <font face="Arial"> <br>
+      This does exactly what I want. It seems a bit extreme to reset the
+      device but this <b>does </b>work (so far!)<br>
+      As it stands, I can actually use this in a student project which,
+      in essence, was what I set out to discover!<br>
+      The 'do something useful' is a little contrived. I've pulled the
+      'Date:' line from the http response header to implement a clock,
+      of sorts... I have a more interesting application for my students
+      but I'm not about to do their work for them!<br>
+      <br>
+      This is what the output looks like:<br>
+      <br>
+      <img alt="" src="./esp8266_files/output.JPG" height="451" width="542"><br>
+      <br>
+      And this is the code behind it:</font><br>
+    <br>
+    <pre><span style="color: #7E7E7E;">/*</span>
+<span style="color: #7E7E7E;">esp8266&nbsp;test&nbsp;program&nbsp;using&nbsp;Teensy3.1</span>
+<span style="color: #7E7E7E;">&nbsp;Can&nbsp;increase&nbsp;serial&nbsp;buffer&nbsp;size&nbsp;in&nbsp;hardware/teensy/cores/teensy3/serial2.c</span>
+<span style="color: #7E7E7E;">&nbsp;look&nbsp;for:&nbsp;#define&nbsp;RX_BUFFER_SIZE&nbsp;64</span>
+<span style="color: #7E7E7E;">&nbsp;*/</span>
+
+#define&nbsp;<span style="color: #CC6600;">SSID</span> <span style="color: #006699;">"dynamode"</span>  <span style="color: #7E7E7E;">//name of wireless access point to connect to</span>
+#define&nbsp;PASS&nbsp;<span style="color: #006699;">"55555555555555555555555555"</span>  <span style="color: #7E7E7E;">//wifi password</span>
+#define&nbsp;DST_IP&nbsp;<span style="color: #006699;">"146.227.57.195"</span> <span style="color: #7E7E7E;">//my web site, replace with yours</span>
+
+#define&nbsp;LED&nbsp;13
+#define&nbsp;RESET&nbsp;12
+
+<span style="color: #CC6600;">int</span> loops = 0;  <span style="color: #7E7E7E;">//a counter for testing</span>
+
+<span style="color: #CC6600;">void</span> <span style="color: #CC6600;"><b>setup</b></span>()  <span style="color: #7E7E7E;">//initialise device &amp; connect to access point in setup</span>
+{
+&nbsp;&nbsp;<span style="color: #CC6600;">pinMode</span>(RESET,<span style="color: #006699;">OUTPUT</span>);
+&nbsp;&nbsp;<span style="color: #CC6600;">reset</span>();
+
+&nbsp;&nbsp;<span style="color: #CC6600;">pinMode</span>(LED,<span style="color: #006699;">OUTPUT</span>);
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">begin</span>(115200);    <span style="color: #7E7E7E;">// hardware serial connects to esp8266 module</span>
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">begin</span>(115200); <span style="color: #7E7E7E;">// usb serial connects to to pc</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(4000);    <span style="color: #7E7E7E;">//wait for usb serial enumeration on 'Serial' &amp; device startup</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">if</span>(!cwmode3()) <span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">println</span>(<span style="color: #006699;">"cwmode3 failed"</span>);
+&nbsp;&nbsp;<span style="color: #CC6600;">boolean</span> wifi_connected=<span style="color: #CC6600;">false</span>;  <span style="color: #7E7E7E;">//not connected yet...</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">for</span>(<span style="color: #CC6600;">int</span> i=0;i&lt;5;i++)    <span style="color: #7E7E7E;">//attempt 5 times to connect to wifi - this is a good idea</span>
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span>(connectWiFi())  <span style="color: #7E7E7E;">//are we connected?</span>
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wifi_connected&nbsp;=&nbsp;<span style="color: #CC6600;">true</span>;  <span style="color: #7E7E7E;">//yes</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">break</span>;              <span style="color: #7E7E7E;">//get outta here!</span>
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (!wifi_connected) hang(<span style="color: #006699;">"wifi not connected"</span>);  <span style="color: #7E7E7E;">//these seem ok - never had a problem</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(250);    
+&nbsp;&nbsp;<span style="color: #CC6600;">if</span>(!cipmux0()) hang(<span style="color: #006699;">"cipmux0 failed"</span>);
+&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(250);
+&nbsp;&nbsp;<span style="color: #CC6600;">if</span>(!cipmode0()) hang(<span style="color: #006699;">"cipmode0 failed"</span>);
+&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(250);
+}
+
+<span style="color: #CC6600;">void</span> <span style="color: #CC6600;"><b>loop</b></span>()
+{
+&nbsp;&nbsp;<span style="color: #CC6600;">reset</span>();  <span style="color: #7E7E7E;">//only CERTAIN way I've found of keeping it going</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(5000);  <span style="color: #7E7E7E;">//esp takes a while to restart</span>
+&nbsp;<span style="color: #7E7E7E;">// Serial.print("loops = ");  //check for successful connections to server</span>
+&nbsp;&nbsp;<span style="color: #7E7E7E;">//Serial.println(loops); </span>
+&nbsp;&nbsp;loops++;
+&nbsp;&nbsp;<span style="color: #CC6600;">String</span> cmd = <span style="color: #006699;">"AT+CIPSTART=\"TCP\",\""</span>;  <span style="color: #7E7E7E;">//make this command: AT+CPISTART="TCP","146.227.57.195",80</span>
+&nbsp;&nbsp;cmd&nbsp;+=&nbsp;DST_IP;
+&nbsp;&nbsp;cmd&nbsp;+=&nbsp;<span style="color: #006699;">"\",80"</span>;
+
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">println</span>(cmd);  <span style="color: #7E7E7E;">//send command to device</span>
+
+&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(2000);  <span style="color: #7E7E7E;">//wait a little while for 'Linked' response - this makes a difference</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">if</span>(<span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">find</span>(<span style="color: #006699;">"Linked"</span>))  <span style="color: #7E7E7E;">//message returned when connection established WEAK SPOT!! DOESN'T ALWAYS CONNECT</span>
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// Serial.print("Connected to server at ");  //debug message</span>
+&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// Serial.println(DST_IP);</span>
+&nbsp;&nbsp;}
+&nbsp;&nbsp;<span style="color: #CC6600;">else</span>
+&nbsp;&nbsp;{
+&nbsp;&nbsp;<span style="color: #7E7E7E;">//  Serial.println("'Linked' response not received");  //weak spot! Need to recover elegantly</span>
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;cmd&nbsp;=&nbsp;&nbsp;<span style="color: #006699;">"GET /~sexton/test.txt HTTP/1.0\r\n"</span>;  <span style="color: #7E7E7E;">//construct http GET request</span>
+&nbsp;&nbsp;cmd&nbsp;+=&nbsp;<span style="color: #006699;">"Host: cse.dmu.ac.uk\r\n\r\n"</span>;        <span style="color: #7E7E7E;">//test file on my web</span>
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">print</span>(<span style="color: #006699;">"AT+CIPSEND="</span>);                <span style="color: #7E7E7E;">//www.cse.dmu.ac.uk/~sexton/test.txt</span>
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">println</span>(cmd.<span style="color: #CC6600;">length</span>());  <span style="color: #7E7E7E;">//esp8266 needs to know message length of incoming message - .length provides this</span>
+
+&nbsp;&nbsp;<span style="color: #CC6600;">if</span>(<span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">find</span>(<span style="color: #006699;">"&gt;"</span>))    <span style="color: #7E7E7E;">//prompt offered by esp8266</span>
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// Serial.println("found &gt; prompt - issuing GET request");  //a debug message</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">println</span>(cmd);  <span style="color: #7E7E7E;">//this is our http GET request</span>
+&nbsp;&nbsp;}
+&nbsp;&nbsp;<span style="color: #CC6600;">else</span>
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">println</span>(<span style="color: #006699;">"AT+CIPCLOSE"</span>);  <span style="color: #7E7E7E;">//doesn't seem to work here?</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">println</span>(<span style="color: #006699;">"No '&gt;' prompt received after AT+CPISEND"</span>);
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;<span style="color: #7E7E7E;">//Parse the returned header &amp; web page. Looking for 'Date' line in header</span>
+
+&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (<span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">find</span>(<span style="color: #006699;">"Date: "</span>)) <span style="color: #7E7E7E;">//get the date line from the http header (for example)</span>
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">for</span> (<span style="color: #CC6600;">int</span> i=0;i&lt;31;i++)  <span style="color: #7E7E7E;">//this should capture the 'Date: ' line from the header</span>
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (<span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">available</span>())  <span style="color: #7E7E7E;">//new cahracters received?</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">char</span> c=<span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">read</span>();  <span style="color: #7E7E7E;">//print to console</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">write</span>(c);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">else</span> i--;  <span style="color: #7E7E7E;">//if not, keep going round loop until we've got all the characters</span>
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">println</span>(<span style="color: #006699;">"AT+CIPCLOSE"</span>);  
+
+&nbsp;&nbsp;<span style="color: #CC6600;">if</span>(<span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">find</span>(<span style="color: #006699;">"Unlink"</span>))  <span style="color: #7E7E7E;">//rarely seems to find Unlink? :(</span>
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">println</span>(<span style="color: #006699;">"Connection Closed Ok..."</span>);
+&nbsp;&nbsp;}
+&nbsp;&nbsp;<span style="color: #CC6600;">else</span>
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//Serial.println("connection close failure");</span>
+&nbsp;&nbsp;}
+}
+<span style="color: #7E7E7E;">//------------------------------------------------------------------------------------</span>
+<span style="color: #CC6600;">boolean</span> connectWiFi()
+{
+&nbsp;&nbsp;<span style="color: #CC6600;">String</span> cmd=<span style="color: #006699;">"AT+CWJAP=\""</span>;  <span style="color: #7E7E7E;">//form eg: AT+CWJAP="dynamode","55555555555555555555555555"</span>
+&nbsp;&nbsp;cmd+=<span style="color: #CC6600;">SSID</span>;
+&nbsp;&nbsp;cmd+=<span style="color: #006699;">"\",\""</span>;
+&nbsp;&nbsp;cmd+=PASS;
+&nbsp;&nbsp;cmd+=<span style="color: #006699;">"\""</span>;
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">println</span>(cmd);
+&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(5000); <span style="color: #7E7E7E;">//give it time - my access point can be very slow sometimes</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">if</span>(<span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">find</span>(<span style="color: #006699;">"OK"</span>))  <span style="color: #7E7E7E;">//healthy response</span>
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">println</span>(<span style="color: #006699;">"Connected to WiFi..."</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">return</span> <span style="color: #CC6600;">true</span>;
+&nbsp;&nbsp;}
+&nbsp;&nbsp;<span style="color: #CC6600;">else</span>
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">println</span>(<span style="color: #006699;">"Not connected to WiFi."</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">return</span> <span style="color: #CC6600;">false</span>;
+&nbsp;&nbsp;}
+}
+<span style="color: #7E7E7E;">//--------------------------------------------------------------------------------&nbsp;&nbsp;</span>
+<span style="color: #7E7E7E;">//ditch&nbsp;this&nbsp;in&nbsp;favour&nbsp;of&nbsp;hardware&nbsp;reset.&nbsp;Done</span>
+<span style="color: #CC6600;">boolean</span> softwarereset()
+{
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">println</span>(<span style="color: #006699;">"AT+RST"</span>);
+&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (<span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">find</span>(<span style="color: #006699;">"ready"</span>))
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">return</span> <span style="color: #CC6600;">true</span>;
+&nbsp;&nbsp;}
+&nbsp;&nbsp;<span style="color: #CC6600;">else</span>
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">return</span> <span style="color: #CC6600;">false</span>;
+&nbsp;&nbsp;}
+}
+<span style="color: #7E7E7E;">//--------------------------------------------------------------------------------</span>
+<span style="color: #CC6600;">void</span> <span style="color: #CC6600;">reset</span>()
+{
+&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(RESET,<span style="color: #006699;">LOW</span>);
+&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(LED,<span style="color: #006699;">HIGH</span>);
+&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(100);
+&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(RESET,<span style="color: #006699;">HIGH</span>);
+&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(LED,<span style="color: #006699;">LOW</span>);
+}
+<span style="color: #7E7E7E;">//------------------------------------------------------------------------------</span>
+<span style="color: #CC6600;">boolean</span> cwmode3()
+<span style="color: #7E7E7E;">//&nbsp;Odd&nbsp;one.&nbsp;CWMODE=3&nbsp;means&nbsp;configure&nbsp;the&nbsp;device&nbsp;as&nbsp;access&nbsp;point&nbsp;&amp;&nbsp;station.&nbsp;This&nbsp;function&nbsp;can't&nbsp;fail?</span>
+
+{
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">println</span>(<span style="color: #006699;">"AT+CWMODE=3"</span>);
+&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (<span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">find</span>(<span style="color: #006699;">"no change"</span>))  <span style="color: #7E7E7E;">//only works if CWMODE was 3 previously</span>
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">return</span> <span style="color: #CC6600;">true</span>;
+&nbsp;&nbsp;}
+&nbsp;&nbsp;<span style="color: #CC6600;">else</span>
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">return</span> <span style="color: #CC6600;">false</span>;
+&nbsp;&nbsp;}
+}
+<span style="color: #7E7E7E;">//----------------------------------------------------------------------------------</span>
+<span style="color: #CC6600;">boolean</span> cipmux0()
+{
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">println</span>(<span style="color: #006699;">"AT+CIPMUX=0"</span>);
+&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (<span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">find</span>(<span style="color: #006699;">"OK"</span>))
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">return</span> <span style="color: #CC6600;">true</span>;
+&nbsp;&nbsp;}
+&nbsp;&nbsp;<span style="color: #CC6600;">else</span>
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">return</span> <span style="color: #CC6600;">false</span>;
+&nbsp;&nbsp;}
+}
+<span style="color: #7E7E7E;">//-----------------------------------------------------------------------</span>
+<span style="color: #CC6600;">boolean</span> cipmode0()
+{
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">println</span>(<span style="color: #006699;">"AT+CIPMODE=0"</span>);
+&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (<span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">find</span>(<span style="color: #006699;">"OK"</span>))
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">return</span> <span style="color: #CC6600;">true</span>;
+&nbsp;&nbsp;}
+&nbsp;&nbsp;<span style="color: #CC6600;">else</span>
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">return</span> <span style="color: #CC6600;">false</span>;
+&nbsp;&nbsp;}
+}
+<span style="color: #7E7E7E;">//------------------------------------------------------------------------</span>
+<span style="color: #CC6600;">void</span> hang(<span style="color: #CC6600;">String</span> error_String)    <span style="color: #7E7E7E;">//for debugging</span>
+{
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">print</span>(<span style="color: #006699;">"Halted...   "</span>);
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">println</span>(error_String);
+&nbsp;&nbsp;<span style="color: #CC6600;">while</span>(1)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(LED,<span style="color: #006699;">HIGH</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(100);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(LED,<span style="color: #006699;">LOW</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(100);
+&nbsp;&nbsp;}
+}
+<span style="color: #7E7E7E;">//----------------------------------------------------------------------------</span>
+<span style="color: #CC6600;">void</span> hangreset (<span style="color: #CC6600;">String</span> error_String)    <span style="color: #7E7E7E;">//for debugging</span>
+{
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">print</span>(error_String);
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">println</span>(<span style="color: #006699;">" - resetting"</span>);
+&nbsp;&nbsp;<span style="color: #CC6600;">reset</span>();
+}
+
+
+</pre>
+    <font face="Arial">I've left in my various bits of debugging - you
+      might need them!!!!<br>
+      <br>
+    </font>
+    <h2><font face="Arial">Three days later...</font></h2>
+    <font face="Arial"><br>
+      OK - I left this running for an entire weekend &amp; it seems to
+      be bomb proof! I'll probably get an email from our network police
+      about abnormal activity now ;)<br>
+      <br>
+      I wanted to add a small display to make a more convincing demo, I
+      started out with a tiny 1" 128x64 I2C monochrome OLED which I'm
+      very fond of but it's just <b>too </b>small. In my box of bits I
+      had a QVGA TFT which uses the ILI9341 driver, these cost only
+      £3-£4 on Ebay. I'd put this aside as my particular display has a
+      fault &amp; I wasn't overly impressed by its speed either. Then I
+      discovered the turbocharged Teensy library for this device!
+      There's a very nice <a href="https://www.youtube.com/watch?v=tioOB3Ysz70">demo </a>by
+      Paul Stoffregen on the web.<br>
+      <br>
+      I hooked up the display, prettified my code a little with colour
+      coded messages (eg errors are red) for the TFT &amp; it's a great
+      little demo :) Ironically, I don't really need the display to be
+      super fast! Conceivably I can drive the thing from a Chinese Pro
+      Mini &amp; have a fairly competent <b>wireless </b>web client
+      for peanuts :)<br>
+      <br>
+      I might even use it for <a href="http://www.cse.dmu.ac.uk/~sexton/ENGD2003/openwrt/door%20sign.html">my
+
+
+
+
+
+        door sign...</a><br>
+      <br>
+      In conclusion; it's time to put this to bed &amp; get back to some
+      'real' work :( The ESP8266 is a <b>pain in the bum</b> but it's
+      sure to get better! I can use it <b>right now</b> in a couple of
+      student projects, which is all I&nbsp; wanted to know!<br>
+      <br>
+      To close, here is a photo of my 'device' in action, sorry about
+      the quality:<br>
+      <br>
+      <img alt="" src="./esp8266_files/tft.jpg" height="422" width="600"><br>
+      <br>
+    </font>
+    <h1><font face="Arial">ESP8266 Server</font></h1>
+    <font face="Arial"><br>
+      Having 'cracked' this I thought I'd look at using the ESP8266 as a
+      server. To my delight I found <a href="http://www.snip2code.com/Snippet/194415/Webserver-for-Arduino-ESP8266">some
+
+
+
+        code on the web</a> which worked remarkably well! With a few
+      minor edits to suit my hardware it was up &amp; running in no
+      time. Sadly, this isn't bomb proof either :( It can take thousands
+      of hits without a hitch and then mysteriously hang. We'll get
+      there...<br>
+      <br>
+      Here is a piccy of my web server in action, I connected a BMP180
+      pressure transducer to make it 'realistic'<br>
+      <br>
+      <img alt="" src="./esp8266_files/server.JPG" height="488" width="821"><br>
+      <br>
+      I seems to be the order of the day that the ESP8266 will lull you
+      into a false sense of security! Once again I spent more time on
+      this than I can really justify, the webserver worked but <b>not </b>as
+
+
+      well as it should. I pulled it about a bit(!) and tweaked it here
+      &amp; there. In particular, I increased the serial buffer size on
+      the Teensy which made a profound difference. I also reverted to
+      using the Arduino TextFinder library in at least one place.
+      Supposedly the Arduino core now includes the same capabilities but
+      I'm not so sure about this.<br>
+      <br>
+      Anyway, it works better for me now! It's not perfect but I've had
+      it running for hours with a page reloading every second. It still
+      crashes occasionally but usually recovers, this seems to be the
+      ESP refusing to talk. I guess my code has changed enough to
+      warrant including it here. I'm afraid it's quite a bodge of my
+      code &amp; the original but it might offer insight to someone.<br>
+      <br>
+      <img alt="" src="./esp8266_files/server2.JPG" height="559" width="843"><br>
+      <br>
+      Indicating the channel number is interesting, it does change,
+      particularly if more than one client is requesting.<br>
+      <br>
+      Here is the code:<br>
+      <br>
+      <br>
+      <pre><span style="color: #7E7E7E;">/*</span>
+<span style="color: #7E7E7E;">Web&nbsp;server&nbsp;demo&nbsp;for&nbsp;Teensy&nbsp;3.1&nbsp;&amp;&nbsp;ESP8266</span>
+<span style="color: #7E7E7E;">I've&nbsp;used&nbsp;a&nbsp;BMP180&nbsp;sensor&nbsp;to&nbsp;add&nbsp;a&nbsp;touch&nbsp;of&nbsp;realism,&nbsp;hopefully&nbsp;without&nbsp;adding&nbsp;too&nbsp;much&nbsp;confusion</span>
+<span style="color: #7E7E7E;">This&nbsp;code&nbsp;is&nbsp;adapted&nbsp;(ok&nbsp;bodged...)&nbsp;from&nbsp;the&nbsp;program&nbsp;published&nbsp;at:http://www.snip2code.com/Snippet/194415/Webserver-for-Arduino-ESP8266</span>
+<span style="color: #7E7E7E;">I've&nbsp;used&nbsp;increased&nbsp;serial&nbsp;buffer&nbsp;on&nbsp;Teensy&nbsp;which&nbsp;is&nbsp;set&nbsp;in&nbsp;hardware/teensy/cores/teensy3/serial1.c</span>
+<span style="color: #7E7E7E;">The&nbsp;ESP8266&nbsp;is&nbsp;attached&nbsp;to&nbsp;Serial1&nbsp;on&nbsp;the&nbsp;Teensy</span>
+<span style="color: #7E7E7E;">seems&nbsp;fairly&nbsp;robust&nbsp;now&nbsp;-&nbsp;takes&nbsp;thousands&nbsp;of&nbsp;hits&nbsp;but&nbsp;will&nbsp;fail&nbsp;occasionally&nbsp;with&nbsp;several&nbsp;simultaneous&nbsp;requests</span>
+<span style="color: #7E7E7E;">don't&nbsp;know&nbsp;exactly&nbsp;where&nbsp;it&nbsp;fails&nbsp;but&nbsp;seems&nbsp;to&nbsp;get&nbsp;stuck&nbsp;waiting&nbsp;in&nbsp;loop()</span>
+<span style="color: #7E7E7E;">Usually&nbsp;recovers...</span>
+<span style="color: #7E7E7E;">I've&nbsp;also&nbsp;used&nbsp;the&nbsp;TextFinder&nbsp;library&nbsp;a&nbsp;little&nbsp;which&nbsp;seems&nbsp;to&nbsp;work&nbsp;better&nbsp;for&nbsp;me&nbsp;than&nbsp;Arduino&nbsp;core&nbsp;functionality</span>
+<span style="color: #7E7E7E;">Ian&nbsp;-&nbsp;&nbsp;sexton@dmu.ac.uk</span>
+<span style="color: #7E7E7E;">*/</span>
+#include&nbsp;&lt;<span style="color: #CC6600;">Wire</span>.h&gt;
+#include&nbsp;&lt;Adafruit_BMP085.h&gt;
+#include&nbsp;&lt;<span style="color: #CC6600;">TextFinder</span>.h&gt;
+
+#define&nbsp;Vcc&nbsp;21&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//power pins for BMP, it's plugged into breadboard next to Teensy</span>
+#define&nbsp;GND&nbsp;20
+#define&nbsp;BMPON&nbsp;1
+#define&nbsp;BMPOFF&nbsp;0
+
+#define&nbsp;LED&nbsp;13&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//for debug</span>
+#define&nbsp;RESET&nbsp;8&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//reset pin on 8266</span>
+
+#define&nbsp;BUFFER_SIZE&nbsp;1024&nbsp;&nbsp;<span style="color: #7E7E7E;">//can be quite small</span>
+
+#define&nbsp;<span style="color: #CC6600;">SSID</span> <span style="color: #006699;">"dynamode"</span>  <span style="color: #7E7E7E;">//name of wireless access point to connect to</span>
+#define&nbsp;PASS&nbsp;<span style="color: #006699;">"55555555555555555555555555"</span>  <span style="color: #7E7E7E;">//wifi password</span>
+
+<span style="color: #CC6600;">char</span> buffer[BUFFER_SIZE];
+
+<span style="color: #CC6600;">int</span> counter;  <span style="color: #7E7E7E;">//page reload counter for testing</span>
+<span style="color: #CC6600;">long</span> <span style="color: #CC6600;">int</span> thistime;  <span style="color: #7E7E7E;">//debug</span>
+
+
+Adafruit_BMP085&nbsp;bmp;
+<span style="color: #7E7E7E;">//------------------------------------------------------------------------------------------------------------</span>
+<span style="color: #7E7E7E;">//&nbsp;set&nbsp;the&nbsp;thing&nbsp;up&nbsp;&amp;&nbsp;connect&nbsp;to&nbsp;wifi</span>
+
+<span style="color: #CC6600;">void</span> <span style="color: #CC6600;"><b>setup</b></span>() { 
+
+&nbsp;&nbsp;powerBMP(BMPON);&nbsp;&nbsp;<span style="color: #7E7E7E;">//switch on the BMP180</span>
+
+&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(5000);    <span style="color: #7E7E7E;">//allow time for usb to enumerate - can remove this later</span>
+
+&nbsp;&nbsp;bmp.<span style="color: #CC6600;">begin</span>();
+
+&nbsp;&nbsp;<span style="color: #CC6600;">pinMode</span>(RESET,<span style="color: #006699;">OUTPUT</span>);
+&nbsp;&nbsp;<span style="color: #CC6600;">reset</span>();
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">begin</span>(115200); <span style="color: #7E7E7E;">// Serial monitor - usb for debug</span>
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">begin</span>(115200); <span style="color: #7E7E7E;">// ESP8266</span>
+
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">println</span>(<span style="color: #006699;">"ESP8266 server demo."</span>);
+
+&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(2000);
+&nbsp;&nbsp;<span style="color: #CC6600;">if</span>(!cwmode3()) <span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">println</span>(<span style="color: #006699;">"cwmode3 failed or unchanged"</span>);  <span style="color: #7E7E7E;">//stupid device will report 'ok' OR 'unchanged' either is fine - sorted in function</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">boolean</span> wifi_connected=<span style="color: #CC6600;">false</span>;  <span style="color: #7E7E7E;">//not connected yet...</span>
+&nbsp;&nbsp;clearSerialBuffer();
+
+&nbsp;&nbsp;<span style="color: #CC6600;">for</span>(<span style="color: #CC6600;">int</span> i=0;i&lt;5;i++)    <span style="color: #7E7E7E;">//attempt 5 times to connect to wifi - this is a good idea</span>
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span>(connectWiFi())  <span style="color: #7E7E7E;">//are we connected?</span>
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wifi_connected&nbsp;=&nbsp;<span style="color: #CC6600;">true</span>;  <span style="color: #7E7E7E;">//yes</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">break</span>;              <span style="color: #7E7E7E;">//get outta here!</span>
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (!wifi_connected) hang(<span style="color: #006699;">"wifi not connected"</span>);  <span style="color: #7E7E7E;">//these seem ok - never had a problem</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(250);    <span style="color: #7E7E7E;">//arbitrary</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">if</span>(!cipmux1()) hang(<span style="color: #006699;">"cipmux1 failed"</span>);
+&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(250);    <span style="color: #7E7E7E;">//arbitrary</span>
+
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">println</span>( Send_AT_command(<span style="color: #006699;">"AT+CIPMUX=1"</span>,10) );      <span style="color: #7E7E7E;">//echo to serial console for debug</span>
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">print</span>( Send_AT_command(<span style="color: #006699;">"AT+CIPSERVER=1,8080"</span>, 10) );
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">print</span>(<span style="color: #006699;">"ip address(es) : "</span>);  <span style="color: #7E7E7E;">//print the ip address(es)</span>
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">println</span>( Send_AT_command(<span style="color: #006699;">"AT+CIFSR"</span>, 10) );
+&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(200);
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">println</span>(<span style="color: #006699;">"Webserver started"</span>);    <span style="color: #7E7E7E;">//here we go!</span>
+}
+
+<span style="color: #CC6600;">void</span> <span style="color: #CC6600;"><b>loop</b></span>() 
+<span style="color: #7E7E7E;">//----------------------------------------------------------------------</span>
+<span style="color: #7E7E7E;">//&nbsp;take&nbsp;a&nbsp;look&nbsp;at&nbsp;the&nbsp;examples&nbsp;in&nbsp;TextFinder&nbsp;library&nbsp;for&nbsp;more&nbsp;inspiration</span>
+<span style="color: #7E7E7E;">//&nbsp;not&nbsp;even&nbsp;looking&nbsp;for&nbsp;GET&nbsp;here...</span>
+<span style="color: #7E7E7E;">//----------------------------------------------------------------------</span>
+{
+&nbsp;&nbsp;<span style="color: #CC6600;">TextFinder</span> finder(<span style="color: #CC6600;"><b>Serial1</b></span>);  <span style="color: #7E7E7E;">//seems to work much better than core fumctions</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">char</span> channel;        <span style="color: #7E7E7E;">//ESP has 5 channels &amp; we need to know which one to use</span>
+everysecond(<span style="color: #006699;">"wait for serial1  "</span>);  <span style="color: #7E7E7E;">//debug - does it bomb out in loop()?</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (<span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">available</span>())
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span>( finder.<span style="color: #CC6600;">find</span>(<span style="color: #006699;">"+IPD,"</span>) ) 
+&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;channel=<span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">read</span>();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;homepage(channel&nbsp;-<span style="color: #006699;">'0'</span>);    <span style="color: #7E7E7E;">//ascii to int</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">clear</span>();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(1);
+&nbsp;&nbsp;}
+}
+<span style="color: #7E7E7E;">//=============================================================================</span>
+<span style="color: #CC6600;">void</span> homepage(<span style="color: #CC6600;">int</span> ch_id) <span style="color: #7E7E7E;">//this serves the page</span>
+{
+&nbsp;&nbsp;<span style="color: #CC6600;">String</span> Header;
+
+&nbsp;&nbsp;Header&nbsp;=&nbsp;&nbsp;<span style="color: #006699;">"HTTP/1.1 200 OK\r\n"</span>;            <span style="color: #7E7E7E;">//bog standard stuff - should provide alternative headers</span>
+&nbsp;&nbsp;Header&nbsp;+=&nbsp;<span style="color: #006699;">"Content-Type: text/html\r\n"</span>;
+&nbsp;&nbsp;Header&nbsp;+=&nbsp;<span style="color: #006699;">"Connection: close\r\n"</span>;  
+&nbsp;&nbsp;Header&nbsp;+=&nbsp;<span style="color: #006699;">"Refresh: 1\r\n"</span>;
+
+&nbsp;&nbsp;<span style="color: #CC6600;">String</span> Content;
+&nbsp;&nbsp;Content&nbsp;=&nbsp;<span style="color: #006699;">"&lt;body bgcolor=\"#99ff99\" alink=\"#EE0000\" link=\"#0000EE\" text=\"#000000\"vlink=\"#551A8B\"&gt;"</span>;
+&nbsp;&nbsp;Content&nbsp;+=&nbsp;<span style="color: #006699;">"&lt;title&gt; ESP8266 test &lt;/title&gt;"</span>;
+&nbsp;&nbsp;Content&nbsp;+=&nbsp;<span style="color: #006699;">"&lt;H1&gt;"</span>;
+&nbsp;&nbsp;Content&nbsp;+=&nbsp;<span style="color: #006699;">"ESP8266 Web Server Test Page, Reloads = "</span>;
+&nbsp;&nbsp;Content&nbsp;+=&nbsp;<span style="color: #CC6600;">String</span>(counter);
+&nbsp;&nbsp;Content&nbsp;+=&nbsp;<span style="color: #006699;">"&lt;br&gt;"</span>;
+&nbsp;&nbsp;Content&nbsp;+=&nbsp;<span style="color: #006699;">"This is channel "</span>;
+&nbsp;&nbsp;Content&nbsp;+=&nbsp;<span style="color: #CC6600;">String</span>(ch_id);
+&nbsp;&nbsp;Content&nbsp;+=&nbsp;<span style="color: #006699;">" of 0-4 available channels"</span>;
+&nbsp;&nbsp;Content&nbsp;+=&nbsp;<span style="color: #006699;">"&lt;/H1&gt;"</span>;
+&nbsp;&nbsp;Content&nbsp;+=&nbsp;<span style="color: #006699;">"&lt;H2&gt;"</span>;
+&nbsp;&nbsp;Content&nbsp;+=&nbsp;<span style="color: #006699;">"BMP180 pressure &amp; temperature transducer with Adafruit library\n&lt;br&gt;&lt;br&gt;"</span>;
+&nbsp;&nbsp;Content&nbsp;+=&nbsp;<span style="color: #006699;">"Pressure = "</span>;
+&nbsp;&nbsp;Content&nbsp;+=&nbsp;<span style="color: #CC6600;">String</span>(bmp.<span style="color: #CC6600;">readPressure</span>());
+&nbsp;&nbsp;Content&nbsp;+=&nbsp;<span style="color: #006699;">" Pa"</span>;
+&nbsp;&nbsp;Content&nbsp;+=&nbsp;<span style="color: #006699;">"&lt;br&gt;"</span>;
+&nbsp;&nbsp;Content&nbsp;+=&nbsp;<span style="color: #006699;">"Temperature = "</span>;
+&nbsp;&nbsp;Content&nbsp;+=&nbsp;<span style="color: #CC6600;">String</span>(bmp.<span style="color: #CC6600;">readTemperature</span>());
+&nbsp;&nbsp;Content&nbsp;+=&nbsp;<span style="color: #006699;">" *C"</span>;
+&nbsp;&nbsp;Content&nbsp;+=&nbsp;<span style="color: #006699;">"&lt;br&gt;"</span>;
+&nbsp;&nbsp;<span style="color: #7E7E7E;">//Content += "Altitude = ";</span>
+&nbsp;&nbsp;<span style="color: #7E7E7E;">//Content += String(bmp.readAltitude());</span>
+&nbsp;&nbsp;<span style="color: #7E7E7E;">//Content += " metres";</span>
+&nbsp;&nbsp;Content&nbsp;+=&nbsp;<span style="color: #006699;">"&lt;br&gt;&lt;br&gt;&lt;br&gt;"</span>;
+&nbsp;&nbsp;Content&nbsp;+=&nbsp;<span style="color: #006699;">"&lt;i&gt;&lt;a href=\"mailto:sexton@dmu.ac.uk?subject=ESP8266%20Webserver\"&gt;Ian Sexton 2014&lt;/a&gt;&lt;/i&gt;&lt;br&gt;"</span>;
+&nbsp;&nbsp;Content&nbsp;+=&nbsp;<span style="color: #006699;">"&lt;/H2&gt;"</span>;
+
+&nbsp;&nbsp;counter++;
+
+&nbsp;&nbsp;Header&nbsp;+=&nbsp;<span style="color: #006699;">"Content-Length: "</span>;  <span style="color: #7E7E7E;">//ESP likes to know the length</span>
+&nbsp;&nbsp;Header&nbsp;+=&nbsp;(<span style="color: #CC6600;">int</span>)(Content.<span style="color: #CC6600;">length</span>());  <span style="color: #7E7E7E;">//length determined here</span>
+&nbsp;&nbsp;Header&nbsp;+=&nbsp;<span style="color: #006699;">"\r\n\r\n"</span>;    <span style="color: #7E7E7E;">//blank line</span>
+
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">print</span>(<span style="color: #006699;">"AT+CIPSEND="</span>);    <span style="color: #7E7E7E;">//send the web page</span>
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">print</span>(ch_id);
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">print</span>(<span style="color: #006699;">","</span>);
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">println</span>(Header.<span style="color: #CC6600;">length</span>()+Content.<span style="color: #CC6600;">length</span>());
+&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(10);
+&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (<span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">find</span>(<span style="color: #006699;">"&gt;"</span>)) {  <span style="color: #7E7E7E;">//prompt from ESP8266 indicating ready</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">print</span>(Header);  <span style="color: #7E7E7E;">//out it goes!!</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">print</span>(Content);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(10);
+&nbsp;&nbsp;}
+}
+<span style="color: #7E7E7E;">//=========================================================================================</span>
+<span style="color: #7E7E7E;">//&nbsp;Send&nbsp;command&nbsp;to&nbsp;device&nbsp;&amp;&nbsp;return&nbsp;response&nbsp;message.&nbsp;Some&nbsp;commands&nbsp;are&nbsp;slow&nbsp;so&nbsp;a&nbsp;'wait'&nbsp;is&nbsp;included</span>
+<span style="color: #7E7E7E;">//&nbsp;I&nbsp;like&nbsp;this&nbsp;way&nbsp;of&nbsp;doing&nbsp;it&nbsp;</span>
+<span style="color: #CC6600;">String</span> Send_AT_command(<span style="color: #CC6600;">String</span> AT_Command, <span style="color: #CC6600;">int</span> wait){
+&nbsp;&nbsp;<span style="color: #CC6600;">String</span> tmpData;
+
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">println</span>(AT_Command);
+&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(wait);
+&nbsp;&nbsp;<span style="color: #CC6600;">while</span> (<span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">available</span>() &gt;0 )  {
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">char</span> c = <span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">read</span>();
+&nbsp;&nbsp;&nbsp;&nbsp;tmpData&nbsp;+=&nbsp;c;
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span> ( tmpData.<span style="color: #CC6600;">indexOf</span>(AT_Command) &gt; -1 )        
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tmpData&nbsp;=&nbsp;<span style="color: #006699;">""</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">else</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//tmpData.trim();       //get rid of this? </span>
+&nbsp;&nbsp;}
+&nbsp;&nbsp;<span style="color: #CC6600;">return</span> tmpData;
+}
+<span style="color: #7E7E7E;">//========================================================================================</span>
+<span style="color: #CC6600;">void</span> clearSerialBuffer(<span style="color: #CC6600;">void</span>) {
+&nbsp;&nbsp;<span style="color: #CC6600;">while</span> ( <span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">available</span>() &gt; 0 ) {
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">clear</span>();  <span style="color: #7E7E7E;">//teensy only?</span>
+&nbsp;&nbsp;}
+}
+<span style="color: #7E7E7E;">//===================================================================================</span>
+<span style="color: #CC6600;">void</span> clearBuffer(<span style="color: #CC6600;">void</span>) {
+&nbsp;&nbsp;<span style="color: #CC6600;">for</span> (<span style="color: #CC6600;">int</span> i =0;i&lt;BUFFER_SIZE;i++ ) {
+&nbsp;&nbsp;&nbsp;&nbsp;buffer[i]=0;
+&nbsp;&nbsp;}
+}
+<span style="color: #7E7E7E;">//================================================================================&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #7E7E7E;">//&nbsp;neater&nbsp;than&nbsp;mine?&nbsp;Put&nbsp;this&nbsp;in&nbsp;my&nbsp;for&nbsp;loop&nbsp;instead?</span>
+<span style="color: #CC6600;">boolean</span> connectWiFi(<span style="color: #CC6600;">String</span> NetworkSSID,<span style="color: #CC6600;">String</span> NetworkPASS) {
+&nbsp;&nbsp;<span style="color: #CC6600;">String</span> cmd = <span style="color: #006699;">"AT+CWJAP=\""</span>;
+&nbsp;&nbsp;cmd&nbsp;+=&nbsp;NetworkSSID;
+&nbsp;&nbsp;cmd&nbsp;+=&nbsp;<span style="color: #006699;">"\",\""</span>;
+&nbsp;&nbsp;cmd&nbsp;+=&nbsp;NetworkPASS;
+&nbsp;&nbsp;cmd&nbsp;+=&nbsp;<span style="color: #006699;">"\""</span>;
+
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">println</span>(cmd); 
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">println</span>(Send_AT_command(cmd,10));
+}
+
+<span style="color: #7E7E7E;">//----------------------------------------------------------------------------------</span>
+<span style="color: #CC6600;">boolean</span> cipmux1()  <span style="color: #7E7E7E;">//sets multiple connections - seems to be necessary as server</span>
+{
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">println</span>(<span style="color: #006699;">"AT+CIPMUX=1"</span>);
+&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (<span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">find</span>(<span style="color: #006699;">"OK"</span>))
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">return</span> <span style="color: #CC6600;">true</span>;
+&nbsp;&nbsp;}
+&nbsp;&nbsp;<span style="color: #CC6600;">else</span>
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">return</span> <span style="color: #CC6600;">false</span>;
+&nbsp;&nbsp;}
+}
+<span style="color: #7E7E7E;">//-----------------------------------------------------------------------</span>
+<span style="color: #CC6600;">boolean</span> cwmode3()
+<span style="color: #7E7E7E;">//&nbsp;set&nbsp;as&nbsp;both&nbsp;station&nbsp;&amp;&nbsp;access&nbsp;point</span>
+<span style="color: #7E7E7E;">//&nbsp;Odd&nbsp;one.&nbsp;CWMODE=3&nbsp;means&nbsp;configure&nbsp;the&nbsp;device&nbsp;as&nbsp;access&nbsp;point&nbsp;&amp;&nbsp;station.&nbsp;This&nbsp;function&nbsp;can't&nbsp;fail?</span>
+<span style="color: #7E7E7E;">//&nbsp;might&nbsp;be&nbsp;better&nbsp;to&nbsp;read&nbsp;cwmode&nbsp;before&nbsp;issuing&nbsp;command</span>
+
+{
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">println</span>(<span style="color: #006699;">"AT+CWMODE=1"</span>);    <span style="color: #7E7E7E;">//avoid the 'no change' response by ensuring a change!</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(500);    <span style="color: #7E7E7E;">//arbitrary - no problem as it happens in setup</span>
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">println</span>(<span style="color: #006699;">"AT+CWMODE=3"</span>);
+&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (<span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">find</span>(<span style="color: #006699;">"OK"</span>))  <span style="color: #7E7E7E;">//only works if CWMODE was not 3 previously but we've made sure of that!</span>
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">return</span> <span style="color: #CC6600;">true</span>;
+&nbsp;&nbsp;}
+&nbsp;&nbsp;<span style="color: #CC6600;">else</span>
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">return</span> <span style="color: #CC6600;">false</span>;
+&nbsp;&nbsp;}
+}
+<span style="color: #7E7E7E;">//----------------------------------------------------------------------------------</span>
+<span style="color: #CC6600;">boolean</span> cipmode0()    <span style="color: #7E7E7E;">//means 'not data mode' - confusing. 1=data mode. Think this means TCP/IP through &amp; needs +++ escape rather than counting</span>
+{
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">println</span>(<span style="color: #006699;">"AT+CIPMODE=0"</span>);
+&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (<span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">find</span>(<span style="color: #006699;">"OK"</span>))
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">return</span> <span style="color: #CC6600;">true</span>;
+&nbsp;&nbsp;}
+&nbsp;&nbsp;<span style="color: #CC6600;">else</span>
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">return</span> <span style="color: #CC6600;">false</span>;
+&nbsp;&nbsp;}
+}
+<span style="color: #7E7E7E;">//------------------------------------------------------------------------</span>
+<span style="color: #CC6600;">void</span> <span style="color: #CC6600;">reset</span>()
+{
+&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(RESET,<span style="color: #006699;">LOW</span>);
+&nbsp;&nbsp;<span style="color: #7E7E7E;">//digitalWrite(LED,HIGH);</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(100);
+&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(RESET,<span style="color: #006699;">HIGH</span>);
+&nbsp;&nbsp;<span style="color: #7E7E7E;">//digitalWrite(LED,LOW);</span>
+}
+<span style="color: #7E7E7E;">//------------------------------------------------------------------------------</span>
+<span style="color: #CC6600;">boolean</span> connectWiFi()
+{
+&nbsp;&nbsp;<span style="color: #CC6600;">String</span> cmd=<span style="color: #006699;">"AT+CWJAP=\""</span>;  <span style="color: #7E7E7E;">//form eg: AT+CWJAP="dynamode","55555555555555555555555555"</span>
+&nbsp;&nbsp;cmd+=<span style="color: #CC6600;">SSID</span>;
+&nbsp;&nbsp;cmd+=<span style="color: #006699;">"\",\""</span>;
+&nbsp;&nbsp;cmd+=PASS;
+&nbsp;&nbsp;cmd+=<span style="color: #006699;">"\""</span>;
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">println</span>(cmd);
+&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(5000); <span style="color: #7E7E7E;">//give it time - my access point can be very slow sometimes</span>
+
+&nbsp;&nbsp;<span style="color: #CC6600;">if</span>(<span style="color: #CC6600;"><b>Serial1</b></span>.<span style="color: #CC6600;">find</span>(<span style="color: #006699;">"OK"</span>))  <span style="color: #7E7E7E;">//ie a healthy response</span>
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">println</span>(<span style="color: #006699;">"Connected to WiFi..."</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">return</span> <span style="color: #CC6600;">true</span>;
+&nbsp;&nbsp;}
+&nbsp;&nbsp;<span style="color: #CC6600;">else</span>
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">println</span>(<span style="color: #006699;">"Not connected to WiFi."</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">return</span> <span style="color: #CC6600;">false</span>;
+&nbsp;&nbsp;}
+}
+<span style="color: #7E7E7E;">//--------------------------------------------------------------------------------&nbsp;&nbsp;</span>
+<span style="color: #CC6600;">void</span> hang(<span style="color: #CC6600;">String</span> error_String)    <span style="color: #7E7E7E;">//for debugging</span>
+{
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">print</span>(<span style="color: #006699;">"Halted...   "</span>);
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">println</span>(error_String);
+&nbsp;&nbsp;<span style="color: #CC6600;">while</span>(1)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(LED,<span style="color: #006699;">HIGH</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(100);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(LED,<span style="color: #006699;">LOW</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(100);
+&nbsp;&nbsp;}
+}
+<span style="color: #7E7E7E;">//----------------------------------------------------------------------------</span>
+
+<span style="color: #CC6600;">void</span> powerBMP(<span style="color: #CC6600;">boolean</span> power)
+{
+&nbsp;&nbsp;<span style="color: #CC6600;">pinMode</span>(Vcc,<span style="color: #006699;">OUTPUT</span>);  <span style="color: #7E7E7E;">//to power the BMP180 -it's connected to output pins</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">pinMode</span>(GND,<span style="color: #006699;">OUTPUT</span>);
+&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(Vcc,power);
+&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(GND,0);
+}
+<span style="color: #7E7E7E;">//---------------------------------------------------------------------------</span>
+<span style="color: #7E7E7E;">//try&nbsp;to&nbsp;find&nbsp;where&nbsp;it&nbsp;locks&nbsp;up&nbsp;-&nbsp;this&nbsp;will&nbsp;print&nbsp;to&nbsp;the&nbsp;console&nbsp;once&nbsp;per&nbsp;second</span>
+<span style="color: #7E7E7E;">//sending&nbsp;debug&nbsp;messages&nbsp;from&nbsp;tight&nbsp;loops&nbsp;can&nbsp;cause&nbsp;chaos</span>
+<span style="color: #CC6600;">void</span> everysecond(<span style="color: #CC6600;">String</span> where)
+{
+&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (<span style="color: #CC6600;">millis</span>()-thistime&gt;1000)
+&nbsp;&nbsp;{
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">print</span>(where);<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">println</span>(<span style="color: #CC6600;">millis</span>());  <span style="color: #7E7E7E;">//millis used just to see it change</span>
+&nbsp;&nbsp;thistime=<span style="color: #CC6600;">millis</span>();
+&nbsp;&nbsp;}
+}
+
+
+
+</pre>
+      <br>
+      When I was writing this I had a 'flashback' to my earliest efforts
+      at connecting micros to networks. To my amazement, some of my <b>very
+
+
+
+
+
+        early</b> work with students is <a href="http://www.cse.dmu.ac.uk/~sexton/WWWPages/msdfiles/tutorial2000.html">still
+
+
+
+
+
+        there</a>! Who says nostalgia isn't what it used to be??!!<br>
+      <br>
+      <br>
+      <i><a href="mailto:sexton@dmu.ac.uk">Ian Sexton 2014</a></i><br>
+    </font><br>
+  
+
+</body></html>

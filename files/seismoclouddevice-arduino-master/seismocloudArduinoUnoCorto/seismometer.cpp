@@ -24,7 +24,7 @@
 // AD0 low = 0x68 (default for InvenSense evaluation board)
 // AD0 high = 0x69
 //#include <SoftwareSerial.h>
-#define BUFLEN 78
+#define BUFLEN 100
 MPU6050 accelero;
 //float a[3];
 //statistics stat(0.20 / 32768.0); //scale factor
@@ -104,28 +104,39 @@ void seismometerTick() {
 	if(db.overThreshold) {
 		LED::red(true);
 		// QUAKE
-		Serial.print(F("\nQUAKE: "));
 		//create log message
 		char msg[BUFLEN];
-		char out[8];
-		ftoa(out,8,db.accel);
+		char out[9];
+		ftoa(out,9,db.accel);
 		snprintf(msg,BUFLEN, "New Event: v:%s", out);
-		ftoa(out,8,stat.getQuakeThreshold());
+		ftoa(out,9,stat.getQuakeThreshold());
+		//Serial.println(F("QUAKE2"));
 		snprintf(msg,BUFLEN, "%s - thr:%s", msg, out);
-		ftoa(out,8,stat.getSigmaIter());
+		//Serial.println(F("QUAKE3"));
+		ftoa(out,9,stat.getSigmaIter());
+		//Serial.println(F("QUAKE4"));
 		snprintf(msg,BUFLEN, "%s - iter:%s", msg, out);
-		ftoa(out,8,stat.getCurrentAVG());
+	    //Serial.println(F("QUAKE5"));
+		ftoa(out,9,stat.getCurrentAVG());
+		//Serial.println(F("QUAKE6"));
 		snprintf(msg,BUFLEN, "%s - avg:%s", msg, out);
-		ftoa(out,8,stat.getCurrentSTDDEV());
+		//Serial.println(F("QUAKE7"));
+		ftoa(out,9,stat.getCurrentSTDDEV());
+		//Serial.println(F("QUAKE8"));
 		snprintf(msg,BUFLEN, "%s - stddev:%s", msg, out);
+		Serial.println(msg);
 		httpQuakeRequest();
+        Serial.println(F("logRequest"));
 	    logRequest(msg);
+        Serial.println(F("resetSensors"));
 		accelero.resetSensors();
 		accelero.resetFIFO();
+		Serial.println(F("resetStats"));
 		stat.resetLastPeriod();  
+		Serial.println(F("Delay 5 sec"));
 		delay(5000);
 		//la calibrazione permette la riconfigurazione se si cambia la posizione di ancoraggio del dispositivo (rotazione)
-		calibrate(0.01); //chiamate successive alla prima convergono pi� rapidamente se non si azzera l'offset
+		calibrate(0.01); //chiamate successive alla prima convergono piÃ¹ rapidamente se non si azzera l'offset
 		Serial.println(F("QUAKE END"));
 		LED::red(false);
 	}
@@ -166,6 +177,7 @@ void calibrate(float iter){
 	}while(stat.xyztomod(ax,ay,az)>iter);
 	Serial.println(F("Calibration done"));
 }
+
 
 
 

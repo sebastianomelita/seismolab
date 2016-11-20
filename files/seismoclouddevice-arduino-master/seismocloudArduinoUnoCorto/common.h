@@ -7,18 +7,21 @@
 #define VERSION     "1.10"
 
 //#define RESET_ENABLED
+#include <Arduino.h>
+#include <SoftwareSerial.h>
 #include <EEPROM.h>
-#include "LED.h"
 #include "MemoryFree.h"
+#include "utils.h"
 #include "MPU6050.h"
 #include "SoftReset.h"
-#include "utils.h"
-#include "statistics.h"
-#include "ESP8266WIFI.h"
+#include "LED.h"
 #include "ntp.h"
-#include "httpclient.h"
-#include "Commandinterface.h"
+#include "ESP8266WIFI.h"
+#include "statistics.h"
 #include "seismometer.h"
+#include "Commandinterface.h"
+#include "httpclient.h"
+
 
 void initEEPROM();
 void checkEEPROM();
@@ -42,4 +45,5 @@ float getSigma();
 bool readParameter(char* cfg, char* tag, char* into, int maxn); 
 void ftoa(char* buf, int m, float fnum);
 #endif
+
 

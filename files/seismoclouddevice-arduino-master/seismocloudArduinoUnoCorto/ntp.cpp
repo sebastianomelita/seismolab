@@ -1,5 +1,5 @@
 /*
- * Â© Francesco PotortÃ¬ 2013 - GPLv3 - Revision: 1.13
+ * Ã‚Â© Francesco PotortÃƒÂ¬ 2013 - GPLv3 - Revision: 1.13
  *
  * Send an NTP packet and wait for the response, return the Unix time
  *
@@ -17,8 +17,8 @@
 
 unsigned long lastNTPTime = 0;
 unsigned long lastNTPMillis = 0;
-byte packetBuffer[4]; //buffer to hold incoming and outgoing packets
-char *timeServer = "";
+//byte packetBuffer[4]; //buffer to hold incoming and outgoing packets
+//char *timeServer = "";
 
 unsigned long getUNIXTime() {
   if(lastNTPTime == 0) {
@@ -30,6 +30,7 @@ unsigned long getUNIXTime() {
 
 unsigned long ntpUnixTime()
 {  
+  byte packetBuffer[4]; //buffer to hold incoming and outgoing packets
   char *timeServer = "pool.ntp.org";  // NTP server
  // set all bytes in the buffer to 0
    // Only the first four bytes of an outgoing NTP packet need to be set
@@ -45,7 +46,7 @@ unsigned long ntpUnixTime()
   // Send an NTP request
   ESP8266wifi::getWifi().beginUDPPacket((const char*)timeServer, "123"); // 123 is the NTP port
   ESP8266wifi::getWifi().write((const unsigned char*)packetBuffer,4,NTP_PACKET_SIZE);
-  ESP8266wifi::getWifi().endUDPPacket(false);//non devo disconnettere perh� aspetto una risposta
+  ESP8266wifi::getWifi().endUDPPacket(false);//non devo disconnettere perhè aspetto una risposta
   // Wait for response; check every pollIntv ms up to maxPoll times
   const int pollIntv = 50;   // poll every this many ms
   const byte maxPoll = 100;    // poll up to this many times
@@ -82,7 +83,8 @@ unsigned long ntpUnixTime()
   // Discard the rest of the packet
   //udp.flush();
    
-  return time - 2208988800ul+7200;   // convert NTP time to Unix time
+  //return time - 2208988800ul+7200;   // convert NTP time to Unix time (ora legale)
+  return time - 2208988800ul+3600;   // convert NTP time to Unix time (ora solare)
 }
 
 unsigned long updateNTP() {
@@ -182,5 +184,6 @@ void printUNIXTime() {
   snprintf(buf, 50, "%04i-%02i-%02i %02i:%02i:%02i UTC", year+1970, smonth, day, hour, minute, second);
   Serial.print(buf);
 }
+
 
 
